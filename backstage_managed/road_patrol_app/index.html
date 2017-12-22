@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>智慧城市</title>
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css" />
+		<link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+		<link rel="stylesheet" href="css/style.css" />	
+		<script src="http://cache.amap.com/lbs/static/es5.min.js"></script>
+		<script src="http://webapi.amap.com/maps?v=1.4.1&key=78acee11046dfcc17c9e8e319c9a125f"></script>
+		<script src="./lib/plugs/require/require.js"></script>
+		<script src="./lib/app.js"></script>
+		<style>
+			.amap-info-content{
+				width: 200px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<a href="./news.html" class="information"><i class="fa fa-bell"></i></a>
+		
+		<a href="./warning.html" class="information2"><i class="fa fa-warning"></i></a>
+		
+		<a id="satellite" class="information3"><i class="fa fa-globe"></i></a>
+		
+		<a id="polygonId" class="information4"><i class="fa fa-map"></i></a>
+		
+		<div class="nav">
+			<ul>
+				<li class="on">
+					<a href="index.html">
+						<i class="fa fa-home"></i>
+						<em>首页</em>
+					</a>
+				</li>				
+				
+				<li>
+					<a href="task.html">
+						<i class="fa fa-file-text"></i>
+						<em>任务</em>
+					</a>
+				</li>
+
+				<li>
+					<a href="sing.html">
+						<i class="fa fa-calendar-check-o"></i>
+						<em>签到</em>
+					</a>
+				</li>
+
+				<!--<li>
+					<a href="">
+						<i class="fa fa-microphone"></i>
+						<em>语音</em>
+					</a>
+				</li>-->
+
+				<li>
+					<a href="personal.html">
+						<i class="fa fa-user"></i>
+						<em>个人</em>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<div id="container"></div>
+		   <div class ='panel'>
+		   		<div id="city"></div>
+		   		<div><input id = 'distance' disabled></input></div>
+		   		<div class="goto">路线</div>
+		   </div>
+		
+
+		<div class="button_group">
+			<input id="setFitView" class="button" type="button" value="违章点"/>
+		</div>
+		<div class="button_group2">
+			<input id="setFitView2" class="button" type="button" value="电子围栏"/>
+		</div>
+
+<script type="text/javascript">
+var areas = JSON.parse(localStorage.getItem('areas'));
+
+    //初始化地图对象，加载地图
+mapObj = new AMap.Map('container', {
+    resizeEnable: true
+  });
+ //卫星图
+var biaoji = true;
+Satellite = new AMap.TileLayer.Satellite({
+	map:mapObj,
+	zooms:[3,19],
+	detectRetina:true
+});
+//获取定位
+mapObj.plugin(['AMap.Geolocation','AMap.Geocoder'], function () {	
+    geolocation = new AMap.Geolocation({
+        enableHighAccuracy: true,//是否使用高精度定位，默认:true
+        timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+        maximumAge: 0,           //定位结果缓存0毫秒，默认：0
+        convert: true,           //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+        showButton: true,        //显示定位按钮，默认：true
+        buttonPosition: 'LB',    //定位按钮停靠位置，默认：'LB'，左下角
+        buttonOffset: new AMap.Pixel(15, 70),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+        showMarker: true,        //定位成功后在定位到的位置显示点标记，默认：true
+        showCircle: true,        //定位成功后用圆圈表示定位精度范围，默认：true
+        panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
+        zoomToAccuracy:true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+    });
+    
+    mapObj.addControl(geolocation);    
+    //点击重新获取
+    geolocation.getCurrentPosition();
+
+    geocoder = new AMap.Geocoder({
+		city: "010"//城市，默认：“全国”
+	});
+	
+	var map_Marker = new AMap.Marker({
+	    map:mapObj,
+	    bubble:true,
+	    offset:new AMap.Pixel(-10,-20),
+	    icon:new AMap.Icon({image:'http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png'})
+	})	
+
+	var geo = new AMap.Geolocation({
+		timeout: 10000,
+		showButton: false,
+		panToLocation: false,
+		zoomToAccuracy:false
+	})
+	
+	//添加地图点击事件,获取当前位置和距离
+	mapObj.on('click',function(e){
+		map_Marker.setPosition(e.lnglat);
+		//初始化
+		mapObj.panTo(e.lnglat);
+		document.body.querySelector('.panel').style.display = 'block';
+		
+ 		document.querySelector('.goto').addEventListener('click',function(){
+ 			window.location.href = './driving.html?position='+e.lnglat;	
+		},false);		
+		
+		geocoder.getAddress(e.lnglat,function(status,result){
+		    if(status=='complete'){	    	
+		        document.getElementById('city').innerText = result.regeocode.formattedAddress;	
+		    }else{
+		        console.log(result);
+		    }
+		})
+        geo.getCurrentPosition(function(status, result) {
+            if (status === 'complete' && result.info === 'SUCCESS') {
+            	
+		        var lngX = result.position.getLng();
+		        var latY = result.position.getLat();
+		        var lnglat = new AMap.LngLat(lngX, latY);	          
+					
+				if(lnglat.distance(e.lnglat) < 1000){
+					document.getElementById('distance').value = "距您"+lnglat.distance(e.lnglat).toFixed(1)+'米';
+				}else if(lnglat.distance(e.lnglat) >= 1000){
+					document.getElementById('distance').value = "距您"+(Math.round(lnglat.distance(e.lnglat)/100)/10).toFixed(1)+'公里';
+				}										
+            }else{
+            	console.log(status+'=>'+result.info)
+            }
+        });		
+	});
+	
+	AMap.event.addListener(geolocation, 'complete', onComplete);      //返回定位成功信息
+	AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+	
+}); 
+  
+    require(['jquery', 'mui', 'URL', 'core'], function ($, mui, URL, core) {
+ 
+		document.getElementById('satellite').addEventListener('click',function(){
+			if(biaoji){
+				Satellite.hide();
+				biaoji = false;
+				mui.toast('关闭卫星图层',{duration: 'long', type: 'div'});
+			}else{
+				Satellite.show();
+				biaoji = true;
+				mui.toast("开启卫星图层", {duration: 'long', type: 'div'});
+			}
+		},false);		
+		
+		if(areas){	
+			var polygons_bj = true;
+		    var polygons = [];
+			for (var i = 0; i < areas.length; i += 1) {
+			    if (true) {		
+				    polygon = new AMap.Polygon({
+					    map: mapObj,
+					    path: areas[i].polygon,//设置多边形边界路径
+					    strokeColor: "#FF33FF", //线颜色
+					    strokeOpacity: 0.2, //线透明度
+					    strokeWeight: 3,    //线宽
+					    fillColor: "#1791fc", //填充色
+					    fillOpacity: 0.35,//填充透明度
+					    bubble:true
+				    });					
+	  				polygons.push(polygon);
+			    }
+			}
+			AMap.event.addDomListener(document.getElementById('setFitView2'), 'click', function() {
+				console.log(polygons);
+				mapObj.setFitView(polygons);
+			});		
+			
+			AMap.event.addDomListener(document.getElementById('polygonId'), 'click', function() {
+				if(polygons_bj){
+					$.each(polygons, function(i,obj) {
+						obj.setMap(null);
+					});
+					mui.toast("关闭围栏", {duration: 'long', type: 'div'});
+					polygons_bj = false;
+				}else{
+					$.each(polygons, function(i,obj) {
+						obj.setMap(mapObj);
+					});
+					mui.toast("开启围栏", {duration: 'long', type: 'div'});
+					polygons_bj = true;
+				}
+			});				
+		}
+
+    	var aut_token = window.localStorage.getItem('aut_token');
+    	
+		var url = URL.my_task.format(aut_token,'all');
+		
+        core.ajax(url, {}, function (data) {
+				 
+            if (data.status == 1) {
+            	
+				var provinces = data.result;
+				
+		        if(provinces.length != 0){
+		        	
+				var infoWindow = new AMap.InfoWindow({offset: new AMap.Pixel(0, -30)});//标记信息窗体
+				//点标记
+		        var markers = [];
+		        for (var i = 0; i < provinces.length; i += 1) {
+		    			var marker;
+		    			
+		    			if (provinces[i].task_status == 0 && provinces[i].coordinate) {		
+		    				marker = new AMap.Marker({
+		    					icon: new AMap.Icon({image: 'http://webapi.amap.com/theme/v1.3/markers/n/mark_r.png',}),
+		    					position: provinces[i].coordinate.split(','),
+		//  					offset: new AMap.Pixel(-12,-12),
+		    					zIndex: 101,
+		    					title: provinces[i].name,
+		    					map: mapObj,
+//		    					bubble:true
+		    				});
+						        marker.content = provinces[i].name+'违章点'+'<div class="info-title">未确认</div><div class="info-content">' +
+									             ''+provinces[i].description+'</div>'+
+									             '<div class="info-button">'+provinces[i].time+'</div>'+
+									             '<a href="./driving.html?position='+provinces[i].coordinate+"&task_id="+provinces[i].task_id+'" class="goto_a">路线</a>';
+						        marker.on('click', markerClick);
+						        marker.emit('click', {target: marker});    				
+		    			} else if(provinces[i].coordinate){
+		    				marker = new AMap.Marker({
+		    					position: provinces[i].coordinate.split(','),
+		    					title: provinces[i].name,
+		    					map: mapObj,
+//		    					bubble:true
+		    				});
+						        marker.content = provinces[i].name+'违章点'+'<div class="info-title">未确认</div><div class="info-content">' +
+									             ''+provinces[i].description+'</div>'+
+									             '<div class="info-button">'+provinces[i].time+'</div>'+
+									             '<a href="./driving.html?position='+provinces[i].coordinate+"&task_id="+provinces[i].task_id+'" class="goto_a">路线</a>';
+						        marker.on('click', markerClick);
+						        marker.emit('click', {target: marker});      				
+		            	if (provinces[i].task_status == 2 && provinces[i].coordinate) {
+		      				marker = new AMap.Marker({ 
+		      					position: provinces[i].coordinate.split(','),
+		      					title: provinces[i].name,
+		      					offset: new AMap.Pixel(0,0),
+		      					map: mapObj,
+//		      					bubble:true
+		      				});
+						        marker.content = provinces[i].name+'违章点'+'<div class="info-title">未确认</div><div class="info-content">' +
+									             ''+provinces[i].description+'</div>'+
+									             '<div class="info-button">'+provinces[i].time+'</div>'+
+									             '<a href="./driving.html?position='+provinces[i].coordinate+"&task_id="+provinces[i].task_id+'" class="goto_a">路线</a>';
+						        marker.on('click', markerClick);
+						        marker.emit('click', {target: marker});        				
+		            	}
+		    			}
+		    			markers.push(marker);
+		    		}
+					    function markerClick(e) {
+					    	console.log(e.target.content);
+					        infoWindow.setContent(e.target.content);
+					        infoWindow.open(mapObj, e.target.getPosition());
+					    }
+						
+					    AMap.event.addDomListener(document.getElementById('setFitView'), 'click', function() {
+					    	console.log(markers);
+					        mapObj.setFitView(markers);
+					    });		        
+				} else {
+					document.getElementById('setFitView').style.display = 'none';
+					geolocation.getCurrentPosition();
+					mui.toast("当前没有任务", {duration: 'long', type: 'div'});
+				}					
+            } else if(data.status == 400){
+            	console.log('...')
+            	window.location.href = './login.html';
+            }else{
+            	 mui.toast("暂无违章点", {duration: 'long', type: 'div'});
+            }
+	    }, function () {
+	    }, 'GET');				
+    });
+    	function onComplete(data){
+    		document.body.querySelector('.panel').style.display = 'block';
+    		document.getElementById('city').innerText = '当前所在位置 : '+data.formattedAddress;
+    		mui.toast('定位成功', {duration: 'long', type: 'div'});
+    	}
+        function onError(data){
+            var str = '定位失败,';
+            str += '错误信息：'
+            switch(data.info) { 
+                case 'PERMISSION_DENIED':
+                    str += '浏览器阻止了定位操作';
+                    break;
+                case 'POSITION_UNAVAILBLE':
+                    str += '无法获得当前位置';
+                    break;
+                case 'TIMEOUT':
+                    str += '定位超时';
+                    break;
+                default:
+                    str += '未知错误';
+                    break;
+            }
+            alert(str)
+        }
+</script>
+	</body>
+
+</html>

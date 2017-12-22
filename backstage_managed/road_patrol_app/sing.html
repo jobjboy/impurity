@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>智慧城市-签到</title>
+	
+	<link rel="stylesheet" href="css/style.css" />
+	<link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+	<link rel="stylesheet" href="css/mui.min.css">
+	<script src="http://webapi.amap.com/maps?v=1.4.1&key=78acee11046dfcc17c9e8e319c9a125f"></script>    
+    <style>
+    	p{
+    		margin-bottom: 0px;
+    	}
+    	a:active, a:hover{
+    		color: #f7f7f7;
+    	}
+    </style>
+	 
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-icon-arrowleft"></a>
+		<h1 class="mui-title">签到</h1>
+	</header>
+	
+	<div class="sing">
+
+		 <div class="mui-btn mui-btn-danger sing-pz" id="getImages">拍照</div>
+		 <div class="sing-img"><img src="images/asktech.jpg"></div>
+		 <div class="sing-title">用户名称</div>
+		 <div class="sing-bottom">
+			 <a  class="sing-button checkBtn">签到</a>
+			 <a  class="sing-button checkBtn_end">签退</a>		 	
+		 </div>
+	</div>
+		<div class="mui-demo-container" id="progressbar" style="display: none;">
+			<div>
+				<p class="mui-progressbar mui-progressbar-infinite"></p>
+			</div>
+		</div>			
+	<div class="checkin qandao">
+		
+	</div>
+	<div class="mask">
+		<div class="modal">
+			<a href="#" class="closeBtn">×</a>
+			<h1 class="title_h1 clearfix"><span></span><em>成功</em></h1>
+		</div>
+	</div>
+	
+		<div class="nav">
+			<ul>
+				
+				<li>
+					<a href="index.html">
+                       <i class="fa fa-home"></i>
+                       <em>首页</em>
+					</a>
+				</li>
+				
+				<li>
+					<a href="task.html">
+                       <i class="fa fa-file-text"></i>
+                       <em>任务</em>
+					</a>
+				</li>
+				
+				<li class="on">
+					<a href="sing.html">
+                       <i class="fa fa-calendar-check-o"></i>
+                       <em>签到</em>
+					</a>
+				</li>
+				
+				<!--<li>
+					<a href="">
+                       <i class="fa fa-microphone"></i>
+                       <em>语音</em>
+					</a>
+				</li>-->
+				
+				<li>
+					<a href="personal.html">
+                       <i class="fa fa-user"></i>
+                       <em>个人</em>
+					</a>
+				</li>
+			</ul>
+		</div>	
+<script src="./lib/plugs/require/require.js"></script>
+<script src="./lib/app.js"></script>
+<script>
+require(['jquery', 'mui', 'URL', 'core','base64'], function ($, mui, URL, core) {
+	url_img = URL.upload_img;
+	var areas = JSON.parse(localStorage.getItem('areas'));		
+			$(".mask").click(function() {
+				$(".mask").show();
+
+			});
+			$(".mask").click(function() {
+				$(".mask").hide();
+
+			});	
+	(function($) {
+		var Checkin = function(ele, options) {
+			this.ele = ele;
+			this.opt = options;
+			this.defaults = {
+			
+				height: 'auto',
+				
+		
+				color: '#fff',
+				padding: 10,
+				dateArray: [1, 2, 4, 6], // 假设已签到的天数+1
+				
+			};
+			this.obj = $.extend({}, this.defaults, this.opt);
+		}
+		Checkin.prototype.init = function() {
+			var _self = this.ele,
+				html = '',
+				myDate = new Date(),
+				year = myDate.getFullYear(),
+				month = myDate.getMonth(),
+				day = myDate.getDate(),
+				weekText = ['日', '一', '二', '三', '四', '五', '六'];
+			_self.css({
+				width: this.obj.width + 'px',
+				height: this.obj.height,
+				background: this.obj.background,
+				borderRadius: this.obj.radius,
+				color: this.obj.color,
+				padding: this.obj.padding
+			}).append("<div class='title'>" + year + '年' + (month + 1) + '月' + '签到表' + "</div>");
+			$("<ul class='week clearfix'></ul><ul class='calendarList clearfix'></ul>").appendTo(_self);
+			for (var i = 0; i < 7; i++) {
+				_self.find(".week").append("<li>" + weekText[i] + "</li>")
+			};
+			for (var i = 0; i < 42; i++) {
+				html += "<li><em></em></li>"
+			};
+			_self.find(".calendarList").append(html);
+			var $li = _self.find(".calendarList").find("li em");
+			_self.find(".week li").css({
+				width: (_self.width() / 7) + 'px',
+				height: 30 + 'px',
+				borderRight: '1px solid #e6e3e3',
+				boxSizing: 'border-box',
+				padding:0,
+			});
+			$li.parent().css({
+				width: (_self.width() / 7) + 'px',
+				height: 30 + 'px',				
+				boxSizing: 'border-box',
+				color: "#7b7b7b"
+			});
+			_self.find(".calendarList ").find("li:nth-child(7n)").css('borderRight', 'none');
+			_self.find(".week li:nth-child(7n)").css('borderRight', 'none');
+			var monthFirst = new Date(year, month, 1).getDay();
+			var d = new Date(year, (month + 1), 0)
+			var totalDay = d.getDate(); //获取当前月的天数
+			for (var i = 0; i < totalDay; i++) {
+				$li.eq(i + monthFirst).html(i + 1);
+				$li.eq(i + monthFirst).addClass('data' + (i + 1))
+				if (isArray(this.obj.dateArray)) {
+					for (var j = 0; j < this.obj.dateArray.length; j++) {
+						if (i == this.obj.dateArray[j]) {
+							// 假设已经签到的
+							$li.eq(i + monthFirst).addClass('checked');
+						}
+					}
+				}
+			}
+			//$li.eq(monthFirst+day-1).css('background','#f7ca8e')
+			_self.find($(".data" + day)).addClass('able-qiandao');
+		}
+		var isChecked = false;
+		Checkin.prototype.events = function() {
+			var _self = this.ele;
+			var $li = _self.find(".calendarList li");
+			$li.on('click', function(event) {
+				event.preventDefault();
+				/* Act on the event */
+				if ($(this).hasClass('able-qiandao')) {
+					$(this).addClass('checked');
+					modal(_self);
+					isChecked = true;
+				}
+			});
+			var checkBtn = _self.find(".checkBtn");
+			$(".checkBtn").click(function(event) {
+				if(!_img){
+					mui.toast("请先拍取照片", {duration: 'long', type: 'div'});
+					return;
+				}
+				console.log(_img);
+				document.getElementById('progressbar').style.display = 'block';
+				AMap.service('AMap.Geolocation',function(){
+					geolocation = new AMap.Geolocation();
+				    geolocation.getCurrentPosition(function(status, result) {
+				        if (status === 'complete' && result.info === 'SUCCESS') {
+							if(areas){
+//							   	console.log(areas[0].polygon);							    
+								for (var i = 0; i < 1; i += 1) {
+								    var polygon = new AMap.Polygon({
+										    path: areas[i].polygon,//设置多边形边界路径
+									   	});
+									   	console.log(polygon.contains(result.position));
+								    if (polygon.contains(result.position)) {
+								    	var latY = result.position.getLat(); 
+							            var lngX = result.position.getLng();
+								    	var aut_token = window.localStorage.getItem('aut_token');
+								    	
+										var url = URL.sign_in.format(aut_token,latY,lngX,_img,1);
+								        core.ajax(url, {}, function (data) {
+								        	console.log(JSON.stringify(data));
+								            if (data.status == 1) {
+												console.log(_self);
+												
+												modal(_self);
+												_self.find('.able-qiandao').attr("class",'checked');
+												isChecked = true;
+												_img = '';
+												document.getElementById('progressbar').style.display = 'none';
+								            } else if(data.status == 400){
+								            	console.log('...')
+								            	window.location.href = './login.html';
+								            }else{
+								            	 mui.toast(data.msg, {duration: 'long', type: 'div'});
+								            }
+									    }, function () {
+									    }, 'GET');									    	
+								    }else{
+										mui.toast("当前位置不在范围", {duration: 'long', type: 'div'});
+									}
+								}    
+							}		    
+				       	}else{
+				       		mui.toast("定位出错", {duration: 'long', type: 'div'});
+				       	}
+				    });	
+				});	
+			}); 
+			
+			$(".checkBtn_end").click(function(event) {
+				if(!_img){
+					mui.toast("请先拍取照片", {duration: 'long', type: 'div'});
+					return;
+				}
+				document.getElementById('progressbar').style.display = 'block';
+				AMap.service('AMap.Geolocation',function(){
+					geolocation = new AMap.Geolocation();
+				    geolocation.getCurrentPosition(function(status, result) {
+				        if (status === 'complete' && result.info === 'SUCCESS') {
+				        	console.log(result.info);
+							if(areas){
+//							   	console.log(areas[0].polygon);							  
+								for (var i = 0; i < polygonArr.length; i += 1) {
+								    var polygon = new AMap.Polygon({
+										    path: areas[i].polygon,//设置多边形边界路径
+									   	});
+								    if (polygon.contains(result.position)) {
+								    	
+							            var lngX = result.position.getLng();
+							            var latY = result.position.getLat();   	
+								    	var aut_token = window.localStorage.getItem('aut_token');
+										var url = URL.sign_in.format(aut_token,latY,lngX,_img,-1);
+								        core.ajax(url, {}, function (data) {
+								            if (data.status == 1) {
+								            	console.log(JSON.stringify(data));
+								            	$(".mask").show();
+												document.querySelector('.checkBtn_end').innerText = '已签退';
+												document.getElementById('progressbar').style.display = 'none';
+												_img = '';
+								            } else if(data.status == 400){
+								            	console.log('...')
+								            	window.location.href = './login.html';
+								            }else{
+								            	 mui.toast(data.msg, {duration: 'long', type: 'div'});
+								            }
+									    }, function () {
+									    }, 'GET');
+								    }else{
+										mui.toast("当前位置不在范围", {duration: 'long', type: 'div'});
+									}
+								}    
+							}		    
+				       	}else{
+				       		mui.toast("定位出错", {duration: 'long', type: 'div'});
+				       	}
+				    });	
+				});	
+			}); 			
+		}
+		var modal = function(e) {
+			var mask = e.parents().find(".mask");
+			var close = e.parents().find(".closeBtn");
+			if (mask && !isChecked) {
+				mask.addClass('trf');
+			} else {
+				return
+			};
+			close.click(function(event) {
+				event.preventDefault();
+				mask.removeClass('trf')
+			});
+			e.parents().find('.checkBtn').text("已签到");
+		}		
+		$.fn.Checkin = function(options) {
+			var checkin = new Checkin(this, options);
+			var obj = [checkin.init(), checkin.events()]
+			return obj
+		}
+		var isArray = function(arg) {
+			return Object.prototype.toString.call(arg) === '[object Array]';
+		};
+	})(jQuery);
+	// 插件调用
+	$(".checkin").Checkin();
+	// 元素居中显示，与插件无关，根本自己需要修改；
+	//$(".checkin").css('marginTop',parseInt(($(window).innerHeight()-$(".checkin").outerHeight())/2)+'px');
+});
+
+function plusReady(){
+	document.getElementById('getImages').addEventListener('click',function(){
+		getImage();
+	})
+}
+	
+if(window.plus){
+	plusReady();
+}else{
+	document.addEventListener('plusready', plusReady, false);
+}
+
+var _img;
+	
+function getImage(){
+	var cmr = plus.camera.getCamera();
+	cmr.captureImage(function(p){
+		console.log('成功：'+p);
+		plus.io.resolveLocalFileSystemURL(p, function(entry){
+			console.log('...')
+			var s = entry.toLocalURL();			
+			createUpload(s);
+		}, function(e){
+			console.log('读取拍照文件错误：'+e.message);
+		});
+	}, function(e){
+		console.log('失败：'+e.message);
+		mui.toast('失败',{ duration:'long', type:'div' }); 
+	});
+}	
+
+function createUpload(entry) {
+	
+	var task = plus.uploader.createUpload( url_img,
+		{ method:"POST",blocksize:204800,priority:100 },
+		function ( t, status ) {
+			// 上传完成
+		if ( status == 200 ) {
+			var data = JSON.parse(t.responseText);	
+ 			console.log(data.result)
+ 			_img = data.result;
+ 			
+			plus.nativeUI.toast('上传成功');
+			console.log( "Upload success: " + t.url );
+		} else {
+			plus.nativeUI.toast('上传失败');
+			console.log( "Upload failed: " + status );
+		}
+	}); 
+	var image = new Image();
+		image.src = entry;
+ 		image.onload = function() { 
+        	var imgData = getBase64Image(image);
+        	console.log(imgData);
+        	task.addData( "photo", imgData);
+        	task.start();
+		}			
+}
+
+//将图片压缩转成base64
+function getBase64Image(img) {
+    var canvas = document.createElement("canvas");
+    var width = img.width;
+    var height = img.height;
+    
+    console.log(img.width+'=>'+img.height);
+            // calculate the width and height, constraining the proportions
+    if (width > height) {
+        if (width > 100) {
+            height = Math.round(height *= 100 / width);
+            width = 100;
+        }
+    } else {
+        if (height > 100) {
+            width = Math.round(width *= 100 / height);
+            height = 100;
+        }
+    }
+    console.log(width+'=>'+height);
+    canvas.width = width;   /*设置新的图片的宽度*/
+    canvas.height = height; /*设置新的图片的长度*/
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, width, height); /*绘图*/
+    var dataURL = canvas.toDataURL("image/png", 0.8);
+    return dataURL;
+} 
+	</script>
+</body>
+</html>

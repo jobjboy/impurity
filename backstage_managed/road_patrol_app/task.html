@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>智慧城市-任务</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+		<link rel="stylesheet" href="css/mui.min.css">
+		<script src="http://webapi.amap.com/maps?v=1.4.1&key=78acee11046dfcc17c9e8e319c9a125f"></script>
+		<script type="text/javascript" src="js/jquery-1.12.2.min.js" ></script>
+		<!--<script src="js/mui.min.js"></script>-->	
+<script type="text/javascript">
+$(document).ready(function() {
+	jQuery.jqtab = function(tabtit,tab_conbox,shijian) {
+		$(tab_conbox).find("li").hide();
+		$(tabtit).find("li:first").addClass("thistab").show(); 
+		$(tab_conbox).find("li:first").show();
+	
+		$(tabtit).find("li").bind(shijian,function(){
+		  $(this).addClass("thistab").siblings("li").removeClass("thistab"); 
+			var activeindex = $(tabtit).find("li").index(this);
+			$(tab_conbox).children().eq(activeindex).show().siblings().hide();
+			return false;
+		});
+	
+	};
+
+	$.jqtab("#tabs","#tab_conbox","click");
+	
+	$.jqtab("#tabs2","#tab_conbox2","mouseenter");
+	
+});
+</script>	
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-icon-arrowleft"></a>
+			<h1 class="mui-title">任务</h1>
+		</header>
+		
+		<div class="task-list">
+			
+			<div id="tabbox">
+    <ul class="tabs" id="tabs">
+       <li class="item">未操作</li>
+       <li class="item">已完成</li>
+       <li class="item">申请援助</li>
+       <li class="item">所有</li>
+    </ul>
+    <ul class="tab_conbox" id="tab_conbox">
+        <li class="tab_con" id="item1mobile">
+
+        </li>
+            
+        <li class="tab_con" id="item2mobile">
+
+        </li>
+    
+        <li class="tab_con" id="item3mobile">
+
+        </li>
+        
+        <li class="tab_con" id="item4mobile">
+
+        </li>
+
+    </ul>
+</div>    
+				
+		
+		<div class="nav">
+			<ul>
+				
+				<li>
+					<a href="index.html">
+                       <i class="fa fa-home"></i>
+                       <em>首页</em>
+					</a>
+				</li>
+				
+				<li class="on">
+					<a href="task.html">
+                       <i class="fa fa-file-text"></i>
+                       <em>任务</em>
+					</a>
+				</li>
+				
+				<li>
+					<a href="sing.html">
+                       <i class="fa fa-calendar-check-o"></i>
+                       <em>签到</em>
+					</a>
+				</li>
+				
+				<!--<li>
+					<a href="">
+                       <i class="fa fa-microphone"></i>
+                       <em>语音</em>
+					</a>
+				</li>-->
+				
+				<li>
+					<a href="personal.html">
+                       <i class="fa fa-user"></i>
+                       <em>个人</em>
+					</a>
+				</li>
+			</ul>
+		</div>
+		
+<script src="./lib/plugs/require/require.js"></script>
+<script src="./lib/app.js"></script>
+
+<script  id="tpl" type="text/html">
+
+    {{each results as value}}
+		<dl>
+			<div class="task-detail" onclick="task_list({{value.task_id}})">	
+				<h3>{{value.name}}</h3> 
+				<span class="distance">{{value.distance}}</span>
+				<em>{{value.address}}</em>
+			</div>
+			<a class="task-lx" href="driving.html?position={{value.coordinate}}&task_id={{value.task_id}}">
+				<i class="fa fa-level-up"></i>
+				<em>路线</em>
+			</a>
+		</dl>
+    {{/each}}
+
+</script>	
+<script>
+	function task_list(data_task){
+		window.location.href = './task_list.html?task_id='+data_task;
+	}
+require(['jquery', 'mui', 'URL', 'core','tpl',], function ($, mui, URL, core,template) {   	
+	mui.init();
+	
+	var item1 = document.getElementById('item1mobile');
+	var item2 = document.getElementById('item2mobile');
+	var item3 = document.getElementById('item3mobile');
+	var item4 = document.getElementById('item4mobile');	
+	
+    var aut_token = window.localStorage.getItem('aut_token');
+
+	var url = URL.my_task.format(aut_token,'0');
+	_task(item1);
+	
+
+	$('.item').on('click',function(index,obj){
+		//console.log(this.innerText);
+		if ('已完成' == this.innerText) {			
+			url = URL.my_task.format(aut_token,'1');//提交完成
+			_task(item2)
+		} else if ('申请援助' == this.innerText) {
+			url = URL.my_task.format(aut_token,'2');//申请援助
+			_task(item3)
+		}else if('所有' == this.innerText){
+			url = URL.my_task.format(aut_token,'all');//全部任务
+			_task(item4)
+		}
+	});
+	
+	function _task(items){		
+        core.ajax(url, {}, function (data) {
+				 
+            if (data.status == 1) { 				
+				AMap.service('AMap.Geolocation',function(){
+					geolocation = new AMap.Geolocation();
+				    geolocation.getCurrentPosition(function(status, result) {
+				        if (status === 'complete' && result.info === 'SUCCESS') {
+						    var lngX = result.position.getLng();
+						    var latY = result.position.getLat();
+						    var lnglat = new AMap.LngLat(lngX, latY);
+							var span = $('.distance');
+						    for(var i=0;i<data.result.length;i++){
+							    var distances = data.result[i].coordinate.split(',');
+							    if(lnglat.distance(distances) < 1000){
+							    	span[i].innerText = lnglat.distance(distances).toFixed(1)+'米';
+							    }else if(lnglat.distance(distances) >= 1000){
+							    	span[i].innerText = (Math.round(lnglat.distance(distances)/100)/10).toFixed(1)+'公里';
+							    }						            	
+						    }				    
+				       	}				      					
+				    });	
+				});
+				data2 = {results:data.result};
+					console.log(data2);
+				var html = template('tpl', data2);
+				items.innerHTML = html;          
+            } else if(data.status == 400){
+            	console.log('...')
+            	window.location.href = './login.html';
+            }else{
+            	items.innerHTML = '<dl style="text-align:center">暂无数据</dl>';
+            	mui.toast(data.msg, {duration: 'long', type: 'div'});
+            }
+	    }, function () {
+	    }, 'GET');	
+	}
+});
+</script>		
+
+	</body>
+</html>
