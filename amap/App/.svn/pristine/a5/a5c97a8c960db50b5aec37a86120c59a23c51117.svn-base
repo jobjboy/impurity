@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>登录</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+	
+	</head>
+<style>
+	html,body{ height: 100%;}
+</style>
+	<body>
+
+		<div class="login">
+	
+
+			<div class="login-list">
+				<input type="text" class="mui-input-clear" id="username" placeholder="请输入您的账号" value="abc1">
+				<input type="password" class="mui-input-password" id="password" placeholder="请输入您的密码" value="abc1">
+				<button type="button" id="login_btn">登录</button>
+			</div>
+			<div class="login-bottom">
+				<a href="register.html">快速注册</a>
+			    <a href="find.html">忘记密码</a>
+			</div>
+
+			
+		</div>
+<script src="./lib/plugs/require/require.js"></script>
+<script src="./lib/app.js"></script>
+<script type="text/javascript">
+
+    require(['jquery', 'mui', 'URL', 'core', 'md5','amap'], function ($, mui, URL, core) {
+
+        var login_btn = $("#login_btn");
+
+        login_btn.click(function () {
+            var username = $("#username").val();
+            var password = $("#password").val();
+
+            core.checkToken(username, password, function () {
+            	
+                window.location.href = './index.html';
+            });
+        });
+
+    });
+</script>
+	</body>
+</html>

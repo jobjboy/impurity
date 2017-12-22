@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/icons-extra.css" rel="stylesheet"/>
+    <link href="css/set.css" rel="stylesheet"/>
+</head>
+<body>
+<!--头部部分star-->
+<header id="mui-color" class="mui-bar mui-bar-nav">
+    <span class="mui-icon mui-icon-back mui-action-back"></span>
+    <h1 class="mui-title">设置</h1>
+</header>
+<!--头部部分end-->
+<div class="set">
+    <ul>
+        <li><a href="revamp.html" class="mui-icon mui-icon-arrowright">密码修改</a></li>
+        <li class="checkup"><a href="javascript:" class="mui-icon mui-icon-arrowright">检查更新</a></li>
+        <li id="update"><a href="javascript:">自动更新提示<span>开启</span></a></li>
+        <!--<li><a href="javascript:" class="mui-icon mui-icon-arrowright">开启更新提示</a></li>-->
+    </ul>
+    <button type="button" class="set-button">退出当前账号</button>
+</div>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="js/mui.min.js"></script>
+<script src="js/URL.js"></script>
+<script>
+    $(function () {
+        var isUpdate = localStorage.getItem("isupdate");
+        var $up = $('#update');
+
+        var sys = navigator.userAgent;
+//        console.log(sys);
+        if (sys.indexOf("OS")!==-1){
+//            console.log("ios");
+            $(".checkup").hide();
+            $("#update").hide();
+        }
+
+        if((typeof isUpdate) == "string"){
+            if(isUpdate == "true"){
+                isUpdate = true;
+            }else if(isUpdate == "false"){
+                isUpdate = false;
+            }
+        }
+        var str = isUpdate ? "关闭" : "开启";
+        $up.find('span').text(str);
+        $up.on("click", function () {
+            var $span = $(this).find('span');
+            str = $span.text() == "开启" ? "关闭" : "开启";
+            $span.text(str);
+            if ($span.text() == "开启") {
+                //console.log("开启");
+                localStorage.setItem("isupdate", false);
+            } else {
+                //console.log("关闭");
+                localStorage.setItem("isupdate", true);
+            }
+        })
+        var type,v;
+        document.addEventListener('plusready', onPlusReady, false);
+        // 扩展API加载完毕，现在可以正常调用扩展API
+        function onPlusReady() {
+            // 获取apk/ipa版本号
+            v = plus.runtime.version;
+        }
+
+        if (navigator.userAgent.indexOf("iPhone OS") != -1) {
+            type = 1;
+        } else {
+            type = 0;
+        }
+        $('.checkup').on('click',function(){
+            $.ajax({
+                type: "post",
+                url: URL.ApiUrl+"&c=Index&a=get_version",
+                data: type,
+                dataType: "json",
+                success: function (data) {
+                    if (data.data.number_sn !== v) {
+                        mui.confirm('发现新版本，是否更新？', '温馨提示', ['确认', '取消'], function (e) {
+                            if (e.index == 0) {
+                                location.href= data.data.url;
+                            } else {
+                               /* if (flag) {
+                                    location.href = "index.html";
+                                } else {
+                                    localStorage.setItem("flag", "ture");
+                                    location.href = "guide.html";
+                                }*/
+                            }
+                        })
+                    }else {
+                        mui.toast("当前为最新版本", {duration: 'long', type: 'div'});
+                        /*if (flag) {
+                            location.href = "index.html";
+                        } else {
+                            localStorage.setItem("flag", "ture");
+                            location.href = "guide.html";
+                        }*/
+                    }
+                },error:function (data) {
+                    mui.toast(data.msg, {duration: 'long', type: 'div'});
+                }
+            })
+        })
+        $(".set-button").on("click", function () {
+            mui.confirm("是否要退出登录", '温馨提示', ['确认', '取消'], function (e) {
+                if (e.index == 0) {
+                    localStorage.removeItem("user_id");
+                    localStorage.removeItem("token");
+                    location.href = "index.html"
+                } else {
+                    //console.log(132);
+                }
+
+            })
+        })
+    })
+</script>
+<script src="js/push.js"></script>
+</body>
+</html>

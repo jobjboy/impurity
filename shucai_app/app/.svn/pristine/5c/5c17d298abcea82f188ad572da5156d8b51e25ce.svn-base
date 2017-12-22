@@ -1,0 +1,115 @@
+ul,
+li {
+	list-style-type: none;
+}
+body{ overflow-x: hidden;}
+
+.mui-bar
+{
+    position: fixed;
+    z-index: 10;
+    right: 0;
+    left: 0;
+
+    height: 44px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: #636363;
+    border-bottom: 0;
+    background-color: #ffffff;
+
+    
+}
+#mui-color{ background: #fff; box-shadow: 0 0 0; border-bottom: 1px solid #f4f4f6;}
+#topPopover {
+	position: fixed;
+	top: 16px;
+	right: 10px;
+	width: 150px;
+}
+
+#topPopover .mui-popover-arrow {
+	left: auto;
+	right: 10px;
+}
+
+p {
+	text-indent: 22px;
+}
+
+
+.mui-popover {
+	height: 190px;
+}
+.mui-content {
+	padding: 10px;
+}
+.mui-tc{ padding:0  10px; margin: 0 auto;}
+.mui-tc li{ border-bottom: 1px solid #acacac; padding: 10px;}
+.mui-tc li a{ color:#292929;}
+.mui-tc li a span{ margin-right: 10px;}
+.more {
+ float: right;
+	text-align: center;
+	z-index: 10;
+	color: #000;
+}
+
+.add-content{ width: 100%; margin: 43px 0 0; background: #fff; padding: 10px 10px 0px 10px; box-sizing: border-box; overflow: hidden;}
+.add-content ul{ padding: 0; margin: 0;}
+.add-content ul li{ line-height: 40px; font-size: 14px; border-bottom: 1px solid #f4f4f6; overflow: hidden;}
+.add-content ul li span{ float: left; height: 40px; line-height: 40px; color: #666; width: 80px;}
+.add-content ul li .add-content-input{ width: 70%; float: left; border: none; padding: 0 10px; font-size: 14px; height: 40px; margin: 0; color: #a9a9a9;}
+
+.add-address{width: 70%; float: left; border: none; padding: 0 10px; font-size: 14px; height: 40px; margin: 0; text-align: left; color: #a9a9a9;}
+
+.address-button{ width: 100%; height: 45px; line-height: 45px; text-align: center; color: #fff; background: #F29600; border: none; padding: 0; position: fixed; z-index: 99999; bottom:0px;}
+
+
+.address-sc{ margin-top: 50px; float: left; margin-left: 10px; font-size: 10px;}
+.address-my{ margin-top: 50px; float: right; margin-right: 10px; background: #F29600; color: #fff; border: none;}
+.address-bc{ margin-top: 50px; float: right; margin-right: 10px; background: #F29600; color: #fff; border: none;}
+
+
+/***************/
+.add-content ul.street_list{ padding: 8px; clear: both;padding-bottom: 15px; width: 100%;  overflow: auto;height:170px; position: relative;  left: 0;}
+.add-content ul.street_list li{ border:1px solid #CBCBCF;   margin:5px; float: left; border-radius:5px; display: inline-block; text-align: left; padding:0 8px; line-height:2; }
+.add-content ul.street_list li:hover{ background:#F29600; color: #FFF; border:1px solid #F29600;}
+.add-content ul.street_list li.current{  border:1px dashed red;}
+
+.add-content ul#area_container{  z-index:999; width:100%; position: absolute; height: 170px; top:0px; left: 100%; }
+
+span#strret_model {
+	line-height: 1;
+	color: #A9A9A9;
+	left: 103px;
+	position: absolute;
+}
+
+div#empty{ border-top:1px solid #F1F1F2; display: none; border-bottom:1px solid #F1F1F2;}
+div#empty img{  width:180px; display: block; margin: 0 auto; margin-top: 15px;  }
+.mui-table-view-cell p.s1{ text-align: center;  text-align: center; width:100px; height: 30px; border: 1px solid #B9B7B7; line-height: 2; margin: 0 auto 30px auto; text-indent: -3px; border-radius: 5px;}
+div#container{border: 1px solid #F4F4F6; position: absolute; width: 100%; clear:both; height:50%; margin-top:5px;}
+
+
+div#lodding{ width: 100%;  border-top:1px solid #F1F1F2; height: 170px;  border-bottom:1px solid #F1F1F2; }
+.add-content ul li span.mui-spinner{ width: 24px;    height: 24px; display:block;  margin:70px 0 30px 45%; }
+p#need_{  position: absolute; z-index:4; height: 40px; margin-left:88px; text-indent:28px; background: url("../images/personal/forbid.png") no-repeat left #fff;}
+.anchorBL{  display:none;  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/im.css">
+    <title>Document</title>
+</head>
+<body>
+<div class="mui-content">
+    <!--头部部分start-->
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-icon mui-action-back mui-icon-left-nav mui-pull-left"></a>
+        <h2 class="mui-title" id="pro_title">熊购客服</h2>
+    </header>
+    <!--头部部分end-->
+    <!--聊天框start-->
+    <div class="infocon">
+        <!--聊天框end-->
+    </div>
+
+
+    <!--底部输入框start-->
+    <footer>
+        <span class="emj"></span>
+
+        <div id="ownInfo" class="form_article" contenteditable="true" onkeydown="myInput.listen(this, event);"></div>
+
+        <span id="stb" class="pic"></span>
+
+        <div class="page_emotion box_swipe" id="page_emotion">
+            <dl id="list_emotion" class="list_emotion pt_10"></dl><!-- 表情框 -->
+            <dt>
+            <ol id="nav_emotion" class="nav_emotion"></ol>
+            </dt><!-- 分页提示点 -->
+        </div>
+    </footer>
+    <!--底部输入框end-->
+
+
+    <!--<article id="form_article" contenteditable="true" onkeydown="myInput.listen(this, event);"></article>-->
+
+
+</div>
+
+
+<script src="js/mui.min.js"></script>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="js/biaoqing.js"></script>
+<script src="js/im.js"></script>
+<script src="js/URL.js"></script>
+<script src="js/jquery.signalR-2.0.3.min.js"></script>
+<script src="http://chat.xionggouba.com:8066/signalr/hubs"></script>
+<script>
+
+
+    $(function () {
+        var user_id = localStorage.getItem("user_id");
+        var token = localStorage.getItem("token");
+        var own_head_pic = "";
+
+        //console.log(user_id);
+        var customer_id = "2593";
+        var sender_id = -1;
+        $("#page_emotion").hide();
+        var chat;
+        $.connection.hub.url = "http://chat.xionggouba.com:8066/signalr";
+        chat = $.connection.chatHub;
+        //发送方用户ID
+        $.connection.hub.start().done(function () {
+            chat.server.initUserInfo(user_id);
+        });
+
+        chat.client.receiveMessage = function (userId, result) {
+            var $$ = $(result.data).attr('class', 'own clearfix');
+            $$.children().each(function (index, obj) {
+                if (index == 0) {
+                    $(obj).attr('class', 'head_pic');
+                }
+                if (index == 1) {
+                    $(obj).attr('class', 'own_text');
+                }
+            });
+            $(".infocon").append($$);
+            sender_id = userId;
+        };
+
+//发送消息
+        function sendMessage(message) {
+            chat.server.sendMessage(parseInt(user_id != customer_id ? customer_id : sender_id), message);
+        }
+//        /index.php?m=Api&c=User&a=userInfo
+//        http://192.168.0.136:8067/api/chat/getchatrecords?userId=25992&&toUserId=2593
+        if(user_id != customer_id){
+            $.ajax({
+                type: "get",
+                url: "http://192.168.0.136:8067/api/chat/getchatrecords",
+                data: {userId:customer_id,toUserId:user_id},
+                async: false,
+                dataType: "json",
+                error: function (data) {
+                    mui.toast(data.msg, {duration: 'long', type: 'div'})
+                },
+                success: function(data){
+                    var arr = JSON.parse(data);
+                    var str;
+                  $.each(arr,function(index, obj){
+                        if(obj.user_id == user_id){
+                            str = obj.content;
+                        }else{
+                            str = $(obj.content).attr('class', 'own clearfix');
+                            str.children().each(function (index, obj) {
+                                if (index == 0) {
+                                    $(obj).attr('class', 'head_pic');
+                                }
+                                if (index == 1) {
+                                    $(obj).attr('class', 'own_text');
+                                }
+                            });
+                        }
+                      $(".infocon").append(str);
+                  });
+//                    $("body").scroll($(".infocon").height());
+                    window.scrollTo(0,$(".infocon").height());
+                }
+            });
+        }
+        $.ajax({
+            type: "get",
+            url:URL.SiteUrl + "/index.php?m=Api&c=User&a=userInfo",
+            data: {user_id:user_id,token:token},
+            async: false,
+            dataType: "json",
+            error: function (data) {
+                mui.toast(data.msg, {duration: 'long', type: 'div'})
+            },
+            success: function(data){
+                if(!data.result.head_pic){
+                    own_head_pic = "images/personal/head_pic.png";
+                }else{
+                    own_head_pic = data.result.head_pic;
+                }
+                //console.log(own_head_pic);
+            }
+        });
+
+        //输入渲染方法
+        function Input() {
+            $("#stb").removeClass().addClass("send");
+            $(".send").on("click", function () {
+                var str = $("#ownInfo").html();
+                //console.log(str);
+                var res = /^\s*$/
+                var s = $("#ownInfo").text()
+                // console.log(!res.test(" "));
+                if (str !== "" && !res.test(str)) {
+                    //console.log(str);
+                    var strInfo = '<div class="im clearfix"> <div class="im_pic"><img src="'+own_head_pic+'"/></div> <div class="im_text"><span class="wb"></span>' + str + '</div> </div>';
+                    $(".infocon").append(strInfo);
+                    //console.log(strInfo);
+                    sendMessage(strInfo);
+
+
+                    var body = document.querySelector("body")
+                    var bd = body.offsetHeight;
+                    $("body").scrollTop(bd);
+                    $("#ownInfo").empty();
+                    $("#ownInfo").val("");
+                    $("#stb").removeClass().addClass("pic");
+                }
+            })
+        }
+
+        //点击
+        $("#ownInfo").on("focus", function () {
+            Input();
+        })
+
+        $("#ownInfo").on("blur", function () {
+            $("#stb").removeClass().addClass("pic");
+        })
+
+        $("#ownInfo").on("focus", function () {
+            $("#page_emotion").hide();
+        })
+        $("#page_emotion  dd").click(function () {
+            $("#ownInfo").children('br').remove();
+            $("#ownInfo").html($("#ownInfo").html());
+            Input();
+        });
+
+        $(".emj").on("click", function () {
+            $("#page_emotion").toggle();
+        })
+
+
+    });
+</script>
+<script src="js/push.js"></script>
+
+</body>
+</html>

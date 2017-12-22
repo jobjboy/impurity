@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/shopping_cart.css" rel="stylesheet"/>
+</head>
+<body>
+<header id="mui-color" class="mui-bar mui-bar-nav">
+    <div class="mui-icon returnBack"></div>
+    <h1 class="mui-title">购物车</h1>
+    <div id="edit" class="edit">编辑</div>
+    <a href="javascript:;" class="kefu_click">
+        <span class="lmessage"><img src="images/index/xiaoxi.png" width="100%"/></span>
+    </a>
+</header>
+<div class="mui-content" style="background: #FFF;">
+    <div class="shopping">
+        <div class="fail" ontouchstart="location.href='index.html';" style="display: none;">
+            <span></span>
+            <div class="fail_text">
+                <p>购物车快饿瘪了T.T </br>主人快给我挑点宝贝吧</p>
+                <div id="goShopping">去逛逛吧!</div>
+            </div>
+        </div>
+        <div id="lodding">
+            <span class="mui-spinner"></span>
+            <p>正在努力加载...</p>
+        </div>
+        <div class="shopping-list" id="itemForm">
+
+        </div>
+
+
+        <div class="shopping-bottom">
+            <div id="all_select">
+                <div class="shop-qx">
+                    <span class="ch"></span>
+
+                    <div class="c_text">全选</div>
+                </div>
+            </div>
+            <span id="allPrice">￥147.2</span>
+            <a href="javascript:void(0);" class="shop-botton">去结算</a>
+            <div  class="shop-delete">删除</div>
+            <div  class="shop-collect">加入收藏夹</div>
+        </div>
+    </div>
+</div>
+</div>
+<!--底部导航栏-->
+<div class="footNav"></div>
+<script src="js/mui.min.js"></script>
+<script src="js/URL.js"></script>
+<script src="js/footer_nav.js"></script>
+<script src="js/common.js"></script>
+<script type="text/javascript" src="js/jquery-1.12.2.min.js"></script>
+<script src="js/jq_scroll.js" type="text/javascript"></script>
+<script src="js/template.js"></script>
+<script src="js/_common.js"></script>
+
+<!--商品列表模板-->
+<script id="item_form" type="text/html">
+    <ul id="list" class="mui-table-view">
+        {{each cartList as value i}}
+        <li class="mui-table-view-cell">
+            <div class="mui-slider-right mui-disabled">
+                <a class="mui-btn mui-btn-red remove_cart" data-session_id="{{value.session_id}}"
+                   data-id="{{value.id}}">删除</a>
+            </div>
+            <div class="mui-slider-handle" >
+                <div class="shop-xz" select="{{value.selected}}">
+                    {{if value.selected == 1}}
+                    <span class="ch" ></span>
+                    {{else}}
+                    <span class=""></span>
+                    {{/if}}
+                </div>
+                <div class="mui-clearfix">
+                    <a href="pro_detail.html?{{value.goods_id}}">
+                        <div class="shop-img">
+                            <img src="{{value.original_img}}">
+                        </div>
+                    </a>
+                    <div class="shop-title">{{value.goods_name}}</div>
+                    {{if value.can_send == -1}}
+                    	<div class="peisong" data-send="{{value.can_send}}">商品在该地区无货</div>
+                    {{/if}}
+                    <div class="shop-jg">￥{{value.member_goods_price}}</div>
+                    <div class="numbox" data-numbox-min='0' data-numbox-max='9' gid="{{value.goods_id}}" carid="{{value.id}}"
+                         store_count="{{value.store_count}}" >
+                        <!-- <button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+                         <input class="mui-input-numbox num" type="number" min="1" max="20" value="{{value.goods_num}}"/>
+                         <button class="mui-btn mui-btn-numbox-plus" data-store="{{value.store_count}}" type="button">+</button>-->
+                        <span class="minus"></span>
+                        <input class="num" type="number" min="1" max="9"
+                               value="{{value.goods_num}}" disabled="disabled"/>
+                        <span class="plus"  data-store="{{value.store_count}}" data-num="{{value.buy_limit}}"></span>
+
+                    </div>
+                </div>
+            </div>
+        </li>
+        {{/each}}
+
+    </ul>
+</script>
+<script src="js/shopping_cart.js"></script>
+<script src="js/push.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#scrollDiv").Scroll({line: 1, speed: 500, timer: 3000, up: "but_up", down: "but_down"});
+        addFooterNavListener(3);
+
+    });
+</script>
+<script>
+    mui.init();
+    window.onload = function () {
+        mui("mui-numbox").numbox();
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/withdrawal.css" rel="stylesheet"/>
+</head>
+<body>
+<!--头部部分star-->
+<header id="mui-color" class="mui-bar mui-bar-nav">
+    <span class="mui-icon mui-icon-back mui-action-back"></span>
+    <h1 class="mui-title">提现</h1>
+</header>
+
+<!--头部部分end-->
+<div id="lodding">
+    <span class="mui-spinner"></span>
+    <p>正在努力加载...</p>
+</div>
+<div class="wrap">
+    <ul>
+        <li class="withdrawal_money">
+            <p>提现金额</p>
+            <label for="withdrawal">
+                <span class="user">￥</span>
+                <input type="number" name="withdrawal" id="withdrawal" placeholder="" style="border-style:none">
+                <div class="line"></div>
+            </label>
+            <div class="withdrawal_des">可用余额 <i></i>元<span>全部提现</span></div>
+        </li>
+        <li>
+            <label for="password">
+                <span class="pass"></span>
+                <input type="password" name="password" id="password" placeholder="请输入支付密码" style="border-style:none">
+                <div class="line"></div>
+            </label>
+            <p class="password_error"></p>
+            
+        </li>
+    </ul>
+    <button type="button" class="withdrawal-button">确定提现</button>
+    <button type="button" class="bindAlipay">绑定支付宝</button>
+    <button type="button" class="mimasz">设置支付密码</button>
+</div>
+<script src="js/URL.js"></script>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="js/mui.min.js"></script>
+<script>
+    $(function () {
+        var user_id = localStorage.getItem("user_id");
+        var token = localStorage.getItem("token");
+        var num, oldval, tag = true;
+        var div = '<div class="withdrawal_des">金额已超过可提现余额</div>';
+        $(".mimasz").on("click",function () {
+            location.href= "drawCashPassword.html";
+        })
+        $(".bindAlipay").on("click",function () {
+            location.href= "bindAlipay.html";
+        })
+        $.ajax({
+            type: 'get',
+            url: URL.SiteUrl + '/index.php?m=Api&c=User&a=userInfo',
+            data: {
+                user_id: user_id,
+                token: token
+            },
+            dataType: 'json',
+            success: function (data) {
+                num = data.result.user_money;
+                $("li>div i").text(num);
+                $(".wrap").css("display","block");
+                $("#lodding").css('display','none');
+                $("#withdrawal").on("keyup", function () {
+                    var money = $(this).val() * 1;
+                    if (money > num) {
+                        if (tag) {
+                            oldval = $(".withdrawal_des").detach();
+                            $(".withdrawal_money").append($(div));
+                            $(".withdrawal-button").css("background-color","#ccc");
+                            $(".withdrawal-button").attr("disable","true");
+                            tag = false;
+                        }
+                    } else {
+                        if (oldval && !tag) {
+                            $(".withdrawal_des").remove();
+                            $(".withdrawal_money").append(oldval);
+                            $(".withdrawal-button").css("background-color","#F29600");
+                            $(".withdrawal-button").removeAttr("disable");
+                            tag = true;
+                        }
+                    }
+                });
+                $("#password").on("keyup", function () {
+                    validation($("#password").val());
+                });
+                $("li>div span").on("click", function () {
+                    $("#withdrawal").val($("li>div i").text());
+                    $("#withdrawal").attr("oninput", "if(value.length>" + $("li>div i").text().length + ")value=value.slice(0," + $("li>div i").text().length + ")");
+                });
+                $(".withdrawal-button").on("click", function () {
+                    var money = $("#withdrawal").val() * 1;
+                    var paypasswd = $("#password").val();
+                    if (validation(paypasswd) && money <= num) {
+                        $.ajax({
+                            type: 'post',
+                            url: URL.SiteUrl + '/index.php?m=Api&c=User&a=withdrawals',
+                            data: {
+                                user_id: user_id,
+                                money: money,
+                                paypasswd: paypasswd,
+                                token: token
+                            },
+                            dataType: 'json',
+                            success: function (data) {
+                                mui.alert(data.msg, "温馨提示", function () {
+                                    if (data.status == -102) {
+                                        window.location.href = "login.html";
+                                    }
+                                    if(data.status == 1){
+                                        history.go(0);
+                                    }
+                                });
+                            },error:function (data) {
+                                mui.toast(data.msg, {duration: 'long', type: 'div'});
+                            }
+                        });
+                    } else {
+                        console.log("不合法");
+                    }
+                });
+            },
+            beforeSend:function(){
+                $("#lodding").css('display','block');
+            },error:function (data) {
+                $("#lodding").css("display","none");
+                mui.toast(data.msg, {duration: 'long', type: 'div'});
+            }
+        });
+        function validation(val) {
+            var reg = /^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,12}$/;
+            if (!reg.test(val)) {
+                $(".password_error").text("请输入6~12位的数字、字母！").css("color", "#EC8924");
+                return false;
+            } else {
+                $(".password_error").text("");
+                return true;
+            }
+        }
+    })
+</script>
+</body>
+</html>

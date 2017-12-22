@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/indent.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/icons-extra.css"/>
+</head>
+<body>
+<!--头部部分star-->
+<!--href="javascript:;"-->
+<!--window.history.go(-1);-->
+<header id="mui-color" class="mui-bar mui-bar-nav" style="box-shadow:0px 0px 0px 2px #EBECF0 ">
+    <span class=" mui-icon mui-action-back mui-icon-left-nav mui-pull-left" ></span>
+    <h2 class="mui-title">便民服务</h2>
+</header>
+<!--头部部分end-->
+<div class="mui-content">
+    <div id="tabbox">
+        <div id="collectList">
+            <ul class="indent-list1">
+                <li>
+                    <div class="indent-list-title1 mui-checkbox mui-left">
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+        <p class="pre_lodding">
+            <span class="mui-spinner"></span>
+            正在努力加载...
+        </p>
+        <p class="null">别扯了，已经没有更多了</p>
+    </div>
+</div>
+
+<div class="fail">
+    <img src="images/noorder.png" alt="">
+    <div class="fail_text">您的服务列表，暂无服务。</div>
+</div>
+<script src="./js/common.js"></script>
+<script src="js/mui.min.js"></script>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="./js/URL.js"></script>
+<script src="js/template.js"></script>
+<script src="js/_refresh.js"></script>
+<script id="collect_list" type="text/html">
+    {{each result}}
+    <div class="indent-list-img">
+        <em><a href="pro_detail.html?{{$value.goods_id}}"><img src="{{$value.original_img}}"/></a></em>
+        <span class="item_title"><a href="#">{{$value.goods_name}}</a></span>
+        <span class="total_price">￥{{$value.shop_price}}</span>
+        <i class="duihuan">可兑福星：{{$value.money*100}}</i>
+
+    </div>
+    <div class="addressList"></div>
+    <div class="indent-list-button" data-jpid="{{$value.id}}">
+        {{if $value.del_button===1}}
+        <button type="button" class="mui-btn-del">删除记录</button>
+        {{/if}}
+        {{if $value.exchange_status===0}}
+        <button type="button" class="mui-btn-sj">兑换奖品</button>
+        <a href="javascript:" type="button" class="mui-btn-zf">兑换蜂蜜</a>
+
+        {{else if $value.exchange_status===1}}
+        <button type="button" disabled="disabled" class="mui-btn-sj">奖品待发货</button>
+        {{else if $value.exchange_status===2}}
+        <button type="button" disabled="disabled" class="mui-btn-sj">待收货</button>
+        {{else if $value.exchange_status===3}}
+        <button type="button" disabled="disabled" class="mui-btn-sj">已兑换</button>
+        {{else if $value.exchange_status== -1}}
+        <button type="button" disabled="disabled" class="mui-btn-sj">已作废</button>
+        {{else if $value.exchange_status== -2}}
+        <button type="button" disabled="disabled" class="mui-btn-sj">已过期</button>
+        {{/if}}
+    </div>
+    {{/each}}
+</script>
+<script id="button" type="text/html">
+
+</script>
+
+<script id="address_list" type="text/html">
+    <div class="addList_title">请选择配送地址</div>
+    <div name="" class="addList">
+        <a href="address_list.html?tag=5" class="dizhi">
+            {{each result}}
+            {{if $value.is_default==='1'}}
+            <div class="user_np" data-id="{{$value.address_id}}">
+                <span class="user_name">收货人:{{$value.consignee}}</span>
+                <span class="user_phone">手机:{{$value.mobile}}</span>
+            </div>
+            <p data-id="{{$value.address_id}}" value="">地址: {{$value.address}}</p>
+            <!--<span class="user_address">&nbsp;&nbsp;{{temp}}{{address}}</span>-->
+            <!--<span class="address_con"></span>-->
+            {{/if}}
+
+            {{/each}}
+        </a>
+    </div>
+</script>
+<script src="js/prizeCenter.js"></script>
+<script src="js/push.js"></script>
+</body>
+</html>

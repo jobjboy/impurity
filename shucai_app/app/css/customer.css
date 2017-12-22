@@ -1,0 +1,108 @@
+/*所有的标签和伪类*/
+*,::before,::after{
+    padding: 0;
+    margin: 0;
+    /*在移动端特殊的设置*/
+    /*清除点击高亮效果*/
+    -webkit-tap-highlight-color: transparent;
+    /*设置盒子的宽度以边框开始计算*/
+    -webkit-box-sizing: border-box;/*要兼容老的移动浏览器*/
+    box-sizing: border-box;
+}
+ul,
+li {
+    list-style-type: none;
+}
+.clearfix::before,
+.clearfix::after {
+    content: "";
+    line-height: 0;
+    height: 0;
+    display: block;
+    visibility: hidden;
+    clear: both;
+    
+}
+
+.customer_item {
+    width: 100%;
+    margin-bottom: 10px;
+    background: #fff;
+    height: auto;
+    padding: 10px 15px 0 15px;
+}
+.comment_username {
+    position: relative;
+    font-size: 12px;
+}
+
+.comment_username span:nth-child(2) {
+    position: absolute;
+    right: 0;
+}
+
+.comment_content {
+    color: rgb(5, 27, 40);
+    font-size: 14px;
+}
+.comment_imglist{
+    margin-top: 5px;
+    overflow: hidden;
+}
+.comment_imglist li{
+    float: left;
+    margin: 0 .48em .5em 0;
+    background-color: #fff;
+    width:55px;
+    height:55px;
+    display: -webkit-box;
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+    display: -ms-flexbox;
+    -ms-flex-pack: center;
+    -ms-flex-align: center;
+}
+.comment_imglist li img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.graded{ margin-top: -10px;padding: 0;padding-bottom: 10px}
+.graded h3{
+    font-size:14px;
+}
+div#wrap_content{
+    margin-top: 53px;
+}
+
+p.up_lodding,p.pre_lodding{
+    text-align: center;
+    line-height: 2;
+    display: none;
+}
+p.up_lodding span {
+    display: block;
+    margin: 20px auto 0 auto;
+}
+
+p.pre_lodding span{
+    display: block;
+    margin: 30px auto 0 auto;
+}
+p.null{
+    text-align: center;
+    padding-top: 20px;
+    display: none;
+}
+header>a{
+    color: #000;
+}
+.null_text{
+    margin-top: 50px;
+    color: #BEBEC1;
+    text-align: center;
+    display: none;
+}
+.shopr {
+    color: #f29600;
+}

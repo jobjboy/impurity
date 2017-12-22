@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Title</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/help_center.css" rel="stylesheet" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header id="mui-color" class="mui-bar mui-bar-nav">
+			<a href="JavaScript:history.go(-1)" class="mui-action-back mui-icon  mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">帮助中心</h1>
+		</header>
+		<div class="help_content">
+			<p class="help_item_title"></p>
+			<div class="help_item_content clearfix">
+				<p></p><span class="help_item_time"></span></div>
+		</div>
+		<script src="js/URL.js"></script>
+			<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.12.2.min.js"></script>
+		<script>
+			(function() {
+				var article_id = getUrlParam("article_id");
+				$.ajax({
+					type: "post",
+					url: URL.SiteUrl + "/index.php?m=Api&c=User&a=helplist",
+					data: { user_id: "", enterprise_id: "" },
+					dataType: 'json',
+					success: function(data) {
+						if(data.status == 1) {
+							$.each(data.result.article, function(index, obj) {
+								obj.content = escape2Html(decodeURIComponent(obj.content));
+								obj.publish_time = formatDate(obj.publish_time);
+								if(obj.article_id == article_id) {
+									$(".help_content>p").text(obj.title);
+									$(".help_item_time").before(obj.content);
+									$(".help_item_time").text(obj.publish_time);
+								}
+							});
+							//console.log(data);
+						}
+					},
+					error: function(data) {
+						mui.toast(data.msg, {duration: 'long', type: 'div'});
+					}
+				});
+
+				function formatDate(ns) {
+					var d = new Date(ns * 1000);
+					var dformat = [d.getFullYear(), d.getMonth() + 1, d.getDate()].join('-');
+					return dformat;
+				}
+
+				function escape2Html(str) {
+					var arrEntities = { 'lt': '<', 'gt': '>', 'nbsp': ' ', 'amp': '&', 'quot': '"' };
+					var strings = str.replace(/&(lt|gt|nbsp|amp|quot);/ig, function(all, t) { return arrEntities[t]; });
+					return strings.replace(/\+/g, ' ');
+				}
+
+				// 获取url中的参数
+				function getUrlParam(name) {
+					var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+					var r = window.location.search.substr(1).match(reg);
+					if(r != null) {
+						return unescape(r[2]);
+					} else {
+						return null;
+					}
+				}
+
+				mui.init({
+					keyEventBind: {
+						backbutton: true //打开back按键监听
+					}
+				});
+				mui.back = function() {
+					window.history.go(-1);
+				}
+			})();
+		</script>
+		<script src="js/push.js"></script>
+
+	</body>
+
+</html>

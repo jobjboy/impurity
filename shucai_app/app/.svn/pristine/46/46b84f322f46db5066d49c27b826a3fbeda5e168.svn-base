@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/address_list.css" rel="stylesheet"/>
+    <link href="css/icons-extra.css" rel="stylesheet"/>
+</head>
+<body style=" background: #fff;">
+<!--头部部分star-->
+<header id="mui-color" class="mui-bar mui-bar-nav">
+    <a href="JavaScript:;" class="return_btn"><span class="mui-icon mui-icon-back"></span></a>
+
+    <h1 class="mui-title">收货地址管理</h1>
+</header>
+<!--头部部分end-->
+<div class="address-button-m">
+    <button type="button" class="address-button">新增收货地址</button>
+</div>
+
+
+<div class="add-list">
+    <ul id="addressList">
+    </ul>
+
+    <div id="lodding">
+        <span class="mui-spinner"></span>
+
+        <p>正在努力加载...</p>
+    </div>
+</div>
+<p id="zanwu">暂无收货地址...</p>
+
+<div id="delete" class="mui-popover  mui-popover2 mui-popover-action mui-popover-bottom">
+    <ul class="mui-table-view">
+        <li class="mui-table-view-cell">
+            <a href="javascript:;" id="del_address" style="color: #FF3B30;">删除信息</a>
+        </li>
+    </ul>
+    <ul class="mui-table-view">
+        <li class="mui-table-view-cell" id="cancel" >
+            <a href="#delete"><b>取消</b></a>
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    var del_address_id = 0;
+</script>
+<script src="js/zepto.js"></script>
+<script src="js/template.js"></script>
+<script src="js/address_mui.js"></script>
+<script src="js/URL.js"></script>
+<script id="address_list" type="text/html">
+    {{each result}}
+    <li data-id="{{$value.address_id}}" id="li_{{$value.address_id}}" class="edit_li">
+
+        <div class="add-list-left">
+            <div class="add-list-title">{{$value.consignee}}</div>
+            <div class="add-list-tel">{{$value.mobile}}</div>
+            <div class="add-list-text">
+                {{if $value.full_address}}
+                {{$value.province_name}} {{$value.city_name}} {{$value.streetName}} {{$value.streetNumName}}
+                {{$value.address}}
+                {{else}}
+                {{$value.address}}
+                {{/if}}
+            </div>
+        </div>
+
+        <div class="add-list-line">
+            <div class="mui-input-row mui-radio mui-left">
+                <label data-id="{{$value.address_id}}">设为默认</label>
+                {{if $value.is_default == 1}}
+                <input name="checkbox" class="checkbox" data-id="{{$value.address_id}}" checked type="radio">
+                {{else}}
+                <input name="checkbox" class="checkbox" data-id="{{$value.address_id}}" type="radio">
+                {{/if}}
+            </div>
+
+            <div>
+                <span class="mui-icon mui-icon-compose add-list-button addButton"
+                      data-addid="edit_address.html?{{$value.address_id}}"><a>编辑</a></span>
+                <a href="#delete" class="mui-icon mui-icon-trash add-list-button delButton"
+                   data-id="{{$value.address_id}}">
+                    <m>删除</m>
+                </a>
+            </div>
+        </div>
+    </li>
+    {{/each}}
+</script>
+<script src="js/address_list.js"></script>
+<script src="js/push.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>智慧城市</title>
+		<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+		<link rel="stylesheet" href="css/style.css" />		
+		<script src="./lib/plugs/require/require.js"></script>
+		<script src="./lib/app.js"></script>
+		<link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8"/>
+		<style type="text/css">
+			.aname {
+				font-size: 16px;
+			}
+			.ainf {
+				font-size: 12px;
+			}
+			.iplay {
+				position: relative;
+				display: block;
+				/*background: no-repeat right center url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABYCAYAAAADWlKCAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAKwwAACsMBNCkkqwAAABZ0RVh0Q3JlYXRpb24gVGltZQAwOS8xMi8xM5w+I3MAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAAD9UlEQVR4nO2b3XETMRRGDwzvoYOkg5hRAVkqiKmAdIA7wHSQVECoALsC1gXciV0BTge4gvCwgnHk9d/+WF8m97ztxrlXs8fS1Urym6enJxwd3uZugPMcFyKGCxHDhYjhQsRwIWK4EDFciBguRAwXIoYLEcOFiOFCxHAhYrgQMVyIGC5EDBcihgsRw4WI4ULEcCFiuBAx3uVuwDGY2XtgCBTAALjc8tEFMAdKYBJC+HOK9nXBm5dwUM7MCmAEXDcMMQVuQwhlV23qC2khZjYAboGrjkLOgFEIYd5RvM6RrSFmdgs80J0MYqyHGFsSuR4S60TJ9vrwCEziZ+YhhGXy/xdU9aWgqjfnW+IsgEKtvkgJiUPUPfUyZsD42DoQ68+Y+p62AG6UhjAZITt6xopq3L9vGf+Gqh6dJX+S6ilKNaRkU8YCGLSVARBjDGLMdS5jbgkkhMQiWyejSGtEG2KsghopKoU++5AV68ZDcrvXYWTH8Pghdz1R6CHpN3MFDPsc02PsYcy1qy0nJ6uQOANKZz+jfcOUmd3H6W1jYo5RcvsqtikbuXtI+kBmBxbwz8DczMZtksdcsz1tOinZhMRxPF2bGh8R4gz4amZLMxu2aEqa8zq2LQs5e0j6EB8bLv6dAz/NrGwyjMWcj3vadjJyCimS60nLeFfAbzO7bfANT3MXLdvSmJxCBsl12VHcL8AyvpkfSpo7bdvJyCkkfQfocv5/Bnw3s/mBs6Y097aFzd7JPcv6T5dv5GtcAr/2TZN7yt0IGSE908k0+RS8FiEvhhd1yKEFUw5YAVBApoe0XQrZwgL4GEIY7pLRU+5G5OwhC57PZgbAsqPYK6rdxUMXC9Npbro8fzJy9pB0qll0FPcOuDhCRl3ubEvwOYWUyXXb5YoZ1X7GqMHSfZq7bNmWxuQUki5XnDdc+n4EPoUQiiabSzFnejKl7TJOY7IJid/iaXJ7fESIFfCNas+9zQNMc05zHnjIPctKx/mrA9egflCJGLd5eDFXukGWdddQYU+95PlDWVE97GXPeS+oivf6saBZCKHoM+8+cvcQ2NyhOwMmfW4SxdgTNs9oZd0tBAEhsRDfJbcvgbIPKTtOnNzlPnECAkPWP8xsTv3ZrJ1v2UfmuKDqGRt5QgjZ9kDWyd5D1iioP1U4P3KzqZYYY5v0om38rpDpIeCHrUFMCPjPEeSE/COetf3SU/i7EEL2GVUdSjXkGfGBfWDzIFsb/q93dRizU2R7yDr+o09R/GfRzsmRrSGvFRcihgsRw4WI4ULEcCFiuBAxXIgYLkQMFyKGCxHDhYjhQsRwIWK4EDFciBguRAwXIoYLEcOFiOFCxHAhYrgQMf4CVuqCm+17t3sAAAAASUVORK5CYII=);
+				background-size: 50px 44px;*/
+				-ms-touch-action: auto;
+			}
+			.del{
+				position:absolute;
+				right: 0;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-icon-arrowleft"></a>
+			<h1 class="mui-title">任务提交</h1>
+		</header>
+		<div id="dcontent" class="dcontent">
+			<!--<div class="button" onclick="changeIndex();">
+				选择：<span id="display" style="color:#FF0000">主摄像头</span>
+				<div style="width:0px;height:0px;overflow:hidden;"><select id="index">
+					<option value='1' selected="true">主摄像头</option>
+					<option value='2' >辅摄像头</option>
+				</select></div>
+			</div>-->
+			<!--<div class="change">
+				<span id="info"></span>
+				<a class="mui-btn mui-btn-success" id="maps_href">精确定位</a>
+			</div>			-->
+			
+			<!-- History list -->
+			<h3>上传图片</h3>
+			<div class="mui-demo-container" id="progressbar" style="display: none;">
+				<div>
+					<p class="mui-progressbar mui-progressbar-infinite"></p>
+				</div>
+			</div>				
+			<ul id="history" class="dlist" style="text-align:left;">
+				<li id="empty" class="ditem-empty">暂无图片</li>
+			</ul>
+			<div class="dcontent-top">
+			    <button class="warning-button" onclick="getImage()"><img src="images/icon12.png"> 拍照</button>
+			<!--<div class="button" onclick="getVideo()">录像</div>-->
+			    <button class="warning-button" onclick="getImages()"><img src="images/icon13.png"> 相册</button>
+			</div>
+			
+			<button class="empty-button" onclick="cleanHistory()">全部清空</button>
+			<div class="task-type">
+				<h3>拍摄类型</h3>
+				<form class="mui-input-group">
+					<div class="mui-input-row mui-checkbox mui-left">
+						<label>全景图</label>
+						<input name="checkbox" value="0" type="checkbox" checked class="checkin">
+					</div>
+				</form>
+			</div>			
+			<form>
+			  <fieldset class="description">  
+			    <legend>申请描述</legend>  
+			    <p><textarea class="noscrollbars" id="description"></textarea></p>
+			    <p><input type="button" value="任务提交" id="taskApply"/></p>
+			  </fieldset>
+			</form>
+		</div>
+		<div class="nav">
+			<ul>
+				<li class="on">
+					<a href="index.html">
+						<i class="fa fa-home"></i>
+						<em>任务</em>
+					</a>
+				</li>
+				
+				<li>
+					<a href="task.html">
+						<i class="fa fa-file-text"></i>
+						<em>任务</em>
+					</a>
+				</li>
+
+				<li>
+					<a href="sing.html">
+						<i class="fa fa-calendar-check-o"></i>
+						<em>签到</em>
+					</a>
+				</li>
+
+				<!--<li>
+					<a href="">
+						<i class="fa fa-microphone"></i>
+						<em>语音</em>
+					</a>
+				</li>-->
+
+				<li>
+					<a href="personal.html">
+						<i class="fa fa-user"></i>
+						<em>个人</em>
+					</a>
+				</li>
+			</ul>
+		</div>			
+	</body>
+<script>
+require(['jquery', 'mui', 'URL', 'core','base64'], function ($, mui, URL, core) {
+		mui.init();
+		url = URL.upload_img;
+	var url2,lnglat,areaIds;	
+	
+	var _url = getUrlParam('position').split(',');
+	var task_id = getUrlParam('task_id');	
+	
+	lnglat = new AMap.LngLat(_url[0], _url[1]);
+	
+	var areas = JSON.parse(localStorage.getItem('areas'));
+		if(areas){
+			for (var i = 0; i < areas.length; i += 1) {
+			    
+				var polygon = new AMap.Polygon({
+					 	path: areas[i].polygon,//设置多边形边界路径
+				    });
+	  			if(polygon.contains(lnglat)){
+	  				areaIds = areas[i].area_id;break;
+	  			}
+			}    
+		}
+	document.getElementById('taskApply').addEventListener('click',function(){
+		taskApply();
+	},false);
+	
+//	document.getElementById('maps_href').addEventListener('click',function(){
+//		window.location.href = './maps.html';
+//	},false);
+
+function taskApply(){
+	var imageType = [];
+	var description = document.getElementById("description").value;
+	console.log(areaIds);
+	if(!areaIds){
+		mui.toast("当前位置不在围栏内", {duration: 'long', type: 'div'});
+		return;
+	}	
+	$.each($('.checkin'), function() {
+		console.log(this.checked)
+		if(this.checked){
+			imageType.push(this.value);
+		}
+	});	
+		console.log(imageType);
+		
+		if(images.length == 0){
+			mui.toast("请先拍取照片", {duration: 'long', type: 'div'});
+			return;
+		}else if(lnglat.toString().length == 0){
+			mui.toast("定位失败请手动选取地址", {duration: 'long', type: 'div'});
+			return;
+		}				
+		console.log(description);
+		if(description == ''){
+			mui.toast("申请描述不能为空", {duration: 'long', type: 'div'});
+			return;
+		}				
+			var token = window.localStorage.getItem('aut_token');
+			
+			var url2 = URL.excute_task;			
+
+			var data = {
+				act:'api',
+				aut_token:token,
+				area_ids:areaIds,
+				coordinate:lnglat.toString(),
+				image:images.join(','), 
+				image_type:imageType.join(','),
+				response_content:description,
+				task_id:task_id
+			}
+			
+		core.ajax(url2, data, function (data) {
+				if (data.status == 1) {
+					console.log(JSON.stringify(data));
+					mui.toast(data.msg+',五秒后返回主页面', {duration: 'long', type: 'div'});
+					setTimeout(function(){
+						location.href='./index.html'
+					},5000);
+				} else if(data.status == 400){
+					console.log('...')
+					window.location.href = './login.html';
+				}else{
+					mui.toast(data.msg, {duration: 'long', type: 'div'});
+				}
+			}, function () {
+			}, 'POST');		    		
+}		
+});
+</script>	
+<script type="text/javascript">
+var gentry=null,hl=null,le=null,w=null,y=1;
+
+//创建上传任务
+var task = null;
+var images = [];
+
+//H5 plus事件处理
+function plusReady(){
+	console.log('plusReady');
+}
+
+if(window.plus){
+	plusReady();
+}else{
+	document.addEventListener('plusready', plusReady, false);
+}
+
+// 监听DOMContentLoaded事件
+document.addEventListener('DOMContentLoaded', function(){
+	// 获取DOM元素对象
+	hl=document.getElementById('history');
+	le=document.getElementById('empty');
+},false );
+// 拍照
+function getImage(){
+	var cmr = plus.camera.getCamera();
+	cmr.captureImage(function(p){
+		console.log('成功：'+p);
+		plus.io.resolveLocalFileSystemURL(p, function(entry){
+			createItem(entry);
+		}, function(e){
+			console.log('读取拍照文件错误：'+e.message);
+		});
+	}, function(e){
+		console.log('失败：'+e.message);
+		mui.toast('请设定权限',{ duration:'long', type:'div' }); 
+	});
+}
+
+//相册选择
+function getImages(){
+	plus.gallery.pick(function(p) {
+		console.log('成功：'+p);
+		plus.io.resolveLocalFileSystemURL(p, function(entry){
+			createItem(entry);
+		}, function(e){
+			console.log('读取录像文件错误：'+e.message);
+		} );
+	}, function(e){ 
+		console.log('失败：'+e.message);
+	});
+}
+// 添加照片项
+function createItem(entry){
+	var li = document.createElement('li');
+	li.className = 'ditem';
+	li.innerHTML = '<label><img class="imgs" src=""></label><span class="iplay"><font class="aname"></font><br/><font class="ainf"></font><button type="button" class="mui-btn mui-btn-danger del" onclick="delFile(this)">删除</button></span>';
+	li.setAttribute('onclick', 'displayFile(this)' );
+	hl.insertBefore( li, le.nextSibling );
+	li.querySelector('.imgs').src=entry.toLocalURL();
+	li.querySelector('.aname').innerText = entry.name;
+	li.querySelector('.ainf').innerText = '...';
+	li.entry = entry;
+	
+	var s = entry.toLocalURL();
+	createUpload(s);//创建上传任务
+	
+	updateInformation(li);
+	// 设置空项不可见
+	le.style.display = 'none';
+	document.getElementById('progressbar').style.display = 'block';
+}
+// 获取--文件日期信息
+function updateInformation(li){
+	if(!li || !li.entry){
+		return;
+	}
+	var entry = li.entry;
+	entry.getMetadata(function(metadata){
+		li.querySelector('.ainf').innerText = metadata.modificationTime.pattern('yyyy-MM-dd HH:mm:ss');
+	}, function(e){
+		console.log('获取文件"'+entry.name+'"信息失败：'+e.message);
+	} );
+}
+
+function displayFile(li){
+	if(!li || !li.entry){
+		console.log('无效的媒体文件');
+		return;
+	}
+	var name = li.entry.name;
+	var suffix = name.substr(name.lastIndexOf('.'));
+	var url = '';
+	if(suffix=='.mov' || suffix=='.3gp' || suffix=='.mp4' || suffix=='.avi'){
+		//if(unv){plus.runtime.openFile('_doc/camera/'+name);return;}
+		url = './camera_video.html';
+	} else {
+		url = './camera_image.html';
+	}
+	w=plus.webview.create(url,url,{hardwareAccelerated:true,scrollIndicator:'none',scalable:true,bounce:'all'});
+	w.addEventListener('loaded', function(){
+		w.evalJS('loadMedia("'+li.entry.toLocalURL()+'")');
+	}, false );
+	w.addEventListener('close', function(){
+		w = null;
+	}, false);
+	w.show('pop-in');
+}
+//删除单个选项
+function delFile(e){
+	event.stopPropagation();
+	$(e).parent().parent('li').remove();
+	var r = $('#history').find('li');
+	console.log(r.length)
+	if (r.length < 2) {
+		le.style.display = 'block';
+	}
+}
+// 清除历史记录
+function cleanHistory(){
+	hl.innerHTML = '<li id="empty" class="ditem-empty">暂无图片</li>';
+	le = document.getElementById('empty');
+	// 删除音频文件
+	console.log('清空拍照录像历史记录：');
+//	gentry.removeRecursively(function(){
+//		// Success
+//		console.log('成功！');
+//	}, function(e){
+//		console.log('失败：'+e.message);
+//	});
+}
+
+function createUpload(entry) {
+//	timestamp = new Date().getTime();
+	var task = plus.uploader.createUpload( url,
+		{ method:"POST",blocksize:204800,priority:100 },
+		function ( t, status ) {
+			// 上传完成
+		if ( status == 200 ) {
+
+//          timestamp2 = new Date().getTime();
+//          if ((timestamp2 - timestamp) <= 300) {
+//
+//              setTimeout(function () {
+//                  con_loading.hide();
+//                  con_container.show();
+//              }, 400);
+//          } else {
+//              con_loading.hide();
+//              con_container.show();
+//          }
+			var data = JSON.parse(t.responseText);
+			
+			console.log(JSON.stringify(data));
+			
+			document.getElementById('progressbar').style.display = 'none';
+			
+			images.push(data.result);
+			
+	} else {
+			task.start();
+		}
+	}); 
+		console.log(entry);
+	    task.addFile(entry, {key:"photo"});
+        task.start();
+//	var image = new Image(); 
+//		image.src = entry;
+// 		image.onload = function() {
+//      	var imgData = getBase64Image(image);
+//      	console.log(imgData);
+//      	task.addData( "photo", imgData);
+//      	task.start();
+//		}			
+}
+//将图片压缩转成base64
+function getBase64Image(img) {
+    var canvas = document.createElement("canvas");
+    var width = img.width;
+    var height = img.height; 
+    
+    console.log(img.width+'=>'+img.height);
+            // calculate the width and height, constraining the proportions
+    if (width > height) {
+        if (width > 500) {
+            height = Math.round(height *= 500 / width);
+            width = 500;
+        }
+    } else {
+        if (height > 500) {
+            width = Math.round(width *= 500 / height);
+            height = 500;
+        }
+    }
+
+    console.log(width+'=>'+height);
+    
+    canvas.width = width;   /*设置新的图片的宽度*/
+    canvas.height = height; /*设置新的图片的长度*/
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, width, height); /*绘图*/
+    var dataURL = canvas.toDataURL("image/png", 0.6);
+    return dataURL;
+}   
+</script>
+</html>

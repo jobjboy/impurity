@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Hello MUI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./css/mui.min.css">
+    <link href="css/fresh.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="./css/search.css">
+
+</head>
+<body>
+<header class="mui-bar mui-bar-nav">
+    <div id="search_model">
+        <a id="btn_back" class="mui-action-back mui-icon  mui-icon-left-nav mui-pull-left"></a>
+
+        <div class="mui-input-row mui-search">
+            <input type="search" id="saarch_inpt" class="mui-input-clear" placeholder="请输入商品名称...">
+        </div>
+    </div>
+
+    <div class="pro-sort">
+        <div class="weui-flex">
+            <div class="weui-flex__item">
+                <div class="placeholder NormalCss" id="news_sort">最新</div>
+            </div>
+            <div class="weui-flex__item">
+                <div class="placeholder asc" id="sales_sort">按销量</div>
+            </div>
+            <div class="weui-flex__item">
+                <div class="placeholder asc" id="price_sort">按价格</i></div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="mui-content">
+
+    <div class="hot">
+        <!--下拉刷新容器-->
+        <!--<div id="pullrefresh" class="mui-content mui-scroll-wrapper">-->
+            <div class="mui-scroll">
+                <p class="up_lodding" style="margin-top: 70px;margin-bottom: -30px">
+                    <span class="mui-spinner"></span>
+                    正在努力加载...
+                </p>
+                <!--数据列表-->
+                <ul class="mui-table-view mui-table-view-chevron" id="goods_list" style="margin-top: 50px;">
+                </ul>
+                <p class="pre_lodding">
+                    <span class="mui-spinner"></span>
+                    正在努力加载...
+                </p>
+                <p class="null">别扯了，已经没有更多商品了...</p>
+            </div>
+
+        <!--</div>-->
+    </div>
+</div>
+
+</div>
+<script type="text/html" id="goods_item">
+    {{each goods_list as value i}}
+    <li class="mui-table-view-cell mui-media mui-media-large" id="item_{{value.goods_id}}">
+        <a href="pro_detail.html?{{value.goods_id}}">
+            <img class="mui-media-object mui-pull-left lazy" src="{{value.original_img}}"
+                 data-lazyload="{{value.original_img}}">
+
+            <div class="mui-media-body">
+                <span>{{value.goods_name}}</span>
+                <span>{{value.goods_remark}}</span>
+
+                <p class="mui-ellipsis price">¥{{value.shop_price}}</p>
+            </div>
+        </a>
+    </li>
+    {{/each}}
+</script>
+<script src="./js/common.js"></script>
+<script type="text/javascript">var search_staus = false;</script>
+<script src="./js/mui.min.js"></script>
+<script src="./js/URL.js"></script>
+<script src="./js/zepto.js"></script>
+<script src="js/template.js"></script>
+<script src="js/_refresh.js"></script>
+<script src="./js/search.js"></script>
+<script src="js/push.js"></script>
+</body>
+
+</html>

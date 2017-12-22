@@ -1,0 +1,550 @@
+/**
+ * Created by lenovo on 2017/3/30.
+ */
+var jquery = $.noConflict();
+function Trim(str) {
+    return str.replace(/(^\s*)|(\s*$)/g, "");
+}
+(function () {
+    //传递的参数
+    var token = localStorage.getItem("token");
+    var user_id = localStorage.getItem("user_id");
+    var city = localStorage.getItem("city");
+    city = JSON.parse(city);
+    var streetNum = city.streetNum;
+
+    var data1 = {info: {token: token, uesr_id: user_id, streetNum: streetNum}};
+    var coupon_id = 0;
+
+    var urls = {
+        //计算购物车金额
+        url1: URL.SiteUrl + "/index.php?m=Api&c=Cart&a=cart2",
+        calculate_url: URL.ApiUrl + URL.calculate,
+        payApi: URL.ApiUrl + "&c=User&a=check_paypwd"
+    };
+    var _tag = getUrlParam("tag");
+
+    $('header a').on('click', function () {
+        console.log(_tag);
+        if (_tag) {
+            window.location.href = "shopping_cart.html?ta=" + _tag;
+        } else {
+            window.location.href = "shopping_cart.html";
+        }
+    })
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return unescape(r[2]);
+        } else {
+            return null;
+        }
+    }
+
+    $(function () {
+        //选择付款方式
+        $(".payWayPic li").on("tap", function () {
+            //console.log(132);
+            $(".payWayPic li em").removeClass("checkend");
+            $(".payWayPic li em").eq($(this).index()).addClass("checkend");
+
+            var wayName = $(".payWayPic li").eq($(this).index()).text();
+            //console.log(wayName);
+            $(".payWayName").text("")
+            $(".payWayName").append(wayName);
+
+
+        })
+
+        // var payWayName;
+        var pay_points;
+        var address_id;
+        var shipping_code;
+        var ypay;
+        var ypay2;
+        var yhmoney;
+        var user_money;
+        var ps;
+        var str;
+        var pay_points1;
+        mui.init();
+        document.getElementById("mySwitch2").addEventListener("toggle", function (event) {
+            if (event.detail.isActive) {
+                console.log("你启动了开关");
+                pay_points = $(".balance_p").text();
+                console.log(pay_points);
+                // console.log(pay_points);
+                // pay_points1 = parseInt(pay_points) / 100;
+                // ypay2 = ypay
+                // console.log('ypay______'+ypay);
+                // ypay2 = (parseInt(ypay2) - pay_points1).toFixed(2);
+                // console.log('ypay2======'+ypay2);
+                // todo_calculate(address_id, 'order_price', shipping_code);
+                // if (ypay2 <= 0) {
+                //     ypay2 = 0;
+                todo_calculate(address_id, 'order_price', shipping_code);
+                // }
+                // $(".ypay").text(ypay2);
+                //console.log(ypay2);
+                $(".fmdk").text(($(".fmdk").text() * 1).toFixed(0));
+            } else {
+                pay_points = 0;
+                // $(".ypay").text(ypay);
+                todo_calculate(address_id, 'order_price', shipping_code);
+
+                //console.log("你关闭了开关");
+            }
+
+        })
+        // ajax 获取数据
+        function resdata(url, mdata, successCall) {
+            $.ajax({
+                type: "post",
+                url: url,
+                data: mdata,
+                async: false,
+                dataType: "json",
+                error: function (data) {
+
+                    var ids = data.responseURL;
+                    var id = ids.split("=")[6];
+                    if (data.responseText.indexOf("<script>") != -1) {
+
+                        location.href = "orderDetails.html?order_id=" + id;
+                        return;
+                    }
+                    mui.toast(data.msg, {duration: 'long', type: 'div'});
+                },
+                success: successCall,
+            })
+        }
+
+        //组织参数调用购物车计算或者提交
+        function todo_calculate(address_id, types, shipping_code) {
+            var require_data = {};
+            require_data.user_id = user_id;
+            require_data.token = token;
+            require_data.address_id = address_id;
+            require_data.act = types;
+            require_data.shipping_code = shipping_code;
+            require_data.user_money = yhmoney;
+            require_data.pay_points = pay_points;
+            // console.log(pay_points);
+            require_data.ps = ps;
+            require_data.couponTypeSelect = '1';
+            require_data.coupon_id = coupon_id;
+            require_data.couponCode = '';
+            require_data.invoice_title = $("#invoice_val").val();
+            calculate_money(require_data);
+            //console.log(types);
+        }
+
+        function calculate_money(require_data) {
+
+            var res;
+            str = Trim($(".payWayName").text());
+            if (str == "微信支付" || str == "支付宝") {
+                $("#payLoading").css("display", "inline-block");
+                setTimeout(function () {
+                    $("#payLoading").css("display", "none");
+                }, 500);
+                // mui.toast("正在加载...", {duration: "500", type: 'div'})
+                // return;
+            }
+            else if (str == "账户余额" && require_data.act == 'submit_order') {
+                var sys = navigator.userAgent;
+                console.log(sys);
+                if (sys.indexOf("OS") !== -1 || sys.indexOf("4.4") !== -1) {
+                    $("input[type='password']").css({"width": "224px", "margin-left": "-112px", "font-size": "14px;"});
+                }
+                $.ajax({
+                    type: 'get',
+                    url: URL.SiteUrl + '/index.php?m=Api&c=User&a=userInfo',
+                    cache: false,
+                    dataType: 'json',
+                    data: {token: token, user_id: user_id},
+                    success: function (data) {
+                        console.log(data);
+                        console.log(data.result.paypasswd);
+                        if (data.result.paypasswd != '') {
+                            $(".passwordBox").css("display", "block")
+                            $(".payenter").off("click").on("click", function () {
+                                var password = $("#pincode-input2").val();
+                                console.log(password);
+                                if (password && password.length == 6) {
+                                    resdata(urls.payApi, {token: token, user_id: user_id, paypasswd: password}, function (data) {
+                                        console.log(data);
+                                        if (data.status == 1) {
+                                            // mui.alert("支付成功", '温馨提示', function () {
+                                            pay3();
+                                            // });
+                                            mui.toast("支付成功", {duration: 'long', type: 'div'});
+                                            return;
+                                        } else {
+                                            mui.toast(data.msg, {duration: 'long', type: 'div'});
+                                            $("#pincode-input2").val("");
+                                        }
+
+                                    })
+                                } else {
+                                    mui.toast("请输入6位数密码", {duration: 'long', type: 'div'});
+                                }
+
+
+                            })
+                        } else {
+                            mui.alert("请设置支付密码", '温馨提示', function () {
+                                location.href = "drawCashPassword.html?tag=order";
+                            });
+                        }
+                    }, error: function (data) {
+                        mui.toast(data.msg);
+                    }
+                })
+                return false;
+            }
+            // console.log(startTime);
+            function pay3() {
+                resdata(urls.calculate_url, require_data, function (data) {
+                    console.log('..');
+                    if (data.msg == "你的购物车没有选中商品") {
+                        // alert(456);
+                        location.href = "orderDetails.html?order_id=" + data.result;
+                    }
+                    // mui.alert(data.msg, '温馨提示');
+                    else if (data.status == 1) {
+                        if (require_data.act == 'order_price') {
+                            res = data.result;
+                        } else if (require_data.act == 'submit_order') {
+
+                            if (data.needpay == 0) {
+                                //支付完成，查看订单orderDetails.html?order_id=942
+                                // alert(123);
+                                location.href = "orderDetails.html?order_id=" + data.result;
+                            } else {
+                                if (str == "账户余额") {
+                                    if (+user_money < $(".ypay").text() * 1) {
+                                        mui.toast("您的账户余额不足，请充值", {duration: 'long', type: 'div'})
+                                        return;
+                                    } else {
+                                        // setTimeout(function () {
+                                        // alert(789);
+                                        location.href = "orderDetails.html?order_id=" + data.result;
+                                        // },500)
+                                    }
+                                } else if (str == "支付宝") {
+                                    lhhpay("alipay", data.result, "pay");
+                                } else if (str == "微信支付") {
+                                    // mui.toast("抱歉,微信支付正在开发中...", {duration: 'long', type: 'div'})
+                                    // return;
+                                    lhhpay("wxpay", data.result, "pay");
+                                } else if (str == "货到付款") {
+                                    // mui.toast("抱歉,正在开发中...", {duration: 'long', type: 'div'})
+                                    // return;
+                                    // location.href = "orderDetails.html?order_id=" + data.result;
+                                    //console.log(data.result);
+                                    var CODPAYSERVER = 'http://192.168.0.116/index.php?m=Api&c=Payment&a=getCode&pay_code=cod&appid=HBuilder&order_id=' + data.result + ''
+                                    // lhhpay("cod", data.result)
+                                    resdata(CODPAYSERVER, function (data) {
+                                        console.log(data);
+                                        return;
+
+                                        location.href = "orderDetails.html?order_id=" + data.result;
+                                    })
+                                    return;
+                                }
+                                return;
+                                // console.log(data.result);
+                                //跳转支付
+                                // location.href = "payment.html?order_id=" + data.result;
+                            }
+                            res = false;
+                        } else {
+                            //console.log(1);
+                            // mui.alert(data.msg, '温馨提示');
+                            res = false;
+                        }
+                    } else {
+//                      mui.alert(data.msg, '温馨提示');
+                        console.log(data.msg);
+                        if (data.msg == "请完善收货人信息") {                        	
+//                          location.href = "add_address.html?tag=car";                     
+                        }
+                        res = false;
+                    }
+
+                    return res;
+
+                });
+
+            }
+
+            pay3();
+            if (res) {
+                var html = template('total_price', res);
+                $('#totalPrice').html(html);
+                ypay = res.payables;
+
+            }
+
+        }
+
+
+        resdata(urls.url1, data1.info, function (data) {
+            console.log(data);
+            // console.log("-------->>>"+JSON.stringify(data.result.cartList));
+            if (!data.result.addressList) {
+                location.href = "login.html"
+                //console.log(1);
+            }
+
+            if (data.status == -2) {
+                // mui.alert(data.msg, '温馨提示', function () {
+                location.href = "index.html";
+                // });
+            } else if (data.status == -102 || data.status == -101 || data.status == -100) {
+                mui.alert("请登录", '温馨提示', function () {
+                    //console.log(132);
+                    location.href = "login.html";
+                });
+            } else if (address_id == -101) {
+                mui.alert("请登录", '温馨提示', function () {
+                    //console.log(12);
+                    location.href = "login.html";
+                });
+            }
+
+
+            var province = data.result.addressList.province_name;  //省ID
+            var city = data.result.addressList.city_name;  //市ID
+            var district = data.result.addressList.district_name;  //县ID
+
+
+            //地址拼接
+            data.result.addressList.temp = province + city + district;
+
+            // startTime = (new Date()).getTime();
+            //渲染模板数据
+            var html = template('userad_info', data.result.addressList);
+            $('#adress_info').html(html);
+
+            // console.log(data.result);
+            var html = template('items_info', data.result);
+            $('#itemsInfo').html(html);
+
+
+            var html = template('coupon_avail', data.result);
+            $('#coupon_id').append(html);
+
+
+            var couponList = data.result.couponList.length;
+            if (couponList == 0) {
+                $(".distribution").css("pointer-events", "none");
+            }
+            $('.distribution_r').append(couponList + '' + "张 &nbsp;&nbsp");
+
+
+            var points = data.result.userInfo.pay_points;
+            $(".balance_p").append(points);
+            $(".balance_p1").append(points);
+
+
+            //Jquery..........................
+            jquery('.delivery_time').on('click', function () {
+                jquery(this).next().slideToggle("slow");
+            });
+            jquery('.time_list').delegate("li", "click", function (event) {
+                jquery('.delivery_time p').text(jquery(event.currentTarget).text());
+                jquery(this).children("span").addClass("chose");
+                jquery(this).siblings().children("span").removeClass("chose");
+                // jquery(this).parent().slideUp();
+            });
+
+
+            // 传递的参数
+            shipping_code = data.result.shippingList[0].code;
+            if (!data.result.addressList) {
+                mui.alert(data.msg, '温馨提示', function () {
+                    location.href = "add_address.html"
+                });
+            }
+            // console.log(data);
+            address_id = data.result.addressList.address_id;
+            user_money = data.result.userInfo.user_money;
+            //console.log(str);
+
+            todo_calculate(address_id, 'order_price', shipping_code);
+            $('#coupon_id li').on('click', function (e) {
+                var target = e.target;
+                coupon_id = $(target).attr("data_couponid");
+
+                if ($(target).hasClass("cuchose")) {
+                    $(target).removeClass("cuchose");
+                    $(target).siblings().removeClass("cuchose");
+                    coupon_id = 0;
+                } else {
+                    $(target).addClass("cuchose");
+                    $(target).siblings().removeClass("cuchose");
+                    // $("#coupon_id").toggleClass("show");
+                }
+
+                todo_calculate(address_id, 'order_price', shipping_code);
+            });
+            //计算购物车的金额+运费的
+
+            function add0(m) {
+                return m < 10 ? '0' + m : m
+            }
+
+            function format(shijianchuo) {
+//shijianchuo是整数，否则要parseInt转换
+                var time = new Date(shijianchuo);
+                var y = time.getFullYear();
+                var m = time.getMonth() + 1;
+                var d = time.getDate();
+                var h = time.getHours();
+                var mm = time.getMinutes();
+                var s = time.getSeconds();
+                return y + '-' + add0(m) + '-' + add0(d) + ' ' + add0(h) + ':' + add0(mm) + ':' + add0(s);
+            }
+
+            function format2(shijianchuo) {
+//shijianchuo是整数，否则要parseInt转换
+                var time = new Date(shijianchuo);
+                var y = time.getFullYear();
+                var m = time.getMonth() + 1;
+                var d = time.getDate();
+                var h = time.getHours();
+                var mm = time.getMinutes();
+                var s = time.getSeconds();
+                return add0(h) + '' + add0(mm);
+            }
+
+            var nowTimes;
+
+            // 点击提交订单
+            $("#sub").on("click", function () {
+                if ($(".peisong").attr("data-send") == -1) {
+                    mui.toast("商品在该地区无货");
+                    return;
+                }
+                var sty;
+                // var dqTime;
+                var time_text = $("#result").text();
+                $.ajax({
+                    type: "get",
+                    url: "http://192.168.0.116/index.php?m=Api&c=Base&a=getServerTime",
+                    dataType: "json",
+                    success: function (data) {
+                        nowTimes = (+data.result) * 1000;
+                        nowTimes = format2(new Date(nowTimes));
+                        if (nowTimes > 2300) {
+                            if (time_text == "") {
+                                mui.toast("必须预约配送时间")
+                                // console.log(sty);
+                                return;
+                            }
+                        } else {
+                            if (time_text == "") {
+                                sty = "即时*" + format(Date.parse(new Date()))
+                                console.log(sty);
+                            } else {
+                                var yyTime = Date.parse(new Date(time_text.split("：")[1]));
+                                var yyh = new Date(yyTime).getHours();
+                                // var hours =  new Date(dqTime).getHours();
+                                console.log(yyh);
+                                if (yyh == 23 || yyh < 6) {
+                                    mui.toast("23:00-06:00不能预约配送");
+                                    return
+                                }
+                                sty = "预约*" + time_text.split("：")[1];
+                            }
+                            // return;
+                            var payw = Trim($(".payWayName").text())
+                            //console.log(payw);
+                            /*if (time_text == "请选择送达时间") {
+                             //console.log(123);
+                             mui.toast("请选择送达时间", {duration: 'long', type: 'div'});
+                             return;
+                             //console.log(526);
+                             } else */
+                            if (payw == "账户余额") {
+                                if (+user_money < $(".ypay").text() * 1) {
+                                    mui.toast("您的账户余额不足，请充值", {duration: 'long', type: 'div'})
+                                    return;
+                                } else {
+                                    yhmoney = ypay;
+                                    // ps = $(".note textarea").val() + "配送时间预约*" + sty;
+                                    ps = sty;
+                                }
+                            }
+                            else {
+                                ps = sty;
+                            }
+                            todo_calculate(address_id, 'submit_order', shipping_code);
+                        }
+
+                    }, error: function () {
+                        mui.toast("网络请求失败!")
+                    }
+                })
+
+
+            });
+
+
+            // 隐藏显示切换
+            $(".distribution").on("click", function () {
+                if ($("#coupon_id").hasClass("hide")) {
+                    $("#coupon_id").toggleClass("show");
+                    // $(".coupon_1r").toggleClass("agr");
+                }
+            });
+
+            //使用余额或者积分
+            /* $(".use_money").on("click", function () {
+
+             });*/
+
+            //密码框初始化
+
+            //密码框业务逻辑
+            $(".bg").click(function () {
+                $(".passwordBox").css("display", "none")
+            });
+            $(".esc").on("click", function () {
+                $(".passwordBox").css("display", "none")
+            })
+            $("#pincode-input2").on("keyup", function () {
+                console.log(1);
+                var st = $(this).val();
+                if (st.length == 6) {
+                    $(this).blur();
+                    console.log(2);
+                }
+            })
+
+            $("#moren").on("click", function () {
+                if ($("#result").text() != "") {
+                    $("#result").text('');
+                    $("#result").hide();
+                } else {
+                }
+                ;
+            })
+
+            //没内容隐藏
+            if ($("#result").text() == "") {
+                $("#result").hide();
+            }
+
+
+        })
+    })
+})()
+
+
+
+
+

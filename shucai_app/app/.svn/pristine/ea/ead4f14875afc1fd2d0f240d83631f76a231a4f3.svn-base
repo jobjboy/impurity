@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <meta name="theme-color" content="#fff">
+    <title></title>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" type="text/css" href="css/index_ll.css"/>
+    <link href="css/city.css" rel="stylesheet"/>
+</head>
+<body>
+<!--头部部分star-->
+
+
+<!--头部部分end-->
+<header class="mui-bar mui-bar-nav" >
+	<div class="xiaoxi"><a href="mobile.html"><img src="images/index/xiaoxi.png" height="33" width="55%"/></a></div>
+		<div class="mui-input-row mui-search">
+		    <input type="search" id="search_bar" class="mui-input-clear" placeholder="请输入商品名称">
+		</div>
+	<div class="dingwei"><a href="javascript:void(0);" id="city_model"><img src="images/index/dingwei.png" height="33" width="55%"/></a></div> 
+</header>
+<!--主体部分-->
+<div class="mui-content">
+    <!--图片轮播-->
+    <div class="slider mui-slider">
+        <div class="mui-slider-group mui-slider-loop" id="slider">
+            <div class="mui-slider-item"><a href="#"><img src=""/></a></div>
+        </div>
+
+        <div class="mui-slider-indicator idex">
+
+        </div>
+    </div>
+
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+    
+    <!--每日推荐-->
+		<ul class="mui-table-view" id="tuijian">
+		    
+		</ul>
+    
+    <!--分类导航-->
+
+    <div id="banner_content"></div>
+
+    <div id="itemsCont1"></div>
+    <div id="itemsCont2"></div>
+    <div id="itemsCont3"></div>
+    <div class="back_top"></div>
+    <span class="no_text">没有更多啦!</span>
+    <div id="no_more"></div>
+
+</div>
+
+
+<!--城市选择start-->
+<div class="bg" id="city_bg">
+
+    <div class="xz temp" id="dialog_city">
+        <h3>请确认您的收货区域</h3>
+
+        <div class="close"><img src="images/index/close.png"></div>
+        <div class="xzborder">
+            <div class="loan_jm1">
+                <ul>
+                    <li class="loan_jm_l1" id="first_li">
+                        <span class="loan_jm_spa1">当前区域：</span>
+                        <span class="wbk_srn select_show select_gr" id="gr_zone_ids">正在获取位置...</span><b></b>
+                    </li>
+                    <li id="deatas"><b style="font-size: 14px;" class="mui-icon mui-icon-location"></b><span
+                            id="address_detail">正在获取详细地址，请稍后...<!--无法获取您的当前位置，请手动选择区域--></span></li>
+                    <li style="display: none; color:#06C1AE; margin-left: 15px;" id="upmsgs">请点击确认后选择详细区域</li>
+                </ul>
+            </div>
+
+            <a id="city_confim" data-status="1" class="city_confim btns">确认</a>
+            <a id="update_city" class="btns city_reset_btn">更换区域</a>
+
+            <div class="container" id="city_container" style="z-index: 9999; position: relative;">
+                <div id="toast"></div>
+                <div class="city" id="city_list">
+                </div>
+                <div class="letter" id="letter">
+                    <ul>
+                        <li><span class='md' >A</span></li>
+                        <li><span class='md' >B</span></li>
+                        <li><span class='md' >C</span></li>
+                        <li><span class='md' >D</span></li>
+                        <li><span class='md' >E</span></li>
+                        <li><span class='md' >F</span></li>
+                        <li><span class='md' >G</span></li>
+                        <li><span class='md' >H</span></li>
+                        <li><span class='md' >J</span></li>
+                        <li><span class='md' >K</span></li>
+                        <li><span class='md' >L</span></li>
+                        <li><span class='md' >M</span></li>
+                        <li><span class='md' >N</span></li>
+                        <li><span class='md' >P</span></li>
+                        <li><span class='md' >Q</span></li>
+                        <li><span class='md' >R</span></li>
+                        <li><span class='md' >S</span></li>
+                        <li><span class='md' >T</span></li>
+                        <li><span class='md' >W</span></li>
+                        <li><span class='md' >X</span></li>
+                        <li><span class='md' >Y</span></li>
+                        <li><span class='md' >Z</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--城市选择end-->
+
+
+<!--<button id="clearx"
+        style="position: absolute; width: 100px; height: 60px; background: red; z-index: 9999; bottom: 80px;">清理数据
+</button>
+
+
+<button id="clearx2"
+        style="position: absolute; width: 100px; height: 60px; background: red; z-index: 9999; bottom: 80px; left: 200px;">
+    打印当前城市
+</button>-->
+
+<div class="footNav"></div>
+
+<script src="js/jquery-1.12.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.lazyload.js" ></script>
+<script src="js/mui.min.js"></script>
+<script src="js/mui.lazyload.js"></script>
+<script src="js/mui.lazyload.img.js"></script>
+<script src="js/jq_scroll.js" type="text/javascript"></script>
+<script src="js/template.js"></script>
+<script src="js/common.js"></script>
+<script src="js/URL.js"></script>
+<script src="js/footer_nav.js"></script>
+<script src="js/imageCache.js"></script>
+<script src="js/_common.js"></script>
+
+
+<script src="js/swiper-3.4.2.min.js"></script>
+
+<script src="js/mui_common.js"></script>
+<script type="text/javascript">
+//  var  st =navigator.userAgent;
+//  // console.log(st);
+//  // mui.alert(st);
+//  if (st.indexOf("Andriod")!==-1||st.indexOf("SM-C9000")!==-1){
+        // H5 plus事件处理
+        function plusReady() {
+            // 设置系统状态栏背景颜色
+            plus.navigator.setStatusBarBackground('#67BD49');
+            
+                // 创建加载内容窗口
+			    var topoffset='45px';
+			    if(plus.navigator.isImmersedStatusbar()){// 兼容immersed状态栏模式
+			        // 获取状态栏高度并根据业务需求处理，这里重新计算了子窗口的偏移位置
+			        topoffset=(Math.round(plus.navigator.getStatusbarHeight())+45)+'px';
+			    }
+			    // 使用偏移位置创建子窗口
+			    wc=plus.webview.create(null,'doccontent',{top:topoffset,bottom:'0px',bounce:'vertical',bounceBackground:'#67BD49'});
+        }
+        if (window.plus) {
+            plusReady();
+        } else {
+            document.addEventListener('plusready', plusReady, false);
+        }
+//  }
+    
+</script>
+<script>
+
+//  $("#clearx").click(function () {
+//      localStorage.removeItem("city");
+//      window.location.reload();
+//  });
+//
+//  $("#clearx2").click(function () {
+//     var  data = localStorage.getItem("city");
+//      var data = localStorage.getItem('city');
+//      if (data) {
+//          data = JSON.parse(data);
+//          console.log(JSON.stringify(data));
+//      }else{
+//          console.log('data数据为空...');
+//      }
+//  });
+
+
+    var nav = $(".back_top"); //得到导航对象
+    var win = $(window); //得到窗口对象
+    var sc = $(document); //得到document文档对象。
+    win.scroll(function () {
+        if (sc.scrollTop() >= 300) {
+            // nav.addClass("fixednav");
+            $(".back_top").fadeIn();
+        } else {
+            // nav.removeClass("fixednav");
+            $(".back_top").fadeOut();
+        }
+    })
+    mui.init({
+        keyEventBind: {
+            backbutton: true //打开back按键监听
+        },
+	preloadPages:[//缓存其他页面 
+	{ url:'fm.html', id:'a2', }, 
+	{ url:'pro_detail.html', id:'a3',  }]
+    });
+    
+    
+    var flag;
+    mui.back = function () {
+    };
+    mui.plusReady(function () {
+        //首页返回键处理
+        //处理逻辑：2秒内，连续两次按返回键，则退出应用
+        var first = null;
+        plus.key.addEventListener('backbutton', function () {
+            //首次按键，提示‘再按一次退出应用’
+            if (!first) {
+                first = new Date().getTime();
+                mui.toast('再按一次退出应用', {duration: 'short', type: 'div'});
+                setTimeout(function () {
+                    first = null;
+                }, 2000);
+            } else {
+                if (new Date().getTime() - first < 2000) {
+                    plus.runtime.quit();
+                }
+            }
+        }, false);
+        
+		setTimeout(function(){
+			var array = plus.webview.all();
+			if(array){
+				for(var i=0,len=array.length;i<len;i++){
+				    	console.log(array[i].getURL());
+			        }
+			}
+		},8000)
+    });
+
+</script>
+
+<!--获取轮播图模板-->
+<script id="items_slider" type="text/html">
+    <div class="mui-slider-item mui-slider-item-duplicate">
+        <a href="javascript:;"><img src="{{ad[1].ad_code}}"/></a>
+    </div>
+    {{each ad as value i}}
+    <div class="mui-slider-item">
+        <a href="javascript:;"><img src="{{value.ad_code}}"/></a>
+    </div>
+    {{/each}}
+    <!--支持循环，需要重复图片节点-->
+    <div class="mui-slider-item mui-slider-item-duplicate">
+        <a href="javascript:;"><img src="{{ad[0].ad_code}}"/></a>
+    </div>
+</script>
+<!--获取商品分类模板-->
+<script id="items_nav" type="text/html">
+    <div class="swiper-slide entry-list clearfix">
+        <div class="itemsNav">
+            {{each navlist as value i}}
+            <div>
+                <a href="fm.html?{{value.id}}">
+                    <div><img src="{{value.nav_img}}"></div>
+                    <span>{{value.name}}</span>
+                </a>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</script>
+
+<!--推荐模板-->
+<script id="tuijian_itens" type="text/html">
+	{{each caipu as value index}}
+	<li class="mui-table-view-cell mui-media">
+		<a href="pro_detail.html?{{value.goods_id}}#tag=index">
+		    <img class="mui-media-object mui-pull-right" src="{{value.img}}" width="100%">
+		    <div class="mui-media-body">
+		        {{value.name}}
+		       <p class="mui-ellipsis">{{value.jianjie}}</p>
+		    </div>
+		</a>
+	</li>
+	{{/each}}
+</script>
+
+
+<!--banner模板-->
+<script id="banner_item" type="text/html">
+    {{each four_pic as value i}}
+    <div class="at_home_img">
+        <a href="pro_detail.html?{{value.first_id}}#tag=index"><img src="{{value.firsrt_original_img}}" /></a>
+
+        <div class="clearfix">
+            <a href="pro_detail.html?{{value.second_id}}#tag=index"><img data-original="{{value.second_original_img}}" class="lazy"/>
+
+                <p>{{value.second_goods_name}}</p><em><i>￥{{value.second_shop_price}}/</i>{{value.second_desc}}</em></a>
+            <a href="pro_detail.html?{{value.third_id}}#tag=index"><img data-original="{{value.third_original_img}}" class="lazy"/>
+
+                <p>{{value.third_goods_name}}</p><em><i>￥{{value.third_shop_price}}/</i>{{value.third_desc}}</em></a>
+            <a href="pro_detail.html?{{value.four_id}}#tag=index"><img data-original="{{value.four_original_img}}" class="lazy"/>
+
+                <p>{{value.four_goods_name}}</p><em><i>￥{{value.four_shop_price}}/</i>{{value.four_desc}}</em></a>
+        </div>
+    </div>
+    {{/each}}
+</script>
+
+<!--楼层模板-->
+<script id="items_cont" type="text/html">
+
+    <div class="species_list">
+        <a href="fm.html?{{id}}">
+            <div class="species_title">
+            	<i>•</i><p>{{name}}</p><i>•</i>
+            </div>
+        </a>
+
+        <div class="species_content clearfix">
+            {{each goods_list as value i}}
+            <div class="species_item" data-href="pro_detail.html?{{value.goods_id}}#tag=index" id="species_item">
+                <img data-original="{{value.original_img}}" class="lazy"/>
+
+                <p>{{value.goods_name}}</p>
+
+                <p>{{value.goods_name}}</p>
+
+                <div><em><i>￥{{value.shop_price}}</i>/斤</em><span class="species_car" data-id="{{value.goods_id}}"></span>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</script>
+<script src="js/index.js" type="text/javascript"></script>
+<script src="js/push.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+$(function(){
+	var token = localStorage.getItem("token");
+	var user_id = localStorage.getItem("user_id");
+    var unique_id = localStorage.getItem("unique_id");
+    console.log(Boolean(token));
+    
+                    $.ajax({
+                        type: 'post',
+                        url: URL.SiteUrl + '/index.php?m=Api&c=Cart&a=addCart',
+                        data: {
+                            user_id: user_id,
+                            unique_id: unique_id,
+                            token: token,
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+
+                            mui.alert(data.msg, '温馨提示', function () {
+
+                            });
+							console.log(data.status);
+                            if(data.status==1){
+                                $(".car_count").text(data.result);
+                                $(".car_count").show();
+                            }
+                            // alert(data.msg)
+                        },error:function(data){
+                        	mui.toast(data.msg, {duration: 'long', type: 'div'});
+                        }
+                    })
+                    
+})
+var goods={
+				cp:[{src:'http://127.0.0.1:8020/sh/images/shucai2.png',name:'时令蔬菜',yiyu:'Vegetables'},
+				{src:'http://127.0.0.1:8020/sh/images/shucai2.png',name:'粮油副食',yiyu:'grain and oil'},
+				{src:'http://127.0.0.1:8020/sh/images/shucai2.png',name:'禽类蛋类',yiyu:'Poultry eggs'},
+				{src:'http://127.0.0.1:8020/sh/images/shucai2.png',name:'新鲜水果',yiyu:'Aquatic products'},
+				{src:'http://127.0.0.1:8020/sh/images/shucai2.png',name:'新鲜水产',yiyu:'Vegetables'},
+				{src:'http://127.0.0.1:8020/sh/images/shucai2.png',name:'新鲜肉类',yiyu:'Vegetables'}]
+			};
+			
+			//底部选项卡
+			$(".footNav").html(footerNav.str);
+			addFooterNavListener(2);
+			
+
+			
+			//模拟渲染
+			var html=template('goods_template',goods);
+			document.getElementById('goods').innerHTML=html;
+			
+			
+			
+			//搜索跳转
+			$("#search_bar2").on("focus", function () {
+            location.href = "search.html?1";
+       		})
+			
+			

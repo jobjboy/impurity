@@ -1,0 +1,458 @@
+{
+	"index.html": {
+		"refer": [
+			"personal.html",
+			"sing.html",
+			"task.html",
+			"news.html",
+			"driving.html",
+			"login.html",
+			"warning.html",
+			"driving2.html",
+			"camera.html"
+		],
+		"resources": [
+			"personal.html",
+			"font-awesome/fonts/fontawesome-webfont.woff2",
+			"css/style.css",
+			"font-awesome/css/font-awesome.css",
+			"driving.html",
+			"sing.html",
+			"lib/plugs/require/require.js",
+			"lib/plugs/mui/mui.js",
+			"lib/plugs/jquery/jquery.base64.js",
+			"login.html",
+			"lib/core.js",
+			"lib/app.js",
+			"lib/plugs/require/require.css.js",
+			"lib/URL.js",
+			"task.html",
+			"warning.html",
+			"camera.html",
+			"css/mui.min.css",
+			"news.html",
+			"driving2.html",
+			"images/icon6.png",
+			"images/icon15.png",
+			"images/icon8.png",
+			"images/icon14.png",
+			"images/icon16.png",
+			"images/icon10.png",
+			"images/icon4.png",
+			"images/icon1.png"
+		]
+	},
+	"personal.html": {
+		"refer": [
+			"index.html",
+			"1.html",
+			"task.html",
+			"name.html",
+			"number.html",
+			"password.html",
+			"login.html",
+			"sing.html"
+		],
+		"resources": [
+			"images/asktech.jpg",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/jquery-1.12.2.min.js",
+			"font-awesome/fonts/mui.ttf",
+			"font-awesome/css/font-awesome.css",
+			"index.html",
+			"lib/plugs/require/require.js",
+			"lib/plugs/mui/mui.js",
+			"lib/plugs/jquery/jquery.base64.js",
+			"lib/core.js",
+			"lib/app.js",
+			"lib/plugs/require/require.css.js",
+			"lib/URL.js",
+			"login.html",
+			"sing.html",
+			"task.html",
+			"images/icon7.png"
+		]
+	},
+	"1.html": {
+		"refer": [
+			"personal.html"
+		],
+		"resources": []
+	},
+	"sing.html": {
+		"refer": [
+			"index.html",
+			"login.html",
+			"task.html",
+			"personal.html"
+		],
+		"resources": [
+			"images/asktech.jpg",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"css/style.css",
+			"font-awesome/fonts/mui.ttf",
+			"font-awesome/css/font-awesome.css",
+			"images/qiandao.png",
+			"index.html",
+			"lib/plugs/mui/mui.js",
+			"lib/plugs/jquery/jquery.base64.js",
+			"lib/core.js",
+			"lib/plugs/require/require.css.js",
+			"lib/URL.js",
+			"lib/plugs/require/require.js",
+			"lib/app.js",
+			"login.html",
+			"task.html",
+			"css/common.css",
+			"font-awesome/fonts/fontawesome-webfont.woff2",
+			"personal.html",
+			"lib/plugs/mui/mui.picker.min.js",
+			"lib/plugs/mui/mui.min.js",
+			"css/mui.picker.min.css",
+			"warning.html",
+			"images/icon5.png",
+			"images/icon2.png"
+		]
+	},
+	"task.html": {
+		"refer": [
+			"personal.html",
+			"index.html",
+			"sing.html",
+			"driving.html",
+			"task_list.html",
+			"login.html",
+			"task_lists.html"
+		],
+		"resources": [
+			"lib/plugs/mui/mui.js",
+			"lib/plugs/jquery/jquery.base64.js",
+			"lib/core.js",
+			"css/mui.min.css",
+			"lib/plugs/arttempale/arttmpl.js",
+			"font-awesome/fonts/mui.ttf",
+			"lib/plugs/require/require.css.js",
+			"lib/URL.js",
+			"sing.html",
+			"lib/plugs/require/require.js",
+			"index.html",
+			"lib/app.js",
+			"driving.html",
+			"css/style.css",
+			"js/jquery-1.12.2.min.js",
+			"font-awesome/css/font-awesome.css",
+			"task_list.html",
+			"login.html",
+			"personal.html",
+			"images/icon11.png",
+			"images/icon3.png",
+			"images/icon2.png",
+			"task_lists.html",
+			"camera.html",
+			"images/icon6.png"
+		]
+	},
+	"number.html": {
+		"refer": [
+			"personal.html"
+		],
+		"resources": []
+	},
+	"name.html": {
+		"refer": [
+			"personal.html"
+		],
+		"resources": []
+	},
+	"password.html": {
+		"refer": [
+			"personal.html",
+			"find.html"
+		],
+		"resources": []
+	},
+	"news_list.html": {
+		"refer": [
+			"news.html"
+		],
+		"resources": [
+			"lib/plugs/mui/mui.js",
+			"news.html",
+			"lib/plugs/jquery/jquery.base64.js",
+			"lib/core.js",
+			"lib/plugs/require/require.css.js",
+			"lib/URL.js"
+		]
+	},
+	"news.html": {
+		"refer": [
+			"news_list.html",
+			"index.html"
+		],
+		"resources": [
+			"lib/plugs/require/require.js",
+			"index.html",
+			"lib/plugs/mui/mui.js",
+			"news_list.html",
+			"lib/plugs/jquery/jquery.base64.js",
+			"lib/core.js",
+			"css/mui.min.css",
+			"css/style.css",
+			"lib/app.js",
+			"font-awesome/css/font-awesome.css",
+			"lib/plugs/require/require.css.js",
+			"lib/URL.js"
+		]
+	},
+	"find.html": {
+		"refer": [
+			"password.html",
+			"login.html"
+		],
+		"resources": [
+			"lib/plugs/mui/mui.js",
+			"login.html",
+			"lib/core.js",
+			"css/mui.min.css",
+			"css/style.css",
+			"font-awesome/css/font-awesome.css",
+			"lib/plugs/require/require.css.js",
+			"lib/URL.js",
+			"font-awesome/fonts/mui.ttf"
+		]
+	},
+	"driving.html": {
+		"resources": [
+			"css/style.css",
+			"font-awesome/css/font-awesome.css",
+			"camera.html",
+			"font-awesome/fonts/fontawesome-webfont.woff2",
+			"lib/plugs/mui/mui.js",
+			"lib/plugs/jquery/jquery.base64.js",
+			"lib/core.js",
+			"lib/plugs/require/require.css.js",
+			"lib/URL.js",
+			"lib/plugs/require/require.js",
+			"lib/app.js",
+			"task.html",
+			"login.html",
+			"personal.html",
+			"index.html",
+			"lib/plugs/jquery/jquery.min.js",
+			"lib/plugs/jquery/jquery.cookie.js",
+			"sing.html",
+			"css/mui.min.css",
+			"warning.html"
+		],
+		"refer": [
+			"camera.html",
+			"task.html",
+			"login.html",
+			"index.html",
+			"personal.html",
+			"warning.html",
+			"sing.html"
+		]
+	},
+	"camera.html": {
+		"resources": [
+			"js/common.js",
+			"css/common.css",
+			"js/immersed.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"js/jquery-1.12.2.min.js",
+			"driving.html",
+			"lib/plugs/require/require.js",
+			"lib/plugs/mui/mui.js",
+			"lib/plugs/jquery/jquery.base64.js",
+			"lib/core.js",
+			"lib/app.js",
+			"lib/plugs/require/require.css.js",
+			"lib/URL.js",
+			"index.html",
+			"maps.html",
+			"camera.html",
+			"font-awesome/fonts/mui.ttf",
+			"login.html",
+			"css/style.css",
+			"font-awesome/css/font-awesome.css",
+			"font-awesome/fonts/fontawesome-webfont.woff2",
+			"task.html",
+			"images/icon13.png",
+			"images/icon9.png",
+			"images/icon12.png",
+			"images/icon4.png",
+			"images/icon1.png",
+			"sing.html"
+		],
+		"refer": [
+			"driving.html",
+			"camera_image.html",
+			"index.html",
+			"maps.html",
+			"camera.html",
+			"login.html",
+			"task.html"
+		]
+	},
+	"camera_image.html": {
+		"resources": [
+			"js/common.js"
+		],
+		"refer": []
+	},
+	"login.html": {
+		"resources": [
+			"lib/plugs/md5/md5.js",
+			"index.html",
+			"lib/plugs/mui/mui.js",
+			"lib/plugs/jquery/jquery.base64.js",
+			"images/asktech.jpg",
+			"lib/core.js",
+			"css/mui.min.css",
+			"css/style.css",
+			"font-awesome/fonts/mui.ttf",
+			"font-awesome/css/font-awesome.css",
+			"lib/plugs/require/require.css.js",
+			"lib/URL.js",
+			"lib/plugs/require/require.js",
+			"lib/app.js",
+			"sing.html",
+			"lib/plugs/jquery/jquery.min.js",
+			"lib/plugs/jquery/jquery.cookie.js",
+			"personal.html",
+			"find.html",
+			"images/login_bg.png"
+		],
+		"refer": [
+			"index.html",
+			"sing.html",
+			"personal.html",
+			"find.html"
+		]
+	},
+	"warning.html": {
+		"resources": [
+			"index.html",
+			"lib/plugs/mui/mui.js",
+			"lib/plugs/jquery/jquery.base64.js",
+			"css/common.css",
+			"js/mui.min.js",
+			"lib/core.js",
+			"js/jquery-1.12.2.min.js",
+			"lib/plugs/require/require.css.js",
+			"lib/URL.js",
+			"warning.html",
+			"lib/plugs/require/require.js",
+			"css/mui.min.css",
+			"lib/app.js",
+			"login.html",
+			"font-awesome/fonts/mui.ttf",
+			"css/style.css",
+			"font-awesome/css/font-awesome.css",
+			"maps.html",
+			"font-awesome/fonts/fontawesome-webfont.woff2",
+			"task.html",
+			"sing.html",
+			"js/common.js",
+			"js/immersed.js",
+			"driving.html"
+		],
+		"refer": [
+			"index.html",
+			"warning.html",
+			"login.html",
+			"maps.html",
+			"camera_image.html",
+			"task.html",
+			"sing.html",
+			"driving.html"
+		]
+	},
+	"maps.html": {
+		"resources": [
+			"lib/plugs/mui/mui.js",
+			"lib/plugs/jquery/jquery.base64.js",
+			"lib/core.js",
+			"lib/plugs/require/require.css.js",
+			"lib/URL.js",
+			"camera.html",
+			"lib/plugs/require/require.js",
+			"lib/app.js",
+			"warning.html",
+			"css/common.css",
+			"font-awesome/fonts/fontawesome-webfont.woff2",
+			"css/style.css",
+			"font-awesome/css/font-awesome.css",
+			"css/mui.min.css",
+			"index.html"
+		],
+		"refer": [
+			"camera.html",
+			"warning.html",
+			"index.html"
+		]
+	},
+	"task_list.html": {
+		"resources": [
+			"lib/plugs/mui/mui.js",
+			"lib/plugs/jquery/jquery.base64.js",
+			"lib/core.js",
+			"css/mui.min.css",
+			"lib/plugs/arttempale/arttmpl.js",
+			"css/style.css",
+			"font-awesome/css/font-awesome.css",
+			"lib/plugs/require/require.css.js",
+			"lib/URL.js",
+			"task.html",
+			"lib/plugs/require/require.js",
+			"login.html",
+			"lib/app.js"
+		],
+		"refer": [
+			"task.html",
+			"login.html"
+		]
+	},
+	"driving2.html": {
+		"resources": [
+			"lib/plugs/require/require.js",
+			"lib/plugs/mui/mui.js",
+			"lib/plugs/jquery/jquery.base64.js",
+			"lib/core.js",
+			"css/mui.min.css",
+			"css/style.css",
+			"lib/app.js",
+			"font-awesome/css/font-awesome.css",
+			"lib/plugs/require/require.css.js",
+			"lib/URL.js",
+			"index.html"
+		],
+		"refer": [
+			"index.html"
+		]
+	},
+	"task_lists.html": {
+		"resources": [
+			"lib/plugs/require/require.js",
+			"lib/plugs/mui/mui.js",
+			"lib/plugs/jquery/jquery.base64.js",
+			"lib/core.js",
+			"css/mui.min.css",
+			"lib/plugs/arttempale/arttmpl.js",
+			"css/style.css",
+			"lib/app.js",
+			"font-awesome/css/font-awesome.css",
+			"task.html",
+			"lib/plugs/require/require.css.js",
+			"lib/URL.js"
+		],
+		"refer": [
+			"task.html"
+		]
+	}
+}

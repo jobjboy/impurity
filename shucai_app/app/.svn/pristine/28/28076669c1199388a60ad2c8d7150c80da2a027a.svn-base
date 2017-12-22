@@ -1,0 +1,68 @@
+ul,
+li {
+	list-style-type: none;
+}
+
+#mui-color {
+	background: #fff;
+	box-shadow: 0 0 0;
+	border-bottom: 1px solid #f4f4f6;
+}
+
+#refreshempty {
+	font-size: 30px;
+	float: right;
+	transform: rotateY(180deg);
+	-moz-transform: rotateY(180deg);
+	-ms-transform: rotateY(180deg);
+	/* IE 9 */
+	-webkit-transform: rotateY(180deg);
+	/* Safari 和 Chrome */
+	-o-transform: rotateY(180deg);
+}
+
+.sincere {
+	width: 100%;
+	background: #fff;
+	margin-top: 55px;
+	padding: 0 15px 10px;
+}
+.sincere-wt{ width: 100%; padding: 15px 0 ; color: #fb7f25; text-align: center; display: block; margin-top: 10px; background: #fff;}
+
+.sincere-title {
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	color: #797979;
+	border-bottom: 1px solid #e4e4e4;
+}
+
+.sincere-title span {
+	float: right;
+	color: #fb7f25;
+}
+
+.sincere-top { width: 80%; margin: 30px auto 30px; display: block;
+	padding: 0;background:linear-gradient(to left,#a5a5a5,#a5a5a5,#a5a5a5) no-repeat  left / 100% 1px; overflow: hidden; position: relative;
+}
+
+.sincere-top li {
+	float: left;
+	border: 1px solid #fb7f25;
+	 padding: 2px;
+	border-radius: 50%; background: #fff;
+}
+.sincere-top .sincere-fs{border:1px solid #a5a5a5}
+.sincere-top .sincere-fs1{background: #a5a5a5}
+.sincere-top li:last-child{ float: right;}
+.sincere-top li:nth-child(2n){ height:20px; width:30%; border: none; background: none;}
+.sincere-top li span{ width: 15px; height: 15px; background: #fb7f25; display: block; border-radius: 50%;}
+.sincere-top li:nth-child(2){ position: absolute; left: 10%;}
+.sincere-top li:nth-child(3){ position: absolute; left: 50%; margin-left: -15px;}
+.sincere-top li:nth-child(4){ position: absolute; left: 52%;}
+
+.sincere-bottom{ width: 100%; padding: 0; margin: 0; overflow: hidden;}
+.sincere-bottom li{ width: 29%; height: auto; overflow: hidden; float: left; margin-right: 6%; color: #fb7f25;}
+.sincere-bottom li:last-child{ margin: 0;}
+.sincere-bottom li em{ font-style: normal; display: block; text-align: center; width: 100%; font-size: 14px;}
+.sincere-bottom li span{ font-style: normal; display: block; text-align: center; width: 100%; font-size: 14px;}

@@ -1,0 +1,134 @@
+/**
+ * Created by lenovo on 2017/4/28.
+ */
+
+function lhhpay(type, id, WAY,user_id,token) {
+    var url = location.href;
+
+    var channel = null;
+    var ALIPAYSERVER = 'http://192.168.0.116/index.php?m=Api&c=Payment&a=getCode&pay_code=alipay&appid=HBuilder&order_id=' + id + '';
+    var WXPAYSERVER = 'http://192.168.0.116/index.php?m=Api&c=Payment&a=getCode&pay_code=weixin&appid=HBuilder&order_id=' + id + '';
+    var ALIPAYRECHARGE = 'http://192.168.0.116/index.php?m=Api&c=Payment&a=getPay&pay_code=alipay&appid=HBuilder&order_id=' + id + '';
+    var WXPAYRECHARGE = 'http://192.168.0.116/index.php?m=Api&c=Payment&a=getPay&pay_code=weixin&appid=HBuilder&order_id=' + id + '';
+    var ALIPAYRENTOUT = 'http://192.168.0.116/index.php?m=Api&c=Payment&a=return_money&pay_code=alipay&appid=HBuilder&order_id=' + id + ''+'&user_id=' + user_id + ''+'&token=' + token + '';
+    var WXPAYRENTOUT = 'http://192.168.0.116/index.php?m=Api&c=Payment&a=return_money&pay_code=weixin&appid=HBuilder&order_id=' + id + ''+'&user_id=' + user_id + ''+'&token=' + token + '';
+    // 2. 发起支付请求
+    pay(type);
+
+    function pay(type) {
+        if (WAY == "pay") {
+            // 从服务器请求支付订单
+            var PAYSERVER = '';
+            if (type == 'alipay') {
+                PAYSERVER = ALIPAYSERVER;
+
+            } else if (type == 'wxpay') {
+                PAYSERVER = WXPAYSERVER;
+            }
+            else {
+                plus.nativeUI.alert("不支持此支付通道！", null, "捐赠");
+                return;
+            }
+        } else if (WAY == "recharge") {
+            var PAYSERVER = '';
+            if (type == 'alipay') {
+                PAYSERVER = ALIPAYRECHARGE;
+                console.log(PAYSERVER)
+
+            } else if (type == 'wxpay') {
+                PAYSERVER = WXPAYRECHARGE;
+                console.log(PAYSERVER)
+
+            }
+            else {
+                plus.nativeUI.alert("不支持此支付通道！", null, "捐赠");
+                return;
+            }
+        }else if (WAY == "rentout") {
+            var PAYSERVER = '';
+            if (type == 'alipay') {
+                PAYSERVER = ALIPAYRENTOUT;
+                console.log(PAYSERVER)
+
+            } else if (type == 'wxpay') {
+                PAYSERVER = WXPAYRENTOUT;
+                console.log(PAYSERVER)
+
+            }
+            else {
+                plus.nativeUI.alert("不支持此支付通道！", null, "捐赠");
+                return;
+            }
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function (data) {
+            console.log(123);
+            // $("#payLoading").css("display","none");
+            console.log(JSON.stringify(data));
+            pay_id = null;
+            $.each(pays, function (k, v) {
+                if (v.id == type) {
+                    pay_id = v;
+                    console.log(JSON.stringify(pay_id));
+                }
+            });
+            switch (xhr.readyState) {
+                case 4:
+                    if (xhr.status == 200) {
+                        console.log(JSON.stringify(xhr));
+                        plus.payment.request(pay_id, xhr.responseText, function (result) {
+                            plus.nativeUI.alert("支付成功！", function () {
+                                console.log(PAYSERVER);
+                                // back();
+//                              //console.log(result);
+//                              //console.log(JSON.stringify(result));
+                                if (WAY == "pay") {
+                                    location.href = "indent.html?waitSend";
+
+                                } else if (WAY == "recharge"){
+                                    location.href = "money_manager.html?currenttab=money";
+                                }else {
+                                    location.href = "rentOutList.html";
+                                }
+
+                            });
+                        }, function (error) {
+                            console.log(JSON.stringify(error));
+//                          alert(JSON.stringify(error));
+                            console.log(error.message)
+//                         alert(error.message)
+                            console.log(PAYSERVER);
+//                          alert(PAYSERVER);
+                            var str = error.message
+                            if (str.indexOf("取消") !== -1 || str.indexOf("-2") !== -1) {
+                                if (url.indexOf("order.html")!==-1) {
+                                    location.href = "orderDetails.html?order_id=" + id + "";
+                                }else if (url.indexOf("rentoutOrder.html")!==-1){
+                                    location.href = "rentOrderDetails.html?order_id=" + id + "";
+                                }else if (url.indexOf("rentoutPay.html")!==-1){
+//                                  plus.nativeUI.alert("请重新发起支付");
+									mui.toast("支付取消");
+                                    history.go(-1);
+                                }
+
+                            } else {
+                                plus.nativeUI.alert("支付失败");
+
+                            }
+                        });
+                    } else {
+                        mui.alert("获取订单信息失败！");
+                        //console.log(xhr.status);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        xhr.open('GET', PAYSERVER);
+        xhr.send();
+    }
+}
+
+

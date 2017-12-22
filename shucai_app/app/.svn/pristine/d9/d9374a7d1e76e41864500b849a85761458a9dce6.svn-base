@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.css" rel="stylesheet"/>
+    <link href="css/rentout.css" rel="stylesheet"/>
+</head>
+<body>
+<!--头部部分star-->
+<header class="mui-bar mui-bar-nav logoColor">
+    <a href="index.html" class=" mui-icon  mui-icon-left-nav mui-pull-left"></a>
+    <h2 class="mui-title snapH5">免费租借</h2>
+    <a href="mobile.html">
+        <span class="lmessage"></span>
+    </a>
+</header>
+<!--头部部分end-->
+<!--主体部分star-->
+<div class="mui-content  clearfix">
+    <!--banner部分-->
+    <div id="snapBanner"></div>
+    <!--便民服务-->
+    <div class="hot">
+        <div class="ctitle">
+            <span class="line1"></span>
+            <h5>免费租借</h5>
+            <span class="line2"></span>
+        </div>
+        <p id="zanwu">暂无数据...</p>
+        <div id="lodding">
+            <span class="mui-spinner"></span>
+            <p>正在努力加载...</p>
+        </div>
+
+        <div class="content">
+            <p class="up_lodding">
+                <span class="mui-spinner"></span>
+                正在努力加载...
+            </p>
+            <div id="hotItems" class="clearfix">
+            </div>
+            <p class="pre_lodding">
+                <span class="mui-spinner"></span>
+                正在努力加载...
+            </p>
+            <p class="null">别扯了，已经没有更多商品了...</p>
+        </div>
+    </div>
+    <!--回到顶部-->
+    <div class="back_top"></div>
+</div>
+<!--主体部分end-->
+
+<div class="kb"></div>
+<!--底部菜单栏-->
+<div class="footNav"></div>
+
+<!--弹出确认收货地址,支付方式
+<div class="adressLay">
+    <div id="adress_info">
+        <section class="address">
+            <span class="address_fix"></span>
+                <div class="user_con">
+                    <a href="address_list.html">
+                        <div class="user_np">
+                            <span class="user_name">收货人:杀鸡大魔王</span>
+                            <span class="user_phone">15674925242</span>
+                        </div>
+                        <span class="user_address">&nbsp;&nbsp;广东省深圳市龙岗区坪山社区</span>
+                        <span class="address_con"></span>
+                    </a>
+                </div>
+        </section>
+    </div>
+    <div class="payWay">
+        <span class="check"></span>
+        <div class="payWayName">账户余额</div>
+        <div class="payWayPic">
+            <ul class="clearfix">
+                <li class="payWayOne"><em class="checkend"></em><div src="images/order/yueezhifu.png"></div><span>账户余额</span></li>
+                <li class="payWayTwo"><em></em><div src="images/order/yueezhifu.png"></div><span>支付宝</span></li>
+                <li class="payWayThree"><em></em><div src="images/order/yueezhifu.png"></div><span>微信支付</span></li>
+                <li class="payWayFour"><em></em><div src="images/order/yueezhifu.png"></div><span>货到付款</span></li>
+            </ul>
+        </div>
+    </div>
+    <footer>
+        <div id="totalPrice"><div class="pay_money">
+            <span>应付金额:&nbsp;&nbsp;</span>￥<span class="ypay">208</span>
+        </div></div>
+        <div id="sub">提交订单</div>
+    </footer>
+    <div ></div>
+</div>-->
+
+</body>
+<script src="js/zepto.js"></script>
+<script src="js/mui.min.js"></script>
+<script src="js/template.js"></script>
+<script src="js/URL.js"></script>
+<script src="js/footer_nav.js"></script>
+<script src="js/_refresh.js"></script>
+
+<!--banner模板-->
+<script id="snap_banner" type="text/html">
+    {{each ad as value i}}
+    <a href="#">
+        <img src="{{value.ad_code}}" title="横幅广告" style="width: 100%; height: auto;" border="0">
+    </a>
+    {{/each}}
+</script>
+<!--热销产品数据-->
+<script id="temp_snap" type="text/html">
+    {{each goods_list as value i}}
+    <div class="hot_items">
+        <a href="pro_detail.html?{{value.goods_id}}#&{{value.goods_id}}&{{value.shop_price}}&type=rentout">
+            <div class="item_img"><img src="{{value.original_img}}"/></div>
+        </a>
+        <p class="item_title">{{value.goods_name}}</p>
+        <p class="item_title">{{value.lease_desc}}</p>
+        <p class="item_title ">租期：<span class="zuqi">{{value.lease_zuqi | zuqitime:}}</span>小时</p>
+        <p class="item_title ">市场价：￥<span class="zuqi">{{value.market_price}}</span></p>
+        <!--已卖{{value.sales_sum}}件-->
+        <p class="item_num bin_item_num">租金:￥{{value.lease_zujin}}</p>
+        <p class="item_num bin_item_num">押金:￥{{value.shop_price}}</p>
+        <!--￥{{value.shop_price}}-->
+        <!--<span class="price bin_price">￥{{value.shop_price}}</span>-->
+        <div class="shopping_buy" data_goods_id="{{value.goods_id}}" data_shop_price="{{value.shop_price}}">租借商品</div>
+        <input type="hidden" name="gids" class="gid" value="{{value.goods_id}}">
+    </div>
+    {{/each}}
+</script>
+<script src="js/rentout.js"></script>
+<script src="js/push.js"></script>
+</html>

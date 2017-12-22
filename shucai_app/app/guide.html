@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="css/mui.min.css" rel="stylesheet" />
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+        body {
+            margin: 0;
+        }
+        .mui-content {
+            height: 100%;
+            padding: 0;
+        }
+        .mui-slider {
+            height: 100%;
+        }
+        .mui-slider-group {
+            height: 100%;
+        }
+        .mui-slider-item {
+            height: 100%;
+            width: 100%;
+            margin-left: 0px;
+            margin-right: 0px;
+            border: none;
+            /*overflow: hidden;*/
+        }
+        a {
+            height: 100%;
+        }
+
+        .img_content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+        .img_content img:first-child {
+            position: absolute;
+        }
+        .img_content img:nth-child(2) {
+            position: absolute;
+            top: 30%;
+        }
+        .img_content img:last-child {
+            position: absolute;
+        }
+        #button_a {
+            position: absolute;
+            display: block;
+            bottom: 11%;
+            width: 40%;
+            height: 42px;
+            left: 60%;
+        }
+        #button_a>img{
+            display: inline-block;
+            position: absolute;
+        }
+        .clearfix::before,
+        .clearfix::after{
+            content: "";
+            line-height:0;
+            height: 0;
+            display: block;
+            visibility: hidden;
+            clear: both;
+        }
+        .mui-slider .mui-slider-group .mui-slider-item img {
+            display: block;
+            position: relative;
+            left: 50%;
+            background: transparent;
+            width:auto;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+<div class="mui-content" style="height: 100%;overflow: hidden;padding: 0px;margin: 0px;">
+    <div id="slider" class="mui-slider">
+        <div class="mui-slider-group">
+            <!-- 第一张 -->
+            <div class="mui-slider-item mui-active">
+                <div class="img_content">
+                    <img src="images/guide/3.png" width="100%"/>
+                </div>
+
+            </div>
+
+            <!-- 第二张 -->
+            <!--<div class="mui-slider-item">
+                <div class="img_content">
+                    <img src="images/guide/4.png" />
+                </div>
+            </div>-->
+            <!-- 第三张-->
+
+            <div class="mui-slider-item" style="">
+                <div class="img_content">
+                    <img class="last" src="images/guide/6.jpg" />
+                    <!--<button id="into">立即体验</button>-->
+                    <a id="button_a" class="clearfix"><img src="images/guide/1.png" width="100%"></a>
+                </div>
+            </div>
+        </div>
+        <div class="mui-slider-indicator">
+            <div class="mui-indicator mui-active"></div>
+            <!--<div class="mui-indicator"></div>-->
+            <div class="mui-indicator"></div>
+        </div>
+    </div>
+
+</div>
+</body>
+<script src="js/mui.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+    mui.init();
+    mui.plusReady(function(){
+    	
+    	plus.navigator.setStatusBarBackground('#fff');
+    	
+        var old_back = mui.back;
+        mui.back = function(){
+            return false;
+        };
+        var self = plus.webview.currentWebview();
+        self.setStyle({'popGesture':'none'});
+        mui.os.ios&&plus.navigator.setFullscreen(true);
+        var slider = mui('.mui-slider').slider();
+        initPageguid();
+        //setStatusBarBackgroud();
+        plus.navigator.closeSplashscreen();
+
+        function initPageguid(){
+            //绑定滑屏相关事件
+            var gallery = mui('.mui-slider')[0];
+            gallery.addEventListener('swiperight', function(e) {
+                //向左划动
+                var num = mui('.mui-slider').slider().getSlideNumber() - 1;
+                setContainerBackg(num);
+
+            });
+            gallery.addEventListener('swipeleft', function(e) {
+                //向右划动
+                var num = mui('.mui-slider').slider().getSlideNumber() + 1;
+                setContainerBackg(num);
+
+            });
+        }
+
+        /*function setStatusBarBackgroud () {
+            if (mui.os.ios) {
+                plus.navigator.setStatusBarStyle("UIStatusBarStyleBlackOpaque");
+            }
+        };*/
+        function setContainerBackg(num) {
+
+        };
+
+    })
+    $("#button_a").on("click",function(){
+        location.href="index.html";
+    });
+
+    var dynamicParams = {
+        start: 0,
+        end: 0,
+        isTouchPad: (/hp-tablet/gi).test(navigator.appVersion),
+        hasTouch: 'ontouchstart' in window && !this.isTouchPad,
+        windowDes: function () {
+            return {
+                width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+                height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+            }
+        }
+        ,
+        scrollDes: function () {
+            return {
+                top: window.pageY || document.documentElement.scrollTop || document.body.scrollTop || 0,
+                left: window.pageX || document.documentElement.scrollLeft || document.body.scrollLeft || 0
+            }
+        }
+    };
+    $(document).on("touchstart",function(e){
+        var even = typeof event == "undefined" ? e : event;
+        dynamicParams.start = dynamicParams.hasTouch ? even.touches[0].pageX : even.pageX;
+    })
+    $(document).on("touchmove",function(e){
+        var even = typeof event == "undefined" ? e : event;
+        dynamicParams.end = dynamicParams.hasTouch ? even.touches[0].pageX : even.pageX;
+        var $list = $(".mui-slider-group").children();
+        if($list.eq($list.length - 1).hasClass("mui-active")){
+            if(dynamicParams.end < dynamicParams.start){
+                return false;
+            }
+        }
+        if($list.eq(0).hasClass("mui-active")){
+            if(dynamicParams.end > dynamicParams.start){
+                return false;
+            }
+        }
+    })
+    console.log();
+    var h=$("img").width()/2
+    $("img").css("margin-left",-h)
+</script>
+
+</html>

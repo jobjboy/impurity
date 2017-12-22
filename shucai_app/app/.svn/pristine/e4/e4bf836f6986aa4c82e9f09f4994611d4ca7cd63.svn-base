@@ -1,0 +1,80 @@
+/**
+ * Created by lenovo on 2017/5/27.
+ */
+$(function () {
+    var user_id = localStorage.getItem("user_id");
+    var token = localStorage.getItem("token");
+    var unique_id = localStorage.getItem("unique_id");
+    var tx = window.location.search;
+    var tx1 = tx.split("?")[1];
+    var tx2 = tx.split("?")[2];
+    var tx3 = tx.split("?")[3];
+    // console.log(tx1);
+    // console.log(tx2);
+    // console.log(tx3);
+
+    $("#goods_id").val(tx2);
+    $("#user_id").val(user_id);
+    $("#order_id").val(tx1);
+    $("#token").val(token);
+    $("#order_sn").val(tx3);
+    $("#unique_id").val(unique_id);
+    //提交
+    $("#evaluate_button").click(function () {
+        var reason = $("reason").val();
+        var error = [];
+        var img_num = 0;
+        var AllImgExt=".jpg|.jpeg|.gif|.bmp|.png|";//全部图片格式类型
+        //var title = document.getElementById("title").value;
+        $(".up_file input").each(function(index){
+            FileExt = this.value.substr(this.value.lastIndexOf(".")).toLowerCase();
+            if(this.value!=''){
+                img_num++;
+                if(AllImgExt.indexOf(FileExt+"|")==-1){
+                    error.push("第"+(index+1)+"张图片格式错误");
+                }
+            }
+        });
+        
+        if(reason == ''){
+            mui.toast("请填写退款说明");
+            return;
+        }
+
+        if(error.length>0){
+            alert(error);
+            return false;
+        }else{
+            // console.log($("#goods_id").val() + "-----------");
+            $("#evaluate_form").ajaxSubmit({
+                type:'post',
+                // dataType:"json",
+                url:'http://192.168.0.116/index.php?m=Api&c=User&a=return_goods',
+                success:function(data){
+                    data=JSON.parse(data);
+                    // console.log(data);
+                    // return;
+                    if (data.status==1){
+                        mui.alert('退款请求提交成功', '温馨提示', function () {
+                            location.href="indent.html?return";
+                        });
+                    }else if(data.msg.indexOf("参数不齐")!==-1) {
+                        mui.toast("请填写退货原因");
+                    }else {
+                        mui.toast(data.msg);
+                    }
+
+                },
+                error:function(XmlHttpRequest,textStatus,errorThrown){
+                    mui.alert('提交失败，请稍后重试', '温馨提示', function () {
+                        location.href = "index.html";
+                    });
+                }
+            });
+        }
+        return false;
+    });
+    
+  
+
+})

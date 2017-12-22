@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>智慧城市-任务</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+		<link rel="stylesheet" href="css/mui.min.css">
+		<!--<script type="text/javascript" src="js/jquery-1.12.2.min.js" ></script>-->
+		<!--<script src="js/mui.min.js"></script>-->
+		<style type="text/css">
+			body{ background: #fff;}
+			
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-icon-arrowleft"></a>
+			<h1 class="mui-title">任务</h1>
+		</header>
+
+		<div id="tab1">
+			<!-- 最外层导航 -->
+			<ul id="tab11">
+				<li class="active" data-card='1'>任务列表</li>
+				<li data-card='2'>申请列表</li>
+			</ul>
+			<div class="box1" style="display:block;">
+				<!-- 默认选中哪个，就让哪个block -->
+				<div id="tab2" class="wrap">
+					<!-- 第二层导航 -->
+					<ul id="tab22">
+						<li class="active" data-card='11'>未提交</li>
+						<li data-card='12'>已提交</li>
+						<li data-card='13'>可操作</li>
+						<li data-card='14'>所有</li>
+					</ul>
+					<div class="box2" id="box_1" style="display:block;">
+
+					</div>
+					<div class="box2" id="box_2">
+
+					</div>
+					<div class="box2" id="box_3">
+
+					</div>
+					<div class="box2" id="box_4">
+
+					</div>
+				</div>
+			</div>
+			<div class="box1">
+
+				<div id="tab3" class="wrap">
+					<!-- 第三层导航 -->
+					<ul id="tab33">
+						<li class="active" data-card='21'>疑似违章</li>
+						<li data-card='22'>申请支援</li>
+					</ul>
+					<div class="box3" id="box2_1" style="display:block;">
+
+					</div>
+					<div class="box3" id="box2_2">
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="nav">
+			<ul>
+				<li>
+					<a href="index.html">
+						<i class="fa fa-home"></i>
+						<em>首页</em>
+					</a>
+				</li>
+
+				<li class="on">
+					<a href="task.html">
+						<i class="fa fa-file-text"></i>
+						<em>任务</em>
+					</a>
+				</li>
+
+				<li>
+					<a href="sing.html">
+						<i class="fa fa-calendar-check-o"></i>
+						<em>签到</em>
+					</a>
+				</li>
+
+				<!--<li>
+					<a href="">
+                       <i class="fa fa-microphone"></i>
+                       <em>语音</em>
+					</a>
+				</li>-->
+
+				<li>
+					<a href="personal.html">
+						<i class="fa fa-user"></i>
+						<em>个人</em>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<script src="./lib/plugs/require/require.js"></script>
+		<script src="./lib/app.js"></script>
+
+		<script id="tpl" type="text/html">
+
+			{{each result as value}}
+			<dl>
+				<div class="task-detail" onclick="task_list({{value.task_id}})">
+					<h3>{{value.name}}</h3>
+					<span class="distance"></span>
+					<em>{{value.address}}</em>
+				</div>
+				<a class="task-lx" href="driving.html?position={{value.coordinate}}&task_id={{value.task_id}}&switch_off={{value.switch_off}}">
+					<i class="fa fa-level-up"></i>
+					<em>路线</em>
+				</a>
+			</dl>
+			{{/each}}
+		</script>
+		
+		
+		<script id="tpl2" type="text/html">
+
+			{{each result as value}}
+			<dl>
+				<div class="task-detail">
+					<h3>{{value.patroller_id}}</h3>						
+					<span>{{value.description}}</span>
+					<em>{{value.address}}</em>
+				</div>
+				<a class="task-lx" href="driving.html?position={{value.coordinate}}&task_id={{value.task_id}}&switch_off={{value.switch_off}}">
+					<i class="fa fa-level-up"></i>
+					<em>路线</em>
+				</a>
+			</dl>
+			{{/each}}
+		</script>		
+		
+		<script>
+			function task_list(data_task) {
+				window.location.href = './task_list.html?task_id=' + data_task;
+			}
+			require(['jquery', 'mui', 'URL', 'core', 'tpl','amap' ], function($, mui, URL, core, template) {
+				mui.init();
+				var type = 1;
+				var url = URL.mytask_new;
+				var aut_token = window.localStorage.getItem('aut_token');
+				var data = {
+					act: 'api',
+					aut_token: aut_token,
+					page: 1,
+					page_size: 20,
+					status: 0
+				}
+				var lnglats = localStorage.getItem('lnglatXY');
+				var lngX = lnglats.split(',')[0];
+				var latY = lnglats.split(',')[1];
+				lnglat = new AMap.LngLat(lngX,latY);
+				
+				function tab(tabID, box) {
+					$(tabID).click(function(index, obj) {
+						$(tabID).removeClass('active'); //先将所有同级去掉active    
+						$(box).hide(); //所有同级box隐藏   
+						$(this).addClass('active'); //当前li显示
+						$(box).eq($(this).index()).show();
+						console.log($(this).attr('data-card'));
+						if($(this).attr('data-card') == 1) {
+							items = $('#box_1'),type = 1;
+							url = URL.mytask_new;
+							data = {
+								act: 'api',
+								aut_token: aut_token,
+								page: 1,
+								page_size: 20,
+								status: 0
+							}
+						} else if($(this).attr('data-card') == 11) {
+							items = $('#box_1');
+							data.status = 0;
+						} else if($(this).attr('data-card') == 12) {
+							items = $('#box_2');
+							data.status = 1;							
+						} else if($(this).attr('data-card') == 13) {
+							items = $('#box_3');
+							data.status = 3;
+						} else if($(this).attr('data-card') == 14) {
+							items = $('#box_4');
+							data.status = 'all';
+						} else if($(this).attr('data-card') == 2) {
+							items = $('#box2_1'),type = 2;
+							url = URL.road_inspection_list;
+							data = {
+								act: 'api',
+								aut_token: aut_token,
+								page: 1,
+								page_size: 20,
+								send_type: 0
+							}
+						} else if($(this).attr('data-card') == 21) {
+							items = $('#box2_1');
+							data.send_type = 0;
+						} else if($(this).attr('data-card') == 22) {
+							items = $('#box2_2');
+							data.send_type = 1;
+						}
+						_task(items,type);
+					});
+				}
+				$(document).ready(function() {
+					tab("#tab11 li", '.box1');
+					tab("#tab22 li", '.box2');
+					tab("#tab33 li", '.box3');
+					_task($('#box_1'),type);
+				});
+
+				function _task(items,type) {
+					core.ajax(url, data, function(data) {
+						if(data.status == 1) {
+							if(type == 1){
+								html = template('tpl', data);
+								$(items).html(html);
+								var span = $(items).find('.distance');
+							    for(var i=0;i<data.result.length;i++){				    	
+								    var distances = data.result[i].coordinate.split(',');
+								    if(lnglat.distance(distances) < 1000){
+								    	span[i].innerText = lnglat.distance(distances).toFixed(1)+'米';
+								    }else if(lnglat.distance(distances) >= 1000){
+								    	span[i].innerText = (Math.round(lnglat.distance(distances)/100)/10).toFixed(1)+'公里';
+								    }		
+							    }								
+							}else if(type == 2){
+								html = template('tpl2', data);
+								$(items).html(html);
+							}											
+						} else if(data.status == 400) {
+							console.log('...')
+							window.location.href = './login.html';
+						} else {
+							items.innerHTML = '<dl style="text-align:center">暂无数据</dl>';
+							mui.toast(data.msg, {
+								duration: 'long',
+								type: 'div'
+							});
+						}
+					}, function() {}, 'post');
+				}
+			});
+		</script>
+
+	</body>
+
+</html>

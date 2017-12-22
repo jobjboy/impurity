@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/indent.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/icons-extra.css"/>
+</head>
+<body>
+
+<!--头部部分star-->
+<header id="mui-color" class="mui-bar mui-bar-nav">
+    <!--<span class="mui-icon mui-icon-back"></span>-->
+    <a class="mui-icon  mui-icon-left-nav mui-pull-left" href="javascript:history.go(-1);"></a>
+    <h1 class="mui-title">我的租借订单</h1>
+    <a href="mobile.html"><span id="mui-chat" class="mui-icon mui-icon-chat"></span></a>
+</header>
+<!--头部部分end-->
+<div class="mui-content">
+
+    <div id="lodding">
+        <span class="mui-spinner"></span>
+        <p>正在努力加载...</p>
+    </div>
+    <div id="tabbox">
+        <dl class="tab_conbox" id="tab_conbox">
+            <dd class="tab_con" id="dd_all">
+                <div class="model"></div>
+                <div id="all_list"></div>
+                <div id="temp"></div>
+            </dd>
+            <p class="pre_lodding">
+                <span class="mui-spinner"></span>
+                正在努力加载...
+            </p>
+            <p class="null">别扯了，已经没有更多订单了...</p>
+        </dl>
+    </div>
+    <div class="no_good">您还没有相关订单!</div>
+</div>
+</div>
+<script src="./js/common.js"></script>
+<script src="js/mui.min.js"></script>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="./js/URL.js"></script>
+<script src="./js/mui_common.js"></script>
+<script src="js/template.js"></script>
+<script src="js/_refresh.js"></script>
+<script>
+    mui.init({
+        swipeBack: true,//启用右滑关闭功能
+        keyEventBind: {
+            backbutton: true //打开back按键监听
+        }
+    });
+    mui('.mui-input-group').on('change', 'input', function () {
+        var value = this.checked ? "true" : "false";
+        this.previousElementSibling.innerText = "checked：" + value;
+    });
+
+    mui.back = function () {
+        window.history.go(-1);
+//        location.href="personal.html";
+        mui.currentWebview.opener().show(mui.currentWebview);
+    }
+</script>
+</body>
+<!--<div>归还时间：<span class="endTime">{{$value.goods_list[0].lease_update | cltime:}}</span></div>-->
+<!--<div>最晚归还时间：<span class="laterTime">{{$value.laster_time | cltime:}}</span></div>-->
+
+
+<!--全部订单模板-->
+<script id="all_tpl" type="text/html">
+    {{each result}}
+    <ul class="indent-list1">
+        <li>
+            <div class="indent-list-title1 mui-checkbox mui-left">
+                订单编号:{{$value.order_sn}}
+                <span class="lease_desc">
+                   {{$value.lease_desc}}
+				</span>
+            </div>
+
+            <div class="indent-list-img">
+                <em><a href="rentOrderDetails.html?order_id={{$value.order_id}}"><img
+                        src="{{$value.goods_list[0].original_img}}"/></a></em>
+                <span class="item_title">
+                    <a href="rentOrderDetails.html?order_id={{$value.order_id}}">{{$value.goods_list[0].goods_name}}</a>
+                     {{if $value.black_desc == "逾期"}}
+                    <div class="black_desc">租借已逾期</div>
+                    {{/if}}
+                </span>
+                <span class="zu_price">押金￥{{$value.goods_list[0].goods_price}}</span>
+                <span class="zu_price">租金￥{{$value.goods_list[0].lease_zujin}}</span>
+                <span class="zu_num" data-num="{{$value.goods_list[0].goods_num}}" data-id="{{$value.goods_list[0].goods_id}}">×{{$value.goods_list[0].goods_num}}</span>
+            </div>
+            <div class="indent-list-deta">
+                <i>市场价：￥<span class="mp">{{$value.goods_list[0].market_price}}</span></i></br>
+                <i>免费租期：<span class="rentTime">{{$value.goods_list[0].lease_zuqi | zuqitime:}}</span>小时</i></br>
+                <span class="rentPs">租借说明：{{$value.goods_list[0].lease_desc}}</span>
+            </div>
+            {{if $value.goods_list[0].lease_update !== 0 && $value.goods_list[0].lease_update !== ''}}
+            <div class="timeDetailok">
+                <div>租借开始时间：<span class="beginTime">{{$value.confirm_time_text}}</span></div>
+                <div>归还时间：<span class="endTime">{{$value.goods_list[0].lease_update_text}}</span></div>
+            </div>
+            {{/if}}
+
+            {{if $value.lease_btn == 1}}
+            <div class="timeDetail">
+                <div>租借开始时间：<span class="beginTime">{{$value.confirm_time_text}}</span></div>
+                <div>
+                    已租借时间：
+                    <div class="time_num">
+                        <div class="time_w" data-leasetime="{{$value.confirm_time}}">
+                            <span class="time time_d"> </span >天
+                            <span class="time time_h"> </span >时
+                            <span class="time time_m"> </span >分
+                            <span class="time time_s"> </span >秒
+                        </div>
+                    </div>
+                </div>
+                <div>最晚归还时间：<span class="laterTime">{{$value.laster_time_text}}</span></div>
+            </div>
+            {{/if}}
+            <div class="indent-list-button">
+                {{if $value.order_status_desc === '待支付'}}
+                <!--<button type="button" class="mui-btn-sj off_order" data-orderid="{{$value.order_id}}">取消订单</button>-->
+                <button type="button" class="mui-btn-zf go_to_pay" data-orderid="{{$value.order_id}}">去支付</button>
+                {{/if}}
+
+                {{if $value.order_status_desc === '待收货'}}
+                <!--<button type="button" class="mui-btn-zf receive-order" data-orderid="{{$value.order_id}}">确认收货</button>-->
+                {{/if}}
+                {{if $value.order_status_desc === '待评价'}}
+                <a href="evaluate.html?order_id={{$value.order_id}}" type="button" class="mui-btn-zf">评价</a>
+                {{/if}}
+                {{if $value.cancel_btn == 1}}
+                <button type="button" class="mui-btn-sj off_order" data-orderid="{{$value.order_id}}">取消订单</button>
+                {{/if}}
+                {{if $value.lease_btn == 1}}
+                <button type="button" class="mui-btn-zf lease_btn" data-orderid="{{$value.order_id}}">申请归还</button>
+                <button type="button" class="mui-btn-zf canNot_btn" data-orderid="{{$value.order_id}}">无法归还</button>
+                {{/if}}
+            </div>
+        </li>
+    </ul>
+    {{/each}}
+</script>
+<script src="js/alert_plug.js"></script>
+<script src="js/rentOrderList.js"></script>
+<script src="js/push.js"></script>
+</html>

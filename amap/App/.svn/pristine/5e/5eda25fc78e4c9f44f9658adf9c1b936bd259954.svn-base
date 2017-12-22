@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>登录</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+	
+	</head>
+<style>
+	html,body{ height: 100%;}
+</style>
+	<body>
+
+		<div class="login">
+	
+
+			<div class="login-list">
+				<input type="text" class="mui-input-clear" id="username" placeholder="请输入您的账号" value="abc1">
+				<input type="password" class="mui-input-password" id="password" placeholder="请输入您的密码" value="abc1">
+				<button type="button" id="login_btn">登录</button>
+			</div>
+			<div class="login-bottom">
+				<a href="register.html">快速注册</a>
+			    <a href="find.html">忘记密码</a>
+			</div>
+
+			
+		</div>
+<script src="./lib/plugs/require/require.js"></script>
+<script src="./lib/app.js"></script>
+<script type="text/javascript">
+
+    require(['jquery', 'mui', 'URL', 'core', 'md5'], function ($, mui, URL, core) {
+var cpu,mac;
+		if(window.plus){  
+			cpu = getCpuInfo();		
+			mac = getMac(); 
+		}else{ 
+			document.addEventListener( "plusready", function(){
+				cpu = getCpuInfo();		
+				mac = getMac(); 					
+				}, false );	
+		}
+			
+	    var login_btn = $("#login_btn");
+	    login_btn.click(function () {	
+	       	if(cpu == null ){	       		
+	       		document.addEventListener( "plusready", function(){
+				cpu = getCpuInfo();		
+				mac = getMac(); 					
+				}, false );	
+	       	}
+	        var username = $("#username").val();
+	        var password = $("#password").val();			
+	        core.checkToken(username, password,cpu,mac,function () {          	
+	        window.location.href = './index.html';
+	        });
+	    });			
+		
+    });
+
+/*获取手机CPU信息*/  
+function getCpuInfo() {  
+	
+    var cpuInfo = '/proc/cpuinfo';  
+    var temp = '',  
+        cpuHardware;  
+    var fileReader = plus.android.importClass("java.io.FileReader");  
+
+    var bufferedReader = plus.android.importClass("java.io.BufferedReader");  
+    var FileReader = new fileReader(cpuInfo);  
+    var BufferedReader = new bufferedReader(FileReader, 8192);  
+    while ((temp = BufferedReader.readLine()) != null) {   	
+        if (-1 != temp.indexOf('Processor')) {       	
+            cpuHardware = temp.substr(parseInt(temp.indexOf(":")) + 1);  
+        }  
+    }  
+    
+    return cpuHardware;  
+}  		
+
+
+/*得到手机MAC地址*/  
+function getMac() {
+    var mac = "xxx-xxx-xxx-xxx";  
+    if (plus.os.name == "Android") {  
+        //WifiManager  
+        var Context = plus.android.importClass("android.content.Context");  
+        var WifiManager = plus.android.importClass("android.net.wifi.WifiManager");  
+        var wifiManager = plus.android.runtimeMainActivity().getSystemService(Context.WIFI_SERVICE);  
+        var WifiInfo = plus.android.importClass("android.net.wifi.WifiInfo");  
+        var wifiInfo = wifiManager.getConnectionInfo();  
+        mac = wifiInfo.getMacAddress();  
+        
+    }  
+    return mac;  
+}  
+
+</script>
+	</body>
+</html>

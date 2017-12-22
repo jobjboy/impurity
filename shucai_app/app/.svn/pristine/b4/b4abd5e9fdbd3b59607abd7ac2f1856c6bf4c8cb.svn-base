@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+</head>
+<body>
+
+<header style="background: #FFF;" id="mui-color" class="mui-bar mui-bar-nav">
+    <span class="mui-icon mui-icon-back mui-action-back"></span>
+
+    <h1 class="mui-title">选择收货地址</h1>
+</header>
+
+
+<p id="empty" style="display:none; margin-top: 200px; text-align: center;"><img style="width:250px;"
+                                                                                src="images/index/empty.png"/></p>
+<ul class="mui-table-view" id="list_model"></ul>
+
+<style type="text/css">
+    ul#list_model {
+        padding-top: 50px;
+        clear: both;
+    }
+
+    ul#list_model li {
+        display: block;
+        width: 100%;
+        float: left;
+        background: #FFF;
+    }
+</style>
+<script src="js/URL.js"></script>
+<script src="js/common.js"></script>
+<script src="js/template.js"></script>
+<script src="js/zepto.js"></script>
+<script src="js/mui.min.js"></script>
+
+<script id="city_tpl" type="text/html">
+    {{each result as value i}}
+    <li onclick="clicked('{{value.id}}','{{type}}','{{value.level|3}}');"
+        class="mui-table-view-cell"><a href="javascript:void(0);" class="mui-navigate-right">{{value.name}}</a>
+    </li>
+    {{/each}}
+</script>
+
+<script type="text/javascript">
+    //'{{value.level|3}}'
+
+    var LocString = String(window.document.location.href);
+    var I = function (str, default_val) {
+        var rs = new RegExp("(^|)" + str + "=([^&]*)(&|$)", "gi").exec(LocString), tmp;
+        return (tmp = rs) ? tmp[2] : default_val;
+    }
+
+    var id = I('id', 0);
+    console.log('url=' + location.href);
+
+    var level = I('level', 3);
+    var type = I('type', 'area');
+
+    var area_url = ( URL.ApiUrl + '' + URL.getArea).format(id, level);
+    var street_url = ( URL.ApiUrl + '' + URL.getStreet).format(id);
+
+    url = type == 'area' ? area_url : street_url;
+
+    $.ajax({
+        url: type == 'area' ? area_url : street_url,
+        type: 'get',
+        dataType: "json",
+        success: function (data) {
+
+            if (data.status == -1) {
+
+                $("#empty").show();
+                $("#list_model").hide();
+
+            } else {
+                if (type == 'area') {
+                    data['type'] = 'street_1';
+                } else if (type == 'street_1') {
+                    data['type'] = 'street_2';
+                } else if (type == 'street_2') {
+                    data['type'] = 'last';
+                }
+                $("#list_model").html('').append(template('city_tpl', data));
+            }
+        }
+    });
+
+    function clicked(data_id, type, level) {
+
+        url = "city_list.html?id=" + data_id + '&type=' + type;
+
+        console.log('url=' + url);
+
+        //4级选择- 定位到街道
+        var str = url.indexOf('last');
+        // return;
+
+        if (str != -1) {
+
+            $.ajax({
+                type: 'post',
+                url: URL.ApiUrl + URL.getCity,
+                dataType: 'json',
+                data: {id: data_id},
+                success: function (data) {
+                    if (data.status == 1) {
+                        p = data.result.p[0];
+                        c = data.result.c[0];
+                        d = data.result.d[0];
+                        s = data.result.s[0];
+                        n = data.result.n[0];
+
+                        json = JSON.stringify({
+
+                            province: p['id'],
+                            provinceName: p['name'],
+
+                            city: c['id'],
+                            cityName: c['name'],
+
+                            district: d['id'],
+                            districtName: d['name'],
+
+                            street: s['id'],
+                            streetName: s['name'],
+
+                            streetNum: n['id'],
+                            streetNumName: n['name'],
+
+                            poiName: ''  //详细的如： 深圳龙岗珠江皇冠假日酒店 可为空
+                        });
+
+                       // console.log('sss==>' + JSON.stringify(json));
+
+                        localStorage.setItem("is_already_location", 1);
+
+                        localStorage.setItem("city", json);
+                        location.href = 'index.html';
+
+                    } else {
+                        location.href = 'city_list.html?id=0&type=street';
+                    }
+                }
+            });
+        } else {
+            location.href = "city_list.html?id=" + data_id + '&type=' + type;
+        }
+    }
+</script>
+</body>
+</html>

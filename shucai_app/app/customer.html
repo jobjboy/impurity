@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="css/evaluate.css" rel="stylesheet"/>
+    <link href="css/customer.css" rel="stylesheet"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/icons-extra.css" rel="stylesheet"/>
+</head>
+<body>
+<header id="mui-color" class="mui-bar mui-bar-nav">
+    <a  class="mui-action-back mui-icon  mui-icon-left-nav mui-pull-left"></a>
+    <h1 class="mui-title">顾客评论</h1>
+</header>
+<div id="wrap_content">
+    <p class="up_lodding">
+        <span class="mui-spinner"></span>
+        正在努力加载...
+    </p>
+    <div id="customer_content">
+    </div>
+    <p class="pre_lodding">
+        <span class="mui-spinner"></span>
+        正在努力加载...
+    </p>
+    <p class="null">别扯了，已经没有更多评论了...</p>
+</div>
+<div class="null_text">暂无此商品评论...</div>
+<script src="js/mui.js"></script>
+<script src="js/URL.js"></script>
+<script src="js/template.js"></script>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="js/_refresh.js"></script>
+<!--template-->
+<script id="customer_item" type="text/html">
+    {{each result as value i}}
+    <div class="customer_item">
+        <p class="comment_username"><span>用户: {{value.username}}</span><span class="addtime">{{value.add_time}}</span></p>
+        <p class="comment_content">{{value.content}}</p>
+        {{each value.childs as k}}
+        <p class="comment_content shopr">商家回复：{{k.content}}</p>
+        {{/each}}
+
+        <ul class="comment_imglist clearfix" data-id="{{value.goods_id}}" data-index="{{i}}">
+        </ul>
+
+        <div class="graded">
+            <h2>评分</h2>
+            <h3><span>商品评价</span>
+                <ul class="describe-tb" id="describe_1" data-name="{{value.goods_rank}}">
+                    <input name="goods_rank" id="goods_rank" value="5" type="hidden">
+                    <li data-start="1"><img class="filter" src="images/describe-tb.png"></li>
+                    <li data-start="2"><img class="filter" src="images/describe-tb.png"></li>
+                    <li data-start="3"><img class="filter" src="images/describe-tb.png"></li>
+                    <li data-start="4"><img class="filter" src="images/describe-tb.png"></li>
+                    <li data-start="5" ><img class="filter" src="images/describe-tb.png"></li>
+                    <span>5星</span>
+                </ul>
+            </h3>
+            <h3><span>物流服务</span>
+                <ul class="describe-tb" id="describe_2" data-name="{{value.deliver_rank}}">
+                    <input name="deliver_rank" id="deliver_rank" value="0" type="hidden">
+                    <li data-start="1"><img class="filter" src="images/describe-tb.png"></li>
+                    <li data-start="2"><img class="filter" src="images/describe-tb.png"></li>
+                    <li data-start="3"><img class="filter" src="images/describe-tb.png"></li>
+                    <li data-start="4"><img class="filter" src="images/describe-tb.png"></li>
+                    <li data-start="5" ><img class="filter" src="images/describe-tb.png"></li>
+                    <span></span>
+                </ul>
+            </h3>
+            <h3><span>服务态度</span>
+                <ul class="describe-tb" id="describe_3" data-name="{{value.service_rank}}">
+                    <input name="service_rank" id="service_rank" value="0" type="hidden">
+                    <li data-start="1"><img class="filter" src="images/describe-tb.png"></li>
+                    <li data-start="2"><img class="filter" src="images/describe-tb.png"></li>
+                    <li data-start="3"><img class="filter" src="images/describe-tb.png"></li>
+                    <li data-start="4"><img class="filter" src="images/describe-tb.png"></li>
+                    <li data-start="5" ><img class="filter" src="images/describe-tb.png"></li>
+                    <span></span>
+                </ul>
+            </h3>
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script src="js/customer.js"></script>
+<script src="js/push.js"></script>
+</body>
+</html>

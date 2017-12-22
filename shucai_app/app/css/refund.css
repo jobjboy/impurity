@@ -1,0 +1,171 @@
+html, body, div, p, ul, li, dl, dt, dd, h1, h2, h3, h4, h5, h6, form, input, select, button, textarea, iframe, table, th, td {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+input, textarea {
+    border: none;
+    outline: none;
+    resize: none;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    padding: 0px;
+    font-size: 12px;
+    line-height: 1.5em;
+    font-family: tahoma, "Microsoft YaHei", Simsun, Mingliu, Arial, Helvetica;
+    color: #333333;
+    background: #f7f7f7;
+    width: 100%;
+    height: auto;
+    /*background: #f1f1f1;*/
+}
+
+img {
+    border: 0;
+    vertical-align: middle;
+}
+
+ul,
+li {
+    list-style-type: none;
+}
+
+table,
+td {
+    border-collapse: collapse
+}
+
+address,
+em {
+    font-style: normal;
+}
+
+a {
+    color: #333333;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+cite, em, s, i, b {
+    font-style: normal
+}
+
+/*通用样式结束*/
+
+/*特殊的属性定义清除浏览器给input自带的样式*/
+
+h3 {
+    font-size: 14px;
+}
+
+.clearfix::before,
+.clearfix::after {
+    content: "";
+    line-height: 0;
+    height: 0;
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+div#lodding {
+    text-align: center;
+    margin: 170px auto 0 auto;
+    display: none;
+}
+
+.mui-bar-nav ~ .mui-content {
+    background: white;
+}
+
+.explain {
+    display: inline-block;
+    width: 92%;
+    margin-left: 3%;
+    position: relative;
+}
+
+.title {
+    padding: 13px 0 8px;
+}
+
+#reason {
+    display: inline-block;
+    width: 95%;
+    margin-left: 3%;
+    border: 1px solid #cfcfcf;
+    background-color: #fff;
+    -webkit-appearance: none;
+    font-size: 14px;
+    height: 80px;
+}
+
+.explain span {
+    display: block;
+    position: absolute;
+    top: 96px;
+    left: 90%;
+}
+
+.imgFile {
+    display: inline-block;
+    width: 92%;
+    margin-left: 3%;
+    padding-left: 8%;
+}
+.imgFile .title {
+    margin-left: -8%;
+}
+.up_file {
+    position: relative;
+}
+
+.up_file input {
+    position: absolute;
+    width: 100px;
+    font-size: 80px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    overflow: hidden;
+    ext-align: center !important;
+    display: table-cell;
+    vertical-align: middle;
+
+}
+
+.describe-add {
+    width: 100px;
+    height: 100px;
+    float: left;
+    margin-right: 0.6rem;
+    margin-bottom: 0.6rem;
+}
+
+.describe-add a {
+    display: block;
+    border: 1px solid #E4E4E4;
+    width: 100px;
+    height: 100px;
+    color: #E4E4E4;
+    text-align: center;
+    border-radius: 3px;
+}
+
+.describe-add em {
+    width: 100%;
+    font-size: 50px;
+    text-align: center;
+    margin-top: 10px;
+}
+.evaluate-button{ width: 90%; height: 50px; border: none; text-align: center; margin: 10px auto; display: block; background: #F29600; color: #fff; font-size: 20px;}

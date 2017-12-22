@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>智慧城市-签到</title>
+	<link rel="stylesheet" href="css/style.css" />
+	<link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+	<link rel="stylesheet" href="css/mui.min.css">  
+	<link rel="stylesheet" type="text/css" href="css/mui.picker.min.css"/>
+    <style>
+    	p{
+    		margin-bottom: 0px;
+    	}
+    	a:active, a:hover{
+    		color: #f7f7f7;
+    	}
+    </style>
+	 
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-icon-arrowleft"></a>
+		<h1 class="mui-title">签到</h1>
+	</header>
+	
+	<div class="sing">
+
+		 <div class="mui-btn mui-btn-danger sing-pz" id="getImages">拍照</div>
+		 <div class="sing-img"><img src="images/asktech.jpg"></div>
+		 <div class="sing-title">用户名称</div>
+		 <div class="sing-bottom">
+			 <a  class="sing-button checkBtn">签到</a>
+			 <a  class="sing-button checkBtn_end">签退</a>		 	
+		 </div>
+	</div>
+		<div class="mui-demo-container" id="progressbar" style="display: none;">
+			<div>
+				<p class="mui-progressbar mui-progressbar-infinite"></p>
+			</div>
+		</div>		
+	<div class="mui-content-padded">
+		<button id='Month' data-optioning='{"type":"month"}' class="btn mui-btn mui-btn-block">选择月份</button>
+	</div>
+	<div class="checkin qandao">
+		
+	</div>
+	<div class="mask">
+		<div class="modal">
+			<a href="#" class="closeBtn">×</a>
+			<h1 class="title_h1 clearfix"><span></span><em>成功</em></h1>
+		</div>
+	</div>
+	
+		<div class="nav">
+			<ul>
+				
+				<li>
+					<a href="index.html">
+                       <i class="fa fa-home"></i>
+                       <em>首页</em>
+					</a>
+				</li>
+				
+				<li>
+					<a href="task.html">
+                       <i class="fa fa-file-text"></i>
+                       <em>任务</em>
+					</a>
+				</li>
+				
+				<li class="on">
+					<a href="sing.html">
+                       <i class="fa fa-calendar-check-o"></i>
+                       <em>签到</em>
+					</a>
+				</li>
+				
+				<!--<li>
+					<a href="">
+                       <i class="fa fa-microphone"></i>
+                       <em>语音</em>
+					</a>
+				</li>-->
+				
+				<li>
+					<a href="personal.html">
+                       <i class="fa fa-user"></i>
+                       <em>个人</em>
+					</a>
+				</li>
+			</ul>
+		</div>	
+
+<script src="./lib/plugs/require/require.js"></script>
+<script src="lib/plugs/mui/mui.min.js"></script>
+<script src="lib/plugs/mui/mui.picker.min.js"></script>
+<script src="./lib/app.js"></script>
+<script>
+require(['jquery', 'mui', 'URL', 'core'], function ($, mui, URL, core) {
+	
+	url_img = URL.upload_img;
+	url_clock =  URL.get_sign_log;
+	myDate = new Date();
+	year = myDate.getFullYear(),month = myDate.getMonth(),day = myDate.getDate();
+	
+	var token = window.localStorage.getItem('aut_token');
+	var areas = JSON.parse(localStorage.getItem('areas'));	
+
+ 	document.getElementById('Month').addEventListener("click",function(){
+		mui.init();
+		var optionsJson = this.getAttribute('data-optioning') || '{}';
+		var optioning = JSON.parse(optionsJson);
+		var dtPicker = new mui.DtPicker(optioning);
+	
+	    dtPicker.show(function (rs) {
+			year = parseInt(rs.y.value);
+			month = parseInt(rs.m.value)-1;
+			day = myDate.getDate();
+	       
+			var data = {
+				act:'api',
+				aut_token:token,
+				year_month:rs.y.value+'-'+rs.m.value
+			}	
+			
+			core.ajax(url_clock, data, function (data) {
+				if (data.status == 1) {
+					var today_sign_in = data.result.today_sign_in;
+					var today_sign_out = data.result.today_sign_out;
+								
+					var today = data.result.sign_list;		
+					
+					$(".checkin").Checkin(year,month,day,today,today_sign_in,today_sign_out);
+					mui.toast("当月签到"+data.result.sign_count+'天', {duration: 'long', type: 'div'});
+				} else if(data.status == 400){
+					window.location.href = './login.html';
+				}else{
+					mui.toast(data.msg, {duration: 'long', type: 'div'});
+				}
+			}, function () {
+			}, 'post');	        
+	    })
+	},false)	
+	
+		var Checkin = function(ele,today,options) {
+			this.ele = ele;
+			this.opt = options;
+			this.defaults = {
+				height: 'auto',		
+				color: '#fff',
+				padding: 10,
+				dateArray: today, // 假设已签到的天数+1				
+			};
+			this.obj = $.extend({}, this.defaults, this.opt);
+		}
+		Checkin.prototype.init = function(year,month,day) {
+			var _self = this.ele,
+				html = '',
+				weekText = ['日', '一', '二', '三', '四', '五', '六'];
+				
+			_self.css({
+				width: this.obj.width + 'px',
+				height: this.obj.height,
+				background: this.obj.background,
+				borderRadius: this.obj.radius,
+				color: this.obj.color,
+				padding: this.obj.padding
+			}).html("<div class='title'>" + year + '年' + (month+1) + '月' + '签到表' + "</div>");;
+			$("<ul class='week clearfix'></ul><ul class='calendarList clearfix'></ul>").appendTo(_self);
+			for (var i = 0; i < 7; i++) {
+				_self.find(".week").append("<li>" + weekText[i] + "</li>")
+			};
+			for (var i = 0; i < 42; i++) {
+				html += "<li><em></em></li>"
+			};
+			_self.find(".calendarList").append(html);
+			var $li = _self.find(".calendarList").find("li em");
+			_self.find(".week li").css({
+				width: (_self.width() / 7) + 'px',
+				height: 30 + 'px',
+				borderRight: '1px solid #e6e3e3',
+				boxSizing: 'border-box',
+				padding:0,
+			});
+			$li.parent().css({
+				width: (_self.width() / 7) + 'px',
+				height: 30 + 'px',				
+				boxSizing: 'border-box',
+				color: "#7b7b7b"
+			});
+			_self.find(".calendarList ").find("li:nth-child(7n)").css('borderRight', 'none');
+			_self.find(".week li:nth-child(7n)").css('borderRight', 'none');
+			var monthFirst = new Date(year, month, 1).getDay();//返回下个month的第一天
+			var d = new Date(year, (month + 1), 0)//返回上一个month的最后一天
+			var totalDay = d.getDate(); //获取当前月的天数
+			for (var i = 0; i < totalDay; i++) {
+				$li.eq(i + monthFirst).html(i + 1);
+				$li.eq(i + monthFirst).addClass('data' + (i + 1))
+				if (isArray(this.obj.dateArray)) {
+					for (var j = 0; j < this.obj.dateArray.length; j++) {
+						if (i == this.obj.dateArray[j]) {
+							// 假设已经签到的
+							$li.eq(i + monthFirst).addClass('checked');
+						}
+					}
+				}
+			}
+//			$li.eq(monthFirst+day-1).css('background','#f7ca8e')
+			_self.find($(".data" + day)).addClass('able-qiandao');
+		}
+//		var isChecked = false;
+		Checkin.prototype.events = function(year,month,today_sign_in,today_sign_out) {
+			var _self = this.ele;
+			var $li = _self.find(".calendarList li");
+			
+			if (1 == today_sign_in) {
+				_self.parents().find('.checkBtn').text("已签到");
+			}
+			if(1 == today_sign_out){
+				_self.parents().find('.checkBtn_end').text("已签退");
+			}
+			
+			$li.on('click', function(event) {
+				event.preventDefault();//阻止元素发生默认的行为
+				/* Act on the event */
+//				if ($(this).hasClass('able-qiandao')) {
+//					$(this).addClass('checked');
+//					modal(_self);
+//					isChecked = true;
+//				}
+			});
+			
+			var checkBtn = _self.find(".checkBtn");
+			
+			$(".checkBtn").click(function(event) {
+				if(year != myDate.getFullYear() || month != myDate.getMonth()){
+					mui.toast("当前日期错误", {duration: 'long', type: 'div'});
+					return;
+				}
+				if (1 == today_sign_in) {
+					mui.toast("您今天已签到", {duration: 'long', type: 'div'});
+					return;
+				}
+				clock(1,_self);
+			}); 
+			
+			$(".checkBtn_end").click(function(event) {				
+				if(year != myDate.getFullYear() || month != myDate.getMonth()){
+					mui.toast("当前日期错误", {duration: 'long', type: 'div'});
+					return;
+				}
+				
+				if (1 == today_sign_out) {
+					mui.toast("您今天已签退", {duration: 'long', type: 'div'}); 
+					return;
+				}
+				clock(-1,_self);
+			}); 			
+		}
+		var modal = function(e,type) {
+			console.log(e);
+			var mask = e.parents().find(".mask");
+			var close = e.parents().find(".closeBtn");
+//			if (mask && !isChecked) {
+			mask.addClass('trf');
+//			} else {
+//				return
+//			};
+			close.click(function(event) {
+				event.preventDefault();
+				mask.removeClass('trf')
+			});
+			if(1 == type){
+				e.parents().find('.checkBtn').text("已签到");
+			}else if(-1 == type){
+				e.parents().find('.checkBtn_end').text("已签退");
+			}		
+		}		
+		$.fn.Checkin = function(year,month,day,today,today_sign_in,today_sign_out,options) {
+			var checkin = new Checkin(this,today,options);
+			var obj = [checkin.init(year,month,day), checkin.events(year,month,today_sign_in,today_sign_out)]
+			return obj
+		}
+		var isArray = function(arg) {
+			return Object.prototype.toString.call(arg) === '[object Array]';
+		};
+		
+
+	
+	// 插件调用
+	// 元素居中显示，与插件无关，根本自己需要修改；
+	//$(".checkin").css('marginTop',parseInt(($(window).innerHeight()-$(".checkin").outerHeight())/2)+'px');
+function dateInit(){
+	var date_init = new Date().pattern("yyyy-MM");
+		
+	var data = {
+		act:'api',
+		aut_token:token,
+		year_month:date_init
+	}	
+	core.ajax(url_clock, data, function (data) {
+		if (data.status == 1) {
+			var today_sign_in = data.result.today_sign_in;
+			var today_sign_out = data.result.today_sign_out;
+			
+			var today = data.result.sign_list;
+			$(".checkin").Checkin(year,month,day,today,today_sign_in,today_sign_out);	
+			
+			mui.toast("当月签到"+data.result.sign_count+'天', {duration: 'long', type: 'div'});
+		} else if(data.status == 400){
+			window.location.href = './login.html';
+		}else if(data.status == 0){			
+			mui.toast(data.msg, {duration: 'long', type: 'div'});
+			$(".checkin").Checkin(year,month,day,today,today_sign_in,today_sign_out);
+		}
+	}, function () {
+	}, 'post');	  	
+}
+
+dateInit();
+
+function clock(clock_type,_self){
+
+	if(!_img){
+		mui.toast("请先拍取照片", {duration: 'long', type: 'div'});
+		return;
+	}
+	document.getElementById('progressbar').style.display = 'block';
+	
+	AMap.service('AMap.Geolocation',function(){
+		geolocation = new AMap.Geolocation();
+		geolocation.getCurrentPosition(function(status, result) {
+			if (status === 'complete' && result.info === 'SUCCESS') {
+				if(areas){
+					var biaoji=false;
+					for (var i = 0; i < areas.length; i += 1) {
+						var polygon = new AMap.Polygon({
+							path: areas[i].polygon,//设置多边形边界路径
+						});						
+					if (polygon.contains(result.position)) {
+						biaoji=true;
+						var latY = result.position.getLat(); 
+						var lngX = result.position.getLng();
+						var aut_token = window.localStorage.getItem('aut_token');		    	
+						var url = URL.sign_in.format(aut_token,latY,lngX,_img,clock_type);		
+						
+					core.ajax(url, {}, function (data) {
+						console.log(JSON.stringify(data));
+						if (data.status == 1) {
+							document.getElementById('progressbar').style.display = 'none';
+							if(1 == clock_type){
+								modal(_self,clock_type);
+								_self.find('.able-qiandao').attr("class",'checked');
+//								isChecked = true;
+							}else if(-1 == clock_type){
+								modal(_self,clock_type);
+							}
+							_img = '';
+							dateInit();	
+						} else if(data.status == 400){								
+								window.location.href = './login.html';
+						}else{
+							 mui.toast(data.msg, {duration: 'long', type: 'div'});
+							}
+					}, function () {
+						}, 'GET');									    	
+				}
+			} 
+			if(!biaoji){
+					mui.toast("当前位置不在范围", {duration: 'long', type: 'div'});
+					return;
+				}
+		}		    
+		}else{
+			mui.toast("定位出错", {duration: 'long', type: 'div'});
+		}
+	});	
+});		
+}
+
+
+function plusReady(){
+	document.getElementById('getImages').addEventListener('click',function(){
+		getImage();
+	})
+}
+	
+if(window.plus){
+	plusReady();
+}else{
+	document.addEventListener('plusready', plusReady, false);
+}
+
+var _img;
+	
+function getImage(){
+	var cmr = plus.camera.getCamera();
+	cmr.captureImage(function(p){
+		console.log('成功：'+p);
+		plus.io.resolveLocalFileSystemURL(p, function(entry){
+			var s = entry.toLocalURL();			
+			createUpload(s);
+		}, function(e){
+			console.log('读取拍照文件错误：'+e.message);
+		});
+	}, function(e){
+		console.log('失败：'+e.message);
+		mui.toast('失败',{ duration:'long', type:'div' }); 
+	});
+}	
+
+function createUpload(entry) {
+	plus.nativeUI.toast('正在上传');
+	var task = plus.uploader.createUpload( url_img,
+		{ method:"POST",blocksize:204800,priority:100 },
+		function ( t, status ) {
+			// 上传完成
+		if ( status == 200 ) {
+			var data = JSON.parse(t.responseText);	
+ 			console.log(JSON.stringify(data))
+ 			_img = data.result;
+ 			
+			plus.nativeUI.toast('上传成功');
+//			console.log( "Upload success: " + t.url );
+		} else {
+			plus.nativeUI.toast('上传失败');
+//			console.log( "Upload failed: " + status );
+		}
+	}); 
+		console.log(entry);
+	    task.addFile(entry, {key:"photo"});
+        task.start();
+//	var image = new Image();
+//		image.src = entry;
+// 		image.onload = function() { 
+//      	var imgData = getBase64Image(image);
+//      	console.log(imgData);
+//      	task.addData( "photo", imgData);
+//      	task.start();
+//		}			
+}
+
+//将图片压缩转成base64
+function getBase64Image(img) {
+    var canvas = document.createElement("canvas");
+    var width = img.width;
+    var height = img.height;
+    
+    console.log(img.width+'=>'+img.height);
+            // calculate the width and height, constraining the proportions
+    if (width > height) {
+        if (width > 100) {
+            height = Math.round(height *= 100 / width);
+            width = 100;
+        }
+    } else {
+        if (height > 100) {
+            width = Math.round(width *= 100 / height);
+            height = 100;
+        }
+    }
+    console.log(width+'=>'+height);
+    canvas.width = width;   /*设置新的图片的宽度*/
+    canvas.height = height; /*设置新的图片的长度*/
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, width, height); /*绘图*/
+    var dataURL = canvas.toDataURL("image/png", 0.8);
+    return dataURL;
+} 
+
+});
+	</script>
+</body>
+</html>

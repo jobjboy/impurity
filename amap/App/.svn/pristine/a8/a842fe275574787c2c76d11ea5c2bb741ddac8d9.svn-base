@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>动态延展路径</title>
+
+</head>
+
+<body>
+
+<script type="text/javascript">
+function abs(x) {
+    if (typeof x !== 'number') {
+        throw 'Not a number';
+    }
+    if (x >= 0) {
+        return x;
+    } else {
+        return -x;
+    }
+}
+console.log(abs(xxx))
+</script>
+</body>
+
+</html>

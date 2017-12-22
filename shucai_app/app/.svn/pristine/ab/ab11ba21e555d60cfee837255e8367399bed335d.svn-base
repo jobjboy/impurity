@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/withdrawal.css" rel="stylesheet"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <style>
+        .wrap {
+            display: block;
+        }
+
+        .payWay {
+            width: 100%;
+            height: 119px;
+            border-top: 10px solid #EFEFF4;
+            /*border-bottom: 10px solid #EBECF0;*/
+        }
+
+        .payWayName {
+            width: 100%;
+            height: 37px;
+            text-align: left;
+            padding-left: 11%;
+            line-height: 37px;
+            border-bottom: 1px solid #EBECF0;
+        }
+
+        .payWayName1 {
+            width: 100%;
+            height: 37px;
+            text-align: left;
+            padding-left: 11%;
+            line-height: 37px;
+            border-bottom: 1px solid #EBECF0;
+        }
+
+        .payWay ul {
+            width: 100%;
+            height: 72px;
+
+        }
+
+        .payWay li {
+            float: left;
+            width: 25%;
+            text-align: center;
+        }
+
+        .money_way {
+            width: 100%;
+            height: 119px;
+        }
+
+        .money_way ul {
+            width: 100%;
+            height: 72px;
+        }
+
+        .money_way li {
+            float: left;
+            width: 25%;
+            text-align: center;
+        }
+
+        .payWay li span {
+            /*float: left;*/
+            display: inline-block;
+            width: 100%;
+            position: relative;
+            top: 10px;
+            color: #000;
+            font-size: 14px;
+        }
+
+        .payWay li div {
+            display: inline-block;
+            width: 44px;
+            height: 32px;
+
+        }
+
+        .payWay .payWayOne {
+            background: url("images/order/yueezhifu.png") no-repeat center center;
+            -webkit-background-size: 32px;
+            background-size: 32px;
+        }
+
+        .payWay .payWayTwo {
+            background: url("images/order/zhifubao.png") no-repeat center center;
+            -webkit-background-size: 32px;
+            background-size: 32px;
+        }
+
+        .payWay .payWayThree {
+            background: url("images/order/weixinzhifu.png") no-repeat center center;
+            -webkit-background-size: 32px;
+            background-size: 32px;
+        }
+
+        .payWay .payWayFour {
+            background: url("images/order/huodaofukuan.png") no-repeat center center;
+            -webkit-background-size: 32px;
+            background-size: 32px;
+        }
+
+        .check {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: url("images/order/checkend.png");
+            -webkit-background-size: 100%;
+            background-size: 100%;
+            position: relative;
+            top: 10px;
+            left: 5%;
+            float: left;
+        }
+
+        .checkend {
+            display: inline-block;
+            /*float: right;*/
+            width: 12px;
+            height: 12px;
+            background: url("images/order/xuanzhong.png");
+            -webkit-background-size: 100%;
+            background-size: 100%;
+            position: relative;
+            top: -10px;
+            left: 36px;
+        }
+
+        .money_item {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .money_list li {
+            border: 1px solid #DFDFDF;
+            padding: 10px 0;
+            margin-left: 5px;
+            width: 23%;
+            text-align: center;
+            position: relative;
+        }
+
+        .money_check {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            position: absolute;
+            background: url("images/order/xuanzhong.png");
+            -webkit-background-size: 100%;
+            background-size: 100%;
+            top: -5px;
+            right: -5px;
+        }
+
+        .mui-action-back {
+            color: #000;
+        }
+
+        .markprice {
+            padding: 15px;
+        }
+
+        input[type='password'] {
+            display: block;
+            width: 216px;
+            height: 34px;
+            /*padding: 6px 12px;*/
+            font-size: 20px;
+            /* line-height: 1.42857143; */
+            color: #555;
+            background-color: #fff;
+            margin-top: 60px;
+            letter-spacing: 30px;
+            margin-left: -108px;
+            position: relative;
+            left: 50%;
+            /*background: url(../images/fenge.png) repeat-x -6px 0px;*/
+            /*background-size: 16%;*/
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        }
+    </style>
+</head>
+<body>
+<header id="mui-color" class="mui-bar mui-bar-nav">
+    <span class=" mui-icon mui-icon-left-nav mui-pull-left"></span>
+    <h1 class="mui-title">租借支付</h1>
+</header>
+
+
+<div class="wrap">
+    <div class="markprice">
+        抵扣金额￥：
+        <em></em>
+    </div>
+    <!-- <ul>
+         <li class="withdrawal_money">
+             <p>支付金额</p>
+             <label for="withdrawal">
+                 <span class="user">￥</span>
+                 <input type="number" name="withdrawal" id="withdrawal" placeholder="" style="border-style:none"
+                        onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                 <div class="line"></div>
+             </label>
+         </li>
+
+     </ul>-->
+    <div class="payWay">
+        <span class="check"></span>
+        <div class="payWayName">支付宝</div>
+        <div class="payWayPic">
+            <ul class="clearfix">
+                <li class="payWayTwo">
+                    <em class="checkend">
+                    </em>
+                    <div></div>
+                    <span>支付宝</span>
+                </li>
+                <li class="payWayThree">
+                    <em></em>
+                    <div></div>
+                    <span>微信支付</span>
+                </li>
+                <li class="payWayOne">
+                    <em></em>
+                    <div></div>
+                    <span>余额支付</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--<div class="payWay money_item">
+        <span class="check"></span>
+        <div class="payWayName1">支付金额</div>
+        <div class="money_way">
+            &lt;!&ndash;<ul class="money_list clearfix">&ndash;&gt;
+            &lt;!&ndash;</ul>&ndash;&gt;
+        </div>
+    </div>-->
+    <button type="button" class="withdrawal-button">支付</button>
+    <!--密码输入框-->
+    <div class="passwordBox">
+        <div class="bg "></div>
+        <div class="inputbar">
+            <span class="paytitle">支付密码：</span>
+            <input type="password" id="pincode-input2" maxlength="6">
+            <span class="paytitleTips">请输入6位数支付密码</span>
+            <span class="esc"></span>
+            <a class="fgtpw" href="drawCashPassword.html?tag=order">忘记密码？</a>
+            <button class="payenter">确认支付</button>
+        </div>
+    </div>
+</div>
+<script src="js/URL.js"></script>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="js/mui.min.js"></script>
+<script src="js/template.js"></script>
+<script type="text/javascript" src="js/mui_common.js"></script>
+<script src="js/lhhpayment.js"></script>
+
+
+<script>
+    var pays = {};
+
+    (function () {
+        //支付配置
+        document.addEventListener("plusready", function () {
+            plus.payment.getChannels(function (channels) {
+
+                $.each(channels, function (index, item) {
+                    pays[item.id] = item;
+
+                    if (!item.serviceReady) {
+
+                        var txt = null;
+                        switch (item.id) {
+                            case "alipay":
+                                txt = "检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，是否立即安装？";
+                                break;
+                            default:
+                                txt = "系统未安装“" + item.description + "”服务，无法完成支付，是否立即安装？";
+                                break;
+                        }
+                        plus.nativeUI.confirm(txt, function (e) {
+                            if (e.index == 0) {
+                                item.installService();
+                            }
+                        }, item.description);
+                    }
+                });
+
+            }, function (e) {
+                alert("获取支付通道失败：" + e.message);
+            });
+
+        });
+        var price = getUrlParam("markprice");
+        if (price) {
+            $(".markprice em").text(price)
+            console.log(price);
+        }
+
+
+        $(".payWayPic li").on("click", function () {
+            $(".payWayPic li em").removeClass("checkend");
+            $(".payWayPic li em").eq($(this).index()).addClass("checkend");
+            var payWay = $(".payWayPic li span").eq($(this).index()).text();
+            //console.log(payWay);
+            $(".payWayName").text(payWay);
+        });
+        $(".money_way li").on("click", function () {
+            $(".money_way li em").removeClass("money_check");
+            $(".money_way li em").eq($(this).index()).addClass("money_check");
+        });
+
+        var user_id = localStorage.getItem("user_id");
+        var token = localStorage.getItem("token");
+
+
+        $(".withdrawal-button").on("click", function () {
+            var id = getUrlParam("order_id");
+
+            if ($(".payWayName").text() == "支付宝") {
+                lhhpay("alipay", id, "rentout", user_id, token);
+            } else if ($(".payWayName").text() == "微信支付") {
+//                mui.toast("抱歉,微信支付正在开发中...", {duration: 'long', type: 'div'})
+//                return;
+                lhhpay("wxpay", id, "rentout", user_id, token);
+            } else {
+                var payApi = URL.ApiUrl + "&c=User&a=check_paypwd"
+//            var payApi  = ""
+                //order_id   订单的ID
+                // paypasswd     支付密码
+                // user_id         用户id
+                var sys = navigator.userAgent;
+                if (sys.indexOf("OS") !== -1) {
+                    $("input[type='password']").css({"width": "238px", "margin-left": "-119px", "font-size": "14px"});
+                }
+                $.ajax({
+                    type: 'get',
+                    url: URL.SiteUrl + '/index.php?m=Api&c=User&a=userInfo',
+                    cache: false,
+                    dataType: 'json',
+                    data: {token: token, user_id: user_id},
+                    success: function (data) {
+                        console.log(data);
+                        if (data.result.paypasswd != '') {
+                            $(".passwordBox").css("display", "block");
+                            $(".payenter").on("click", function () {
+                                var password = $("#pincode-input2").val();
+                                console.log(password);
+                                if (password && password.length == 6) {
+                                    ajax_post({token: token, user_id: user_id, paypasswd: password}, payApi, function (data) {
+                                        console.log(data);
+                                        if (data.status == 1) {
+                                            var data1 = {token: token, user_id: user_id, order_id: id, paypasswd: password}
+                                            var CODPAYSERVER = URL.ApiUrl + '&c=User&a=return_money_check_pay';
+                                            ajax_post(data1, CODPAYSERVER, function (data) {
+                                                if (data.status == 1) {
+                                                    mui.toast('支付成功', {duration: 'long', type: 'div'});
+                                                    setTimeout(function () {
+                                                        location.href = "rentOrderDetails.html?order_id=" + id;
+                                                    }, 1000);
+                                                } else {
+                                                    $("#pincode-input2").val("");
+                                                    mui.toast(data.msg, {duration: 'long', type: 'div'});
+                                                }
+                                                // location.href = "orderDetails.html?order_id=" + order_id;
+                                            });
+                                        } else {
+                                            mui.toast(data.msg, {duration: 'long', type: 'div'});
+                                        }
+                                    })
+                                } else {
+                                    mui.toast("请输入6位数密码", {duration: 'long', type: 'div'});
+                                }
+
+                            })
+                        } else {
+                            mui.alert("请设置支付密码", '温馨提示', function () {
+                                location.href = "drawCashPassword.html?tag=order";
+                            });
+                        }
+                    }, error: function (data) {
+                        mui.toast(data.msg);
+                    }
+                })
+            }
+            return;
+
+        });
+//密码框业务逻辑
+        $(".bg").click(function () {
+            $(".passwordBox").css("display", "none")
+        });
+        $(".esc").on("click", function () {
+            $(".passwordBox").css("display", "none")
+        })
+        $("#pincode-input2").on("keyup", function () {
+            console.log(1);
+            var st = $(this).val();
+            if (st.length == 6) {
+                $(this).blur();
+                console.log(2);
+            }
+        })
+
+        function ajax_post(mdata, url, success) {
+            $.ajax({
+                type: 'post',
+                url: url,
+                dataType: 'json',
+                data: mdata,
+                error: function (data) {
+                    mui.alert(data.msg);
+                },
+                success: success
+            })
+        }
+
+        function formatDate(ns) {
+            var d = new Date(ns * 1000);
+            var dformat = [d.getFullYear(), d.getMonth() + 1, d.getDate()].join('-');
+            return dformat;
+        }
+
+        function escape2Html(str) {
+            var arrEntities = {'lt': '<', 'gt': '>', 'nbsp': ' ', 'amp': '&', 'quot': '"'};
+            var strings = str.replace(/&(lt|gt|nbsp|amp|quot);/ig, function (all, t) {
+                return arrEntities[t];
+            });
+            return strings.replace(/\+/g, ' ');
+        }
+
+        // 获取url中的参数
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            } else {
+                return null;
+            }
+        }
+
+
+    })();
+</script>
+<script>
+    /* mui.init({
+     keyEventBind: {
+     backbutton: true //打开back按键监听
+     }
+     });
+     mui.back = function () {
+     plus.webview.open("rentOrderList.html");
+     //        location.href ="rentOrderList.html"
+     }*/
+$(".mui-icon-left-nav").on("click",function () {
+    plus.webview.currentWebview().hide();
+    console.log(132);
+})
+    mui.init({
+        keyEventBind: {
+            backbutton: true //打开back按键监听
+        }
+    });
+    mui.back = function () {
+        window.history.go(-1);
+    }
+</script>
+<script src="js/push.js"></script>
+</body>
+</html>

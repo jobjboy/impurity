@@ -1,0 +1,59 @@
+$(function(){
+	var token = localStorage.getItem("token");
+	var user_id = localStorage.getItem("user_id");
+    var unique_id = localStorage.getItem("unique_id");
+    console.log(Boolean(token));
+    
+     $.ajax({
+        type: 'post',//用post方法获取
+        //获取首页数据
+        url: URL.SiteUrl + '/index.php?m=Api&c=Index&a=get_laster_cartnum',
+        //指定传入的数据格式为json
+        dataType: 'json',
+        data:{unique_id:unique_id,user_id:user_id},
+
+        //成功后执行函数,获得一个返回数据对象data
+        success: function (data) {
+            if(data.status==1){
+                if (data.result!==0){
+                    if(!token){
+                        $(".car_count").hide();
+                    }else {
+                        $(".car_count").text(data.result)
+                        $(".car_count").show();
+                    }
+
+                }
+            }
+            console.log(data);
+        }
+    });
+                    
+})
+var goods={
+				cp:[{src:'http://127.0.0.1:8020/sh/images/shucai2.png',name:'时令蔬菜',yiyu:'Vegetables'},
+				{src:'http://127.0.0.1:8020/sh/images/shucai2.png',name:'粮油副食',yiyu:'grain and oil'},
+				{src:'http://127.0.0.1:8020/sh/images/shucai2.png',name:'禽类蛋类',yiyu:'Poultry eggs'},
+				{src:'http://127.0.0.1:8020/sh/images/shucai2.png',name:'新鲜水果',yiyu:'Aquatic products'},
+				{src:'http://127.0.0.1:8020/sh/images/shucai2.png',name:'新鲜水产',yiyu:'Vegetables'},
+				{src:'http://127.0.0.1:8020/sh/images/shucai2.png',name:'新鲜肉类',yiyu:'Vegetables'}]
+			};
+			
+			//底部选项卡
+			$(".footNav").html(footerNav.str);
+			addFooterNavListener(2);
+			
+
+			
+			//模拟渲染
+			var html=template('goods_template',goods);
+			document.getElementById('goods').innerHTML=html;
+			
+			
+			
+			//搜索跳转
+			$("#search_bar2").on("focus", function () {
+            location.href = "search.html?1";
+       		})
+			
+			

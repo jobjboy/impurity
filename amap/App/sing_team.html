@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>智慧城市-签到</title>
+	<link rel="stylesheet" href="css/style.css" />
+	<link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+	<link rel="stylesheet" href="css/mui.min.css">
+	<link rel="stylesheet" type="text/css" href="css/mui.picker.min.css" />
+	<script src="http://webapi.amap.com/maps?v=1.4.1&key=78acee11046dfcc17c9e8e319c9a125f"></script>
+	<style>
+		p {
+			margin-bottom: 0px;
+		}
+		
+		a:active,
+		a:hover {
+			color: #f7f7f7;
+		}
+		
+		.mui-bar {
+			background: transparent;
+			border-bottom: none;
+		}
+		
+		.mui-bar .mui-title {
+			color: #fff;
+		}
+		
+		.mui-bar-nav a {
+			color: #fff;
+		}
+		
+		.mui-content-padded {
+			margin: 0;
+			border: none;
+			border-radius: 0;
+		}
+		
+		.mui-content-padded button {
+			border: none;
+			border-radius: 0;
+			padding: 0;
+			height: 40px;
+			background: transparent;
+		}
+		
+		.mui-btn-block {
+			margin: 0;
+		}
+		.sing-img{
+			margin: 22px auto;
+		}
+	</style>
+
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-icon-arrowleft"></a>
+		<h1 class="mui-title">队员签到记录</h1>
+	</header>
+
+	<div class="sing">
+		
+		<div class="sing-img"><img src="images/asktech.jpg">
+
+		</div>
+		<div class="sing-title">用户名称</div>
+
+	</div>
+	
+	<div class="mui-demo-container" id="progressbar" style="display: none;">
+		<div>
+			<p class="mui-progressbar mui-progressbar-infinite"></p>
+		</div>
+	</div>
+	
+	<div class="mui-content-padded">
+		<button id='Month' data-optioning='{"type":"month"}' class="btn mui-btn mui-btn-block"></button>
+	</div>
+
+	<div class="checkin qandao" id="con_container" style="display: block;">
+
+	</div>
+
+	<div class="mask">
+		<div class="modal">
+			<a href="#" class="closeBtn">×</a>
+			<h1 class="title_h1 clearfix"><span></span><em>成功</em></h1>
+		</div>
+	</div>
+
+	<div class="grid" style="display: block;">
+		<span class="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom"></span>
+		<p>拼命加载中<em>....</em></p>
+	</div>
+<script src="./lib/plugs/require/require.js"></script>
+<script src="lib/plugs/mui/mui.min.js"></script>
+<script src="lib/plugs/mui/mui.picker.min.js"></script>
+<script src="./lib/app.js"></script>
+<script>
+require(['jquery', 'mui', 'URL', 'core'],function($, mui, URL, core) {
+	var con_container = $("#con_container");
+	var con_loading = $(".grid");
+	var timestamp = new Date().getTime();
+
+	myDate = new Date();
+	year = myDate.getFullYear(), month = myDate.getMonth(), day = myDate.getDate();
+
+	var user_id = getUrlParam('user_id');
+	var aut_token = window.localStorage.getItem('aut_token');
+
+
+	document.getElementById('Month').addEventListener("click", function() {
+		mui.init();
+		var optionsJson = this.getAttribute('data-optioning') || '{}';
+		var optioning = JSON.parse(optionsJson);
+		var dtPicker = new mui.DtPicker(optioning);
+
+		dtPicker.show(function(rs) {
+			year = parseInt(rs.y.value);
+			month = parseInt(rs.m.value) - 1;
+			day = myDate.getDate();
+
+			var	year_month = rs.y.value + '-' + rs.m.value;
+			url = URL.team_member_sign_log.format(aut_token, user_id, year_month);
+			
+			core.ajax(url, {}, function(data) {
+				if(data.status == 1) {
+					
+					var today = data.result.sign_list;
+
+					$(".checkin").Checkin(year, month, day, today);
+					mui.toast("当月签到" + data.result.sign_count + '天', {
+						duration: 'long',
+						type: 'div'
+					});
+				} else if(data.status == 400) {
+					window.location.href = './login.html';
+				} else {
+					mui.toast(data.msg, {
+						duration: 'long',
+						type: 'div'
+					});
+				}
+			}, function() {}, 'GET');
+		})
+	}, false)
+
+	var Checkin = function(ele, today, options) {
+		this.ele = ele;
+		this.opt = options;
+		this.defaults = {
+			height: 'auto',
+			color: '#fff',
+			padding: 0,
+			dateArray: today, // 假设已签到的天数+1				
+		};
+		this.obj = $.extend({}, this.defaults, this.opt);
+	}
+	Checkin.prototype.init = function(year, month, day) {
+		var _self = this.ele,
+			html = '',
+			weekText = ['日', '一', '二', '三', '四', '五', '六'];
+
+		_self.css({
+			width: this.obj.width + 'px',
+			height: this.obj.height,
+			background: this.obj.background,
+			borderRadius: this.obj.radius,
+			color: this.obj.color,
+			padding: this.obj.padding
+		}).html("<div class='title'>" + year + '年' + (month + 1) + '月' + '<span class="mui-icon mui-icon-arrowdown"></span>' + "</div>");;
+		$("<ul class='week clearfix'></ul><ul class='calendarList clearfix'></ul>").appendTo(_self);
+		for(var i = 0; i < 7; i++) {
+			_self.find(".week").append("<li>" + weekText[i] + "</li>")
+		};
+		for(var i = 0; i < 42; i++) {
+			html += "<li><em><b></b><span></span></em></li>"
+		};
+		_self.find(".calendarList").append(html);
+		var $li = _self.find(".calendarList").find("li em b");
+		_self.find(".week li").css({
+			width: (_self.width() / 7) + 'px',
+			height: 30 + 'px',
+			borderRight: '1px solid #e6e3e3',
+			boxSizing: 'border-box',
+			padding: 0,
+		});
+		$li.parent().parent().css({
+			width: (_self.width() / 7) + 'px',
+			height: 45 + 'px',
+			boxSizing: 'border-box',
+			color: "#7b7b7b"
+		});
+		_self.find(".calendarList ").find("li:nth-child(7n)").css('borderRight', 'none');
+		_self.find(".week li:nth-child(7n)").css('borderRight', 'none');
+		var monthFirst = new Date(year, month, 1).getDay(); //返回下个month的第一天
+		var d = new Date(year, (month + 1), 0) //返回上一个month的最后一天
+		var totalDay = d.getDate(); //获取当前月的天数
+		for(var i = 0; i < totalDay; i++) {
+			$li.eq(i + monthFirst).html(i + 1);
+			$li.eq(i + monthFirst).addClass('data' + (i + 1))
+			if(isArray(this.obj.dateArray)) {
+				for(var j = 0; j < this.obj.dateArray.length; j++) {
+					if(i == this.obj.dateArray[j]) {
+						// 假设已经签到的
+						$li.eq(i + monthFirst).addClass('ls');
+						$li.eq(i + monthFirst).next().text('已签');
+					}
+				}
+			}
+		}
+		//			$li.eq(monthFirst+day-1).css('background','#f7ca8e')
+		_self.find($(".data" + day)).addClass('able-qiandao');
+//		_self.find($(".data" + day)).parent("em").addClass('today');
+	}
+
+	$.fn.Checkin = function(year, month, day, today, options) {
+		var checkin = new Checkin(this, today, options);
+		var obj = [checkin.init(year, month, day)]
+		return obj
+	}
+	var isArray = function(arg) {
+		return Object.prototype.toString.call(arg) === '[object Array]';
+	};
+
+	// 插件调用
+	// 元素居中显示，与插件无关，根本自己需要修改；
+	//$(".checkin").css('marginTop',parseInt(($(window).innerHeight()-$(".checkin").outerHeight())/2)+'px');
+
+	var date_init = new Date().pattern("yyyy-MM");
+
+	url = URL.team_member_sign_log.format(aut_token, user_id, date_init);
+
+	core.ajax(url, {}, function(data) {
+		if(data.status == 1) {
+
+			var today_sign_in = data.result.today_sign_in;
+			var today_sign_out = data.result.today_sign_out;
+
+			var today = data.result.sign_list;
+			$(".checkin").Checkin(year, month, day, today);
+
+			mui.toast("当月签到" + data.result.sign_count + '天', {
+				duration: 'long',
+				type: 'div'
+			});
+
+			timestamp2 = new Date().getTime();
+
+			if((timestamp2 - timestamp) <= 300) {
+				setTimeout(function() {
+					con_loading.hide();
+					con_container.show();
+				}, 400);
+			} else {
+				con_loading.hide();
+				con_container.show();
+			}
+		} else if(data.status == 400) {
+			window.location.href = './login.html';
+		}
+	}, function() {}, 'GET');
+});	
+</script>
+	</body>
+
+</html>

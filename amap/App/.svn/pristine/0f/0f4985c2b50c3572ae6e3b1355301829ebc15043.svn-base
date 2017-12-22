@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>智慧城市-任务</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+		<link rel="stylesheet" href="css/mui.min.css">
+		<script src="./lib/plugs/require/require.js"></script>
+		<script src="./lib/app.js"></script>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">申请详情</h1>
+		</header>
+		<div class="mui-content">
+
+			<div class="info">
+				<h3>申请信息</h3>
+				<ul id="view1">
+					
+				</ul>
+
+			</div>
+			
+			<!--<div class="quest">
+				<h3>任务记录</h3>
+				<ul id="view2">
+					
+				</ul>
+			
+			</div>-->
+		</div>
+
+		<script id="tpl" type="text/html">
+			{{each result as value}}
+			<li>
+			    <label>任务ID:</label>
+			    <span>{{value.task_id}}</span>
+			</li>
+			<li>
+			    <label>任务名称:</label>
+			    <span>{{value.name}}</span>
+			</li>
+			<li>
+			    <label>分配时间:</label>
+			    <span>{{value.time}}</span>
+			</li>
+			<li>
+			    <label>任务创建时间:</label>
+			    <span>{{value.create_time}}</span>
+			</li>
+			<li>
+			    <label>是否有操作:</label>
+			    <span>{{value.status}}</span>
+			</li>			
+			<li>
+			    <label>任务状态:</label>
+			    <span>{{value.task_status}}</span>
+			</li>
+			<li>
+			    <label>任务地址:</label>
+			    <span>{{value.address}}</span>
+			</li>
+			<li>
+			    <label>任务描述:</label>
+			    <span>{{value.description}}</span>
+			</li>
+			<li>
+			    <label>巡查人员ID:</label>
+			    <span>{{value.user_id}}</span>
+			</li>
+			<li>
+			    <label>飞行人员ID:</label>
+			    <span>{{value.fly_user_id}}</span>
+			</li>
+			{{/each}}
+		</script>
+
+		<script>
+			require(['jquery', 'mui', 'URL', 'core','tpl',], function ($, mui, URL, core,template) {   	
+	mui.init();
+	
+    var aut_token = window.localStorage.getItem('aut_token');
+	var taskId = getUrlParam('task_id');
+	
+	var url = URL.road_inspection_list;
+	
+		
+        core.ajax(url, {}, function (data) {
+        	if (data.status == 1) {
+               // console.log(data.result.task_info);
+               var results = {results:data.result.task_info};
+                var data2 = {result:results};
+				var html = template('tpl', data2);
+				
+				$('#view1').html(html);
+				
+				console.log(html);
+				var html = template('tpl2', data.result);
+				//console.log(html);
+				$('#view2').html(html);
+				
+            } else if(data.status == 400){
+            	
+            	window.location.href = './login.html';
+            }else{
+            	mui.toast(data.msg, {duration: 'long', type: 'div'});
+            }
+	    }, function () {
+	    }, 'GET');	
+	
+});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+    <title>熊购抽奖</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/lottery.css" rel="stylesheet"/>
+    <link href="css/animate.css" rel="stylesheet">
+    <script type="text/javascript" src="js/jquery-1.11.0.js"></script>
+
+    <script src="js/URL.js"></script>
+    <script src="js/jq_scroll.js" type="text/javascript"></script>
+    <script src="js/mui.js"></script>
+    <script src="js/awardRotate.js"></script>
+    <script src="js/template.js"></script>
+    <script src="js/alert_plug.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#scrollDiv").Scroll({line: 1, speed: 500, timer: 300, up: "but_up", down: "but_down"});
+        });
+    </script>
+</head>
+
+<body>
+<header id="mui-color" class="mui-bar mui-bar-nav">
+    <a href="index.html" class=" mui-icon  mui-icon-left-nav mui-pull-left"></a>
+    <h1 class="mui-title">抽奖</h1>
+</header>
+
+
+<div id="lodding" style="margin: 50% 0 0 0; text-align: center;">
+    <span class="mui-spinner"></span>
+    <p>正在努力加载...</p>
+</div>
+
+<div class="lottery" id="lottery_model" style="display: none;">
+    <audio style="display: none;" id="app_music" data-type="mp3"  loop="loop"></audio>
+    <div class="lottery-title wow zoomInDown animated"><img id="app_lottery_title"></div>
+    <div class="lootery-sm wow bounceInUp animated"><img id="app_lottery_sm"></div>
+
+    <div class="lottery-yp">
+        <div class="lottery-yp-wb">
+            <div class="banner">
+                <div class="turnplate" id="app_turnplate" data-type="bg">
+                    <canvas class="item" id="wheelcanvas" width="480px" height="480px"></canvas>
+                    <img class="pointer" id="app_turnplate-pointer" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="winners" data-type="bg" id="app_winners_bg">
+        <div class="winners-list">
+            <h2>今日中奖名单</h2>
+
+            <h3></h3>
+
+            <div id="scrollDiv">
+                <ul id="popTpl">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="active">
+        <h2>活动规则</h2>
+        <h3></h3>
+        <ul id="rule_ul">
+        </ul>
+    </div>
+    <div class="lottery-bg"><img id="app_lottery_img"></div>
+    <div id="model"></div>
+</div>
+
+</body>
+<script type="text/html" id="rule_tpl">
+    {{each rule as value i}}
+    <li>
+        <em>{{i+1}}</em><span>  {{value}}</span>
+    </li>
+
+    {{/each}}
+    <li><em>6</em><span>本次活动苹果公司不作为赞助商，苹果公司没有参与任何方式的比赛或抽奖活动。</span></li>
+</script>
+<script type="text/html" id="pop_tpl">
+    {{each winners as value i}}
+    {{if value.nickname ==null||value.nickname ==""}}
+    <li><b>匿名</b><em>抽中</em><span>{{value.goods_name}}</span></li>
+    {{else}}
+    <li><b>{{value.nickname}}</b><em>抽中</em><span>{{value.goods_name}}</span></li>
+    {{/if}}
+    {{/each}}
+</script>
+<script src="js/lottery.js"></script>
+<script src="js/push.js"></script>
+
+
+</html>

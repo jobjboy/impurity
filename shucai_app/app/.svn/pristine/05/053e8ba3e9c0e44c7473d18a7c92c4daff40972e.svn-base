@@ -1,0 +1,61 @@
+$(function(){
+	var token = localStorage.getItem("token");
+	var user_id = localStorage.getItem("user_id");
+    var unique_id = localStorage.getItem("unique_id");
+    console.log(Boolean(token));
+    
+     $.ajax({
+        type: 'post',//用post方法获取
+        //获取首页数据
+        url: URL.SiteUrl + '/index.php?m=Api&c=Index&a=get_laster_cartnum',
+        //指定传入的数据格式为json
+        dataType: 'json',
+        data:{unique_id:unique_id,user_id:user_id},
+
+        //成功后执行函数,获得一个返回数据对象data
+        success: function (data) {
+            if(data.status==1){
+                if (data.result!==0){
+                    if(!token){
+                        $(".car_count").hide();
+                    }else {
+                        $(".car_count").text(data.result)
+                        $(".car_count").show();
+                    }
+
+                }
+            }
+            console.log(data);
+        }
+    });
+                    
+})
+var goods={
+				cp:[{id:'2',src:'http://127.0.0.1:8020/app/images/fuxin/shucai2.png',name:'时令蔬菜',yiyu:'Vegetables'},
+				{id:'5',src:'http://127.0.0.1:8020/app/images/fuxin/liangyou.png',name:'粮油副食',yiyu:'grain and oil'},
+				{id:'16',src:'http://127.0.0.1:8020/app/images/fuxin/jidan.png',name:'禽类蛋类',yiyu:'Poultry eggs'},
+				{id:'7',src:'http://127.0.0.1:8020/app/images/fuxin/shuichan2.png',name:'新鲜水产',yiyu:'Aquatic products'},
+				{id:'6',src:'http://127.0.0.1:8020/app/images/fuxin/rou5.png',name:'新鲜肉类',yiyu:'Vegetables'},
+				{id:'2',src:'http://127.0.0.1:8020/app/images/fuxin/jiance2.png',name:'食品检测',yiyu:'Vegetables'},
+				{id:'17',src:'http://127.0.0.1:8020/app/images/fuxin/shitang.png',name:'食堂承包',yiyu:'Vegetables'},
+				{id:'17',src:'http://127.0.0.1:8020/app/images/fuxin/peisong.png',name:'产品配送',yiyu:'Vegetables'}]
+			};
+			
+			//底部选项卡
+			$(".footNav").html(footerNav.str);
+			addFooterNavListener(2);
+			
+
+			
+			//模拟渲染
+			var html=template('goods_template',goods);
+			document.getElementById('goods').innerHTML=html;
+			
+			
+			
+			//搜索跳转
+			$("#search_bar2").on("focus", function () {
+            location.href = "search.html?2";
+       		})
+			
+			

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/drawCashPassword.css" rel="stylesheet"/>
+</head>
+<body>
+<!--头部部分star-->
+<header id="mui-color" class="mui-bar mui-bar-nav">
+    <span class="mui-icon mui-icon-back mui-action-back"></span>
+    <h1 class="mui-title">设置支付密码</h1>
+</header>
+<!--头部部分end-->
+
+<div class="user">
+    <ul>
+        <li>
+            <span>密码</span>
+            <input type="password"  class="user-input paypasswd" placeholder="请输入6位数字密码" maxlength="6">
+        </li>
+        <li>
+            <span>确认密码</span>
+            <input type="password" class="user-input c_paypasswd" placeholder="请确认密码" maxlength="6">
+        </li>
+        <li class="yz">
+            <span>验证码</span>
+            <input type="text"  id="yzm" class="mui-input-clear mui-input  test" placeholder="请输入验证码" maxlength="4">
+            <button type="button" class="register-yzm">获取验证码</button>
+        </li>
+    </ul>
+    <!--<a class="fgp" href="drawCashPassword2.html">忘记密码？</a>-->
+    <button type="button" class="user-button" id="set">设置密码</button>
+</div>
+
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="js/mui.min.js"></script>
+<script src="js/URL.js"></script>
+<script src="js/drawCashPassword.js"></script>
+<script src="js/push.js"></script>
+</body>
+</html>

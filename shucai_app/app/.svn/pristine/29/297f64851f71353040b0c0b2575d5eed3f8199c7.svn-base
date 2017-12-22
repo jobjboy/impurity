@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/indent.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/icons-extra.css"/>
+</head>
+<body>
+
+<!--头部部分star-->
+<header id="mui-color" class="mui-bar mui-bar-nav">
+    <!--<span class="mui-icon mui-icon-back"></span>-->
+    <a class="mui-icon  mui-icon-left-nav mui-pull-left" href="personal.html"></a>
+    <h1 class="mui-title">我的订单</h1>
+    <a href="mobile.html"><span id="mui-chat" class="mui-icon mui-icon-chat"></span></a>
+</header>
+<!--头部部分end-->
+<div class="mui-content">
+    <div id="tabbox">
+        <dl class="tabs" id="tabs">
+            <dd id="all">全部</dd>
+            <dd id="payment">待付款</dd>
+            <dd id="waitSend">待发货</dd>
+            <dd id="receiving">待收货</dd>
+            <dd id="evaluate">待评价</dd>
+            <dd id="return">退/换货</dd>
+        </dl>
+        <div id="lodding">
+            <span class="mui-spinner"></span>
+            <p>正在努力加载...</p>
+        </div>
+        <dl class="tab_conbox" id="tab_conbox">
+            <dd class="tab_con" id="dd_all">
+                <div class="model"></div>
+                <div id="all_list"></div>
+            </dd>
+            <!--待付款-->
+            <dd class="tab_con" id="dd_payment">
+                <div class="model"></div>
+                <div id="payment_list">
+                	
+                </div>
+            </dd>
+            <!--待发货-->
+            <dd class="tab_con" id="dd_waitSend">
+                <div class="model"></div>
+                <div id="waitSend_list">
+                </div>
+            </dd>
+            <!--待收货-->
+            <dd class="tab_con" id="dd_receiving">
+                <div class="model"></div>
+                <div id="receiving_list">
+                </div>
+            </dd>
+            <!--待评价-->
+            <dd class="tab_con" id="dd_evaluate">
+                <div class="model"></div>
+                <div id="evaluate_list">
+                </div>
+            </dd>
+            <!--退/换货-->
+            <dd class="tab_con" id="dd_return">
+                <div class="model"></div>
+                <div id="return_list">
+                </div>
+            </dd>
+        </dl>
+        <p class="pre_lodding">
+            <span class="mui-spinner"></span>
+            正在努力加载...
+        </p>
+        <p class="null">别扯了，已经没有更多订单了...</p>
+    </div>
+</div>
+<script src="./js/common.js"></script>
+<script src="js/mui.min.js"></script>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="./js/URL.js"></script>
+<script src="./js/mui_common.js"></script>
+<script src="js/template.js"></script>
+<script src="js/_refresh.js"></script>
+<script>
+    mui.init({
+        swipeBack: true,//启用右滑关闭功能
+        keyEventBind: {
+            backbutton: true //打开back按键监听
+        }
+    });
+    mui('.mui-input-group').on('change', 'input', function () {
+        var value = this.checked ? "true" : "false";
+        this.previousElementSibling.innerText = "checked：" + value;
+    });
+
+    mui.back = function() {
+        window.history.go(-1);
+//        location.href="personal.html";
+        mui.currentWebview.opener().show(mui.currentWebview);
+    }
+</script>
+</body>
+<!--待付款订单数据模板-->
+<script id="payment_tpl" type="text/html">
+    {{each result}}
+    <form class="mui-input-group">
+        <ul class="indent-list">
+            <li>
+                <div class="indent-list-title1 mui-checkbox mui-left">订单编号:{{$value.order_sn}}
+                    <span>{{$value.order_status_desc}}</span>
+                </div>
+                {{if $value.order_status_detail !==""}}
+                <div class="sendStatus">{{$value.order_status_detail}}</div>
+                {{/if}}
+                {{each $value.goods_list as val }}
+                <a href="orderDetails.html?order_id={{val.order_id}}" class="indent-list-img">
+                    <em><img  src="{{val.original_img}}"/></em>
+                    <span class="item_title">{{val.goods_name}}</span>
+                    <span class="total_price">￥{{val.goods_price}}</span>
+                    <span class="item_num" data-num="{{val.goods_num}}" data-id="{{val.goods_id}}">×{{val.goods_num}}</span>
+                </a>
+                <div class="buttonBar">
+                    {{if $value.return_btn ==1 && val.is_send ==1 &&  val.cancel_return_btn ==0 }}
+                    <button type="button" class="mui-btn-th return_btn" data-orderid="{{$value.order_id}}" data-goods_id="{{val.goods_id}}" data-order_sn="{{$value.order_sn}}">申请退换货</button>
+                    {{/if}}
+                    {{if val.cancel_return_btn ==1}}
+                    <button type="button" class="mui-btn-th cancel_return_btn" data-orderid="{{$value.order_id}}" data-goods_id="{{val.goods_id}}" data-order_sn="{{$value.order_sn}}">取消退换货</button>
+                    {{/if}}
+                </div>
+                {{/each}}
+            </li>
+        </ul>
+        <div class="indent-list-bottom">
+            <span>共{{$value.goods_list.length}}件商品 </span>需付款：<em>￥{{$value.total_amount}}</em>
+        </div>
+        <div class="indent-list-button">
+            {{if $value.refund_btn == 1}}
+            <button type="button" class="mui-btn-th refund_btn" data-orderid="{{$value.order_id}}">申请退款</button>
+            {{else if $value.cancel_refund_btn == 1}}
+            <button type="button" class="mui-btn-th cancel_refund_btn" data-orderid="{{$value.order_id}}">取消退款</button>
+            {{/if}}
+            <button type="button" class="mui-btn-sj" onclick=window.location="mobile.html">联系商家</button>
+            <button type="button" class="mui-btn-zf go_to_pay" data-orderid="{{$value.order_id}}">去支付</button>
+            {{if $value.cancel_btn == 1}}
+            <button type="button" class="mui-btn-sj off_order" data-orderid="{{$value.order_id}}" >取消订单</button>
+            {{/if}}
+        </div>
+    </form>
+    {{/each}}
+</script>
+<!--<script id="goodslist" type="text/html">
+    {{include 'goodslist' $value.goods_list}}
+    {{each}}
+    <a href="orderDetails.html?order_id={{$value.order_id}}" class="indent-list-img">
+        <em><img  src="{{$value.original_img}}"/></em>
+        <span class="item_title">{{$value.goods_name}}</span>
+        <span class="total_price">￥{{$value.goods_price}}</span>
+        <span class="item_num" data-num="{{$value.goods_num}}" data-id="{{$value.goods_id}}">×{{$value.goods_num}}</span>
+    </a>
+    <div class="buttonBar">
+        {{if return_btn ==1 && $value.is_send ==1 &&  $value.cancel_return_btn ==0 }}
+        <button type="button" class="mui-btn-sj return_btn" data-orderid="{{order_id}}" data-goods_id="{{$value.goods_id}}" data-order_sn="{{order_sn}}">申请退换货</button>
+        {{/if}}
+        {{if $value.cancel_return_btn ==1}}
+        <button type="button" class="mui-btn-sj cancel_return_btn" data-orderid="{{order_id}}" data-goods_id="{{$value.goods_id}}" data-order_sn="{{order_sn}}">取消退换货</button>
+        {{/if}}
+    </div>
+    {{/each}}
+</script>-->
+<!--待发货订单数据模板-->
+<script id="waitSend_tpl" type="text/html">
+    {{each result}}
+    <form class="mui-input-group">
+        <ul class="indent-list">
+            <li>
+
+                <div class="indent-list-title1 mui-checkbox mui-left">订单编号:{{$value.order_sn}}
+                    <span>{{$value.order_status_desc}}</span>
+                </div>
+                {{if $value.order_status_detail !==""}}
+                <div class="sendStatus">{{$value.order_status_detail}}</div>
+                {{/if}}
+                {{each $value.goods_list as val }}
+                <a href="orderDetails.html?order_id={{val.order_id}}" class="indent-list-img">
+                    <em><img  src="{{val.original_img}}"/></em>
+                    <span class="item_title">{{val.goods_name}}</span>
+                    <span class="total_price">￥{{val.goods_price}}</span>
+                    <span class="item_num" data-num="{{val.goods_num}}" data-id="{{val.goods_id}}">×{{val.goods_num}}</span>
+                </a>
+                <div class="buttonBar">
+                    {{if $value.return_btn ==1 && val.is_send ==1 &&  val.cancel_return_btn ==0 }}
+                    <button type="button" class="mui-btn-th return_btn" data-orderid="{{$value.order_id}}" data-goods_id="{{val.goods_id}}" data-order_sn="{{$value.order_sn}}">申请退换货</button>
+                    {{/if}}
+                    {{if val.cancel_return_btn ==1}}
+                    <button type="button" class="mui-btn-th cancel_return_btn" data-orderid="{{$value.order_id}}" data-goods_id="{{val.goods_id}}" data-order_sn="{{$value.order_sn}}">取消退换货</button>
+                    {{/if}}
+                </div>
+                {{/each}}
+            </li>
+        </ul>
+        <div class="indent-list-bottom">
+            <span>共{{$value.goods_list.length}}件商品 </span>已付款：<em>￥{{$value.total_amount}}</em>
+        </div>
+        <div class="indent-list-button">
+            {{if $value.refund_btn == 1}}
+            <button type="button" class="mui-btn-th refund_btn" data-orderid="{{$value.order_id}}"  data-order_sn="{{$value.order_sn}}">申请退款</button>
+            {{else if $value.cancel_refund_btn == 1}}
+            <button type="button" class="mui-btn-th cancel_refund_btn" data-orderid="{{$value.order_id}}"  data-order_sn="{{$value.order_sn}}">取消退款</button>
+            {{/if}}
+            <button type="button" class="mui-btn-sj" onclick=window.location="mobile.html">联系商家</button>
+            <button type="button" class="mui-btn-zf buyAgain" data-orderid="{{$value.order_id}}">再次购买</button>
+            {{if $value.cancel_btn == 1}}
+            <button type="button" class="mui-btn-sj off_order" data-orderid="{{$value.order_id}}" >取消订单</button>
+            {{/if}}
+        </div>
+    </form>
+    {{/each}}
+</script>
+<!--待收货订单数据模板-->
+<script id="receiving_tpl" type="text/html">
+    {{each result}}
+    <form class="mui-input-group">
+    <ul class="indent-list1">
+        <li>
+            <div class="indent-list-title1 mui-checkbox mui-left">订单编号:{{$value.order_sn}}
+					<span>
+						{{if $value.order_status === '0'}}
+							待商家确认
+						{{else if $value.order_status == 1}}
+							{{if $value.shipping_status ==0}}
+								商品分拣中
+							{{else if $value.shipping_status == 1}}
+								正在配送中
+							{{else if $value.shipping_status == 2}}
+								正在配送中
+							{{/if}}
+						{{else if $value.order_status == 2}}
+							已收货
+						{{else if $value.order_status == 3}}
+							订单已取消
+						{{else if $value.order_status == 4}}
+							订单已完成
+						{{else if $value.order_status == 5}}
+							订单已作废
+						{{/if}}
+					</span>
+            </div>
+            {{if $value.order_status_detail !==""}}
+            <div class="sendStatus">{{$value.order_status_detail}}</div>
+            {{/if}}
+            {{each $value.goods_list as val }}
+            <a href="orderDetails.html?order_id={{val.order_id}}" class="indent-list-img">
+                <em><img  src="{{val.original_img}}"/></em>
+                <span class="item_title">{{val.goods_name}}</span>
+                <span class="total_price">￥{{val.goods_price}}</span>
+                <span class="item_num" data-num="{{val.goods_num}}" data-id="{{val.goods_id}}">×{{val.goods_num}}</span>
+            </a>
+            <div class="buttonBar">
+                {{if $value.return_btn ==1 && val.is_send ==1 &&  val.cancel_return_btn ==0 }}
+                <button type="button" class="mui-btn-th return_btn" data-orderid="{{$value.order_id}}" data-goods_id="{{val.goods_id}}" data-order_sn="{{$value.order_sn}}">申请退换货</button>
+                {{/if}}
+                {{if val.cancel_return_btn ==1}}
+                <button type="button" class="mui-btn-th cancel_return_btn" data-orderid="{{$value.order_id}}" data-goods_id="{{val.goods_id}}" data-order_sn="{{$value.order_sn}}">取消退换货</button>
+                {{/if}}
+            </div>
+            {{/each}}
+            <div class="indent-list-bottom">
+                <span>共{{$value.goods_list.length}}件商品 </span>已付款：<em>￥{{$value.total_amount}}</em>
+            </div>
+            <div class="distribution yz">
+                <span class="distribution_l">收货验证码：</span>
+                <span class="distribution_r yzm" >{{$value.check_code}}</span>
+            </div>
+            <div class="indent-list-button">
+                {{if $value.refund_btn==1}}
+                <button type="button" class="mui-btn-th refund_btn" data-orderid="{{$value.order_id}}"  data-order_sn="{{$value.order_sn}}">申请退款</button>
+                {{else if $value.cancel_refund_btn==1}}
+                <button type="button" class="mui-btn-th cancel_refund_btn" data-orderid="{{$value.order_id}}"  data-order_sn="{{$value.order_sn}}">取消退款</button>
+                {{/if}}
+                <button type="button" class="mui-btn-sj" onclick=window.location="mobile.html">联系商家</button>
+                <button type="button" class="mui-btn-zf buyAgain" data-orderid="{{$value.order_id}}">再次购买</button>
+                {{if $value.shipping_status >0}}
+                <!--<button type="button" class="mui-btn-sj">查看物流</button>-->
+                <!--<button type="button" class="mui-btn-zf receive-order" data-orderid="{{$value.order_id}}">确认收货</button>-->
+                {{/if}}
+
+            </div>
+        </li>
+    </ul>
+    </form>
+    {{/each}}
+</script>
+<!--待评价数据模板-->
+<script id="evaluate_tpl" type="text/html">
+    {{each result}}
+    <form class="mui-input-group">
+    <ul class="indent-list1">
+        <li>
+            <div class="indent-list-title1 mui-checkbox mui-left">
+                订单编号:{{$value.order_sn}}
+                <span>{{$value.order_status_desc}}</span>
+            </div>
+            {{if $value.order_status_detail !==""}}
+            <div class="sendStatus">{{$value.order_status_detail}}</div>
+            {{/if}}
+            {{each $value.goods_list as val }}
+            <a href="orderDetails.html?order_id={{val.order_id}}" class="indent-list-img">
+                <em><img  src="{{val.original_img}}"/></em>
+                <span class="item_title">{{val.goods_name}}</span>
+                <span class="total_price">￥{{val.goods_price}}</span>
+                <span class="item_num" data-num="{{val.goods_num}}" data-id="{{val.goods_id}}">×{{val.goods_num}}</span>
+            </a>
+            <div class="buttonBar">
+                {{if $value.return_btn ==1 && val.is_send ==1 &&  val.cancel_return_btn ==0 }}
+                <button type="button" class="mui-btn-th return_btn" data-orderid="{{$value.order_id}}" data-goods_id="{{val.goods_id}}" data-order_sn="{{$value.order_sn}}">申请退换货</button>
+                {{/if}}
+                {{if val.cancel_return_btn ==1}}
+                <button type="button" class="mui-btn-th cancel_return_btn" data-orderid="{{$value.order_id}}" data-goods_id="{{val.goods_id}}" data-order_sn="{{$value.order_sn}}">取消退换货</button>
+                {{/if}}
+            </div>
+            {{/each}}
+            <div class="indent-list-bottom">
+                <span>共{{$value.goods_list.length}}件商品 </span>已付款：<em>￥{{$value.total_amount}}</em>
+            </div>
+            <div class="indent-list-button">
+                {{if $value.refund_btn==1}}
+                <button type="button" class="mui-btn-th refund_btn" data-orderid="{{$value.order_id}}"  data-order_sn="{{$value.order_sn}}">申请退款</button>
+                {{else if $value.cancel_refund_btn==1}}
+                <button type="button" class="mui-btn-th cancel_refund_btn" data-orderid="{{$value.order_id}}"  data-order_sn="{{$value.order_sn}}">取消退款</button>
+                {{/if}}
+                <button type="button" class="mui-btn-zf buyAgain" data-orderid="{{$value.order_id}}">再次购买</button>
+                <a href="evaluate.html?order_id={{$value.order_id}}" type="button" class="mui-btn-zf">评价</a>
+            </div>
+        </li>
+    </ul>
+    </form>
+    {{/each}}
+</script>
+<!--退换货数据模板-->
+<script id="return_tpl" type="text/html">
+    {{each result}}
+    <form class="mui-input-group">
+
+    <ul class="indent-list1">
+        <li>
+            <div class="indent-list-title1 mui-checkbox mui-left">
+                订单编号:{{$value.order_sn}}
+                <span>
+                    {{if $value.status == 0}}
+                        待审核
+                    {{else if $value.status == 1}}
+                        正在处理
+                    {{else if $value.status == 2}}
+                        已完成
+                    {{/if}}
+                </span>
+            </div>
+            {{if $value.order_status_detail !==""}}
+            <div class="sendStatus">{{$value.order_status_detail}}</div>
+            {{/if}}
+            {{each $value.goods_list as val }}
+            <a href="orderDetails.html?order_id={{val.order_id}}" class="indent-list-img">
+                <em><img  src="{{val.original_img}}"/></em>
+                <span class="item_title">{{val.goods_name}}</span>
+                <span class="total_price">￥{{val.goods_price}}</span>
+                <span class="item_num" data-num="{{val.goods_num}}" data-id="{{val.goods_id}}">×{{val.goods_num}}</span>
+            </a>
+            <div class="buttonBar">
+                {{if $value.return_btn ==1 && val.is_send ==1 &&  val.cancel_return_btn ==0 }}
+                <button type="button" class="mui-btn-th return_btn" data-orderid="{{$value.order_id}}" data-goods_id="{{val.goods_id}}" data-order_sn="{{$value.order_sn}}">申请退换货</button>
+                {{/if}}
+                {{if val.cancel_return_btn ==1}}
+                <button type="button" class="mui-btn-th cancel_return_btn" data-orderid="{{$value.order_id}}" data-goods_id="{{val.goods_id}}" data-order_sn="{{$value.order_sn}}">取消退换货</button>
+                {{/if}}
+            </div>
+            {{/each}}
+            {{if $value.reason}}
+            <div class="indent-list-bottom">
+                <span>退货原因：{{$value.reason}}</span></br>
+                <!--<span class="addTime">2010.1.10</span>-->
+            </div>
+            {{/if}}
+           <!-- <div class="indent-list-button">
+                <a href="sincere.html" class="mui-btn-zf">钱款去向</a>
+            </div>-->
+        </li>
+    </ul>
+        </form>
+    {{/each}}
+</script>
+<!--全部已评价数据模板-->
+<script id="all_tpl" type="text/html">
+    {{each result}}
+    <form class="mui-input-group">
+    <ul class="indent-list1">
+        <li>
+            <div class="indent-list-title1 mui-checkbox mui-left">订单编号:{{$value.order_sn}}<span>
+					{{if $value.order_status_desc === '待支付'}}
+							等待支付
+                    {{else if $value.order_status_desc == '待收货'}}
+                        {{if $value.shipping_status == 0}}
+                            商品分拣中
+                        {{else if $value.shipping_status == 1}}
+                           正在配送中
+                        {{else if $value.shipping_status == 2}}
+                           正在配送中
+                        {{/if}}
+                    {{else if $value.order_status_desc == '待发货'}}
+                        等待发货
+                    {{else if $value.order_status_desc == '已收货'}}
+                        已收货
+                    {{else if $value.order_status_desc == '已取消'}}
+                        订单已取消
+                    {{else if $value.order_status_desc == '已完成'}}
+                        订单已完成
+                    {{else if $value.order_status_desc == "已作废"}}
+                        订单已作废
+                    {{else}}
+                    {{$value.order_status_desc}}
+                    {{/if}}
+				</span></div>
+
+            {{if $value.order_status_detail !==""}}
+            <div class="sendStatus">{{$value.order_status_detail}}</div>
+            {{/if}}
+            {{each $value.goods_list as val }}
+            <a href="orderDetails.html?order_id={{val.order_id}}" class="indent-list-img">
+                <em><img  src="{{val.original_img}}"/></em>
+                <span class="item_title">{{val.goods_name}}</span>
+                <span class="total_price">￥{{val.goods_price}}</span>
+                <span class="item_num" data-num="{{val.goods_num}}" data-id="{{val.goods_id}}">×{{val.goods_num}}</span>
+            </a>
+
+            <div class="buttonBar">
+                {{if $value.return_btn ==1 && val.is_send ==1 &&  val.cancel_return_btn ==0 }}
+                <button type="button" class="mui-btn-th return_btn" data-orderid="{{$value.order_id}}" data-goods_id="{{val.goods_id}}" data-order_sn="{{$value.order_sn}}">申请退换货</button>
+                {{/if}}
+                {{if val.cancel_return_btn ==1}}
+                <button type="button" class="mui-btn-th cancel_return_btn" data-orderid="{{$value.order_id}}" data-goods_id="{{val.goods_id}}" data-order_sn="{{$value.order_sn}}">取消退换货</button>
+                {{/if}}
+            </div>
+            {{/each}}
+            <div class="indent-list-bottom">
+                <span>共{{$value.goods_list.length}}件商品 </span>
+                {{if $value.pay_status == 1}}
+                已付款：<em>￥{{$value.total_amount}}</em>
+                {{else}}
+                需付款：<em>￥{{$value.total_amount}}</em>
+                {{/if}}
+            </div>
+            {{if $value.order_status_desc == '待收货'}}
+            <div class="distribution yz">
+                <span class="distribution_l">收货验证码：</span>
+                <span class="distribution_r yzm" >{{$value.check_code}}</span>
+            </div>
+            {{/if}}
+            <div class="indent-list-button">
+                {{if $value.order_status_desc !== '待支付'}}
+                <button type="button" class="mui-btn-zf buyAgain" data-orderid="{{$value.order_id}}">再次购买</button>
+                {{/if}}
+                {{if $value.refund_btn==1}}
+                <button type="button" class="mui-btn-th refund_btn" data-orderid="{{$value.order_id}}"  data-order_sn="{{$value.order_sn}}" >申请退款</button>
+                {{else if $value.cancel_refund_btn==1}}
+                <button type="button" class="mui-btn-th cancel_refund_btn" data-orderid="{{$value.order_id}}"  data-order_sn="{{$value.order_sn}}">取消退款</button>
+                {{/if}}
+                {{if $value.order_status_desc === '待支付'}}
+                <button type="button" class="mui-btn-sj" onclick=window.location="mobile.html">联系商家</button>
+                <!--<button type="button" class="mui-btn-sj off_order" data-orderid="{{$value.order_id}}">取消订单</button>-->
+                <button type="button" class="mui-btn-zf go_to_pay" data-orderid="{{$value.order_id}}">去支付</button>
+                {{/if}}
+                {{if $value.order_status_desc === '待发货'}}
+                <button type="button" class="mui-btn-sj" onclick=window.location="mobile.html">联系商家</button>
+                {{/if}}
+                {{if $value.order_status_desc === '待收货'}}
+                <button type="button" class="mui-btn-sj" onclick=window.location="mobile.html">联系商家</button>
+                <!--<button type="button" class="mui-btn-zf receive-order" data-orderid="{{$value.order_id}}">确认收货</button>-->
+                {{/if}}
+                {{if $value.order_status_desc === '待评价'}}
+                <a href="evaluate.html?order_id={{$value.order_id}}" type="button" class="mui-btn-zf">评价</a>
+                {{/if}}
+                {{if $value.order_status_desc === '已收货'}}
+                <a href="evaluate.html?order_id={{$value.order_id}}" type="button" class="mui-btn-zf">评价</a>
+                {{/if}}
+                {{if $value.cancel_btn == 1}}
+                <button type="button" class="mui-btn-sj off_order" data-orderid="{{$value.order_id}}" >取消订单</button>
+                {{/if}}
+            </div>
+        </li>
+    </ul>
+        </form>
+    {{/each}}
+</script>
+<script src="js/indent.js"></script>
+<script src="js/push.js"></script>
+</html>

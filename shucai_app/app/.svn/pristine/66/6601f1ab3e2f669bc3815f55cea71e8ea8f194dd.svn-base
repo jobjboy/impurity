@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <script src="js/mui.min.js"></script>
+    <!--<script src="js/common.js"></script>-->
+    <script src="js/jquery-1.12.2.min.js"></script>
+    <script src="js/URL.js"></script>
+    <style type="text/css">
+        #bcid {
+            width: 100%;
+            height: 86%;
+            position: absolute;
+            top: 7%;
+            background: #000000;
+        }
+
+        html, body, div {
+            height: 100%;
+            width: 100%;
+        }
+
+        .fbt {
+            color: #616161;
+            width: 50%;
+            background-color: #ffffff;
+            /*float: left;*/
+            line-height: 44px;
+            text-align: center;
+            margin: auto;
+        }
+        a {
+            color: #000;
+        }
+
+        #turnTheLight {
+            background: url("images/shoudian.png");
+            -webkit-background-size:100%;
+            background-size:100%;
+            position: relative;
+            top: 11px;
+            right: 15px;
+            display: inherit;
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+<div class="mui-content">
+    <header class="mui-bar mui-bar-nav" style="background-color: #ffffff;">
+        <a class="back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title" style="color:#616161;;">物品二维码扫描</h1>
+        <span class="mui-icon  mui-spin mui-pull-right" id="turnTheLight"></span>
+    </header>
+
+    <div id="bcid">
+        <!--盛放扫描控件的div-->
+    </div>
+
+    <div class="mui-bar mui-bar-footer" style="padding: 0px;">
+        <div class="fbt xcx">从相册选择二维码</div>
+        <!--<div class="fbt back">取　 消</div>-->
+    </div>
+</div>
+
+<script type="text/javascript">
+    mui.plusReady(function () {
+//        mui.init();
+
+        var token = localStorage.getItem("token");
+        var user_id = localStorage.getItem("user_id");
+        if (token) {
+
+        } else {
+            location.href = "login.html";
+            plus.webview.hide("scan")
+            plus.webview.close("scan")
+        }
+        function resdata(type, url, mdata, successCall, beforeSend) {
+            $.ajax({
+                type: type,
+                url: url,
+                data: mdata,
+                dataType: 'json',
+                error: function (data) {
+                    //console.log(JSON.stringify(data));
+
+                    mui.alert("不支持此类型", '温馨提示', function () {
+                    });
+                },
+                success: successCall,
+                beforeSend: beforeSend,
+            })
+        }
+
+        scan = null;//扫描对象
+        mui.plusReady(function () {
+            mui.init();
+            plus.webview.show("scan")
+
+            startRecognize();
+        });
+
+        function startRecognize() {
+            try {
+                var filter = [plus.barcode.CODE128,plus.barcode.QR,plus.barcode.AZTEC];
+                //自定义的扫描控件样式
+                var styles = {frameColor: "#29E52C", scanbarColor: "#29E52C", background: ""}
+                //扫描控件构造
+                scan = new plus.barcode.Barcode('bcid', filter, styles);
+                scan.onmarked = onmarked;
+                scan.onerror = onerror;
+                scan.start();
+                //打开关闭闪光灯处理
+                var flag = false;
+                document.getElementById("turnTheLight").addEventListener('tap', function () {
+                    if (flag == false) {
+                        scan.setFlash(true);
+                        flag = true;
+                    } else {
+                        scan.setFlash(false);
+                        flag = false;
+                    }
+                });
+            } catch (e) {
+                alert("出现错误啦:\n" + e);
+            }
+        }
+        ;
+        function onerror(e) {
+            alert(e);
+        }
+        ;
+        function onmarked(type, result) {
+            var text = '';
+            switch (type) {
+                case plus.barcode.QR:
+                    text = 'QR: ';
+                    break;
+                case plus.barcode.AZTEC:
+                    text = 'AZTEC: ';
+                    break;
+                case plus.barcode.CODE128:
+                    text = 'CODE128: ';
+                    break;
+            }
+            var order_sn = result;
+            var sendData = {token: token, user_id: user_id, order_sn: order_sn};
+            var url1 = URL.SiteUrl + URL.scanCode;
+            console.log(url1);
+            console.log(sendData);
+//            alert(text + " : " + result);
+            //console.log(result);
+            var flag=true;
+            if (flag){
+                flag=false;
+                mui.alert("扫码成功", '温馨提示', function () {
+                    resdata("post", url1, sendData, function (data) {
+                        //console.log(data.status);
+                        console.log(JSON.stringify(data));
+//                plus.webview.hide("scan");
+                        if (data.status == 1) {
+                            location.href = "orderDetails.html?order_id="+data.result.order_id+"";
+                            scan.close();
+                            flag=true;
+                            scan.start();
+                        } else {
+                            mui.toast(data.msg, {duration: 'long', type: 'div'});
+                            flag=true;
+                            scan.start();
+                        }
+
+                    })
+                });
+            }
+
+
+
+            /*var flag;
+            if (flag){
+                flag=false;
+                mui.confirm('是否确认收货？', '温馨提示', ['确认', '取消'], function (e) {
+                    if (e.index == 1) {
+//                    scan.start();
+                        resdata("post", url1, sendData, function (data) {
+                            //console.log(data.status);
+                            console.log(JSON.stringify(data));
+//                plus.webview.hide("scan");
+                            if (data.status == 1) {
+                                location.href = "orderDetails.html?order_id="+data.result.order_id+"";
+                                scan.close();
+                                flag=true;
+                            } else {
+                                mui.toast(data.msg, {duration: 'long', type: 'div'});
+                            }
+
+                        })
+                    } else {
+                        flag=true;
+                    }
+                });
+            }*/
+           /* if(flag){
+                scan.start();
+            }*/
+
+        }
+
+        // 从相册中选择二维码图片
+        function scanPicture() {
+            plus.gallery.pick(function (path) {
+                plus.barcode.scan(path, onmarked, function (error) {
+                    plus.nativeUI.alert("无法识别此图片");
+                });
+            }, function (err) {
+//                plus.nativeUI.alert("Failed: " + err.message);
+                mui.toast("获取失败", {duration: 'long', type: 'div'});
+            });
+        }
+
+        $(".xcx").on("click",function () {
+            scanPicture();
+        })
+        var back = document.querySelector(".back")
+        back.onclick = function () {
+            plus.webview.hide("scan")
+            plus.webview.close("scan")
+            history.go(-1)
+        }
+    });
+
+</script>
+<script>
+    mui.init({
+        keyEventBind: {
+            backbutton: true //打开back按键监听
+        }
+    });
+//    var flag;
+    mui.back = function () {
+        plus.webview.hide("scan")
+        plus.webview.close("scan")
+        history.go(-1)
+    };
+</script>
+<script src="js/push.js"></script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <script src="js/zepto.js"></script>
+    <script src="js/swipe.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .swipe {
+            overflow: hidden;
+            /*visibility: hidden;*/
+            position: relative;
+        }
+
+        .swipe-wrap {
+            overflow: hidden;
+            position: relative;
+            height: 100%;
+        }
+
+        .wrap-slide {
+            float: left;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            /*display: -webkit-box; !*移动端图片居中显示*!*/
+            -webkit-box-orient: horizontal;
+            -webkit-box-pack: center;
+            overflow: hidden; /*图片过大时，溢出div宽的隐藏，以免影响其他图片的滑动*/
+            text-align: center;
+        }
+
+        .slide-img {
+            /*width: 100%;*/
+            /*margin-top: 45%;*/
+            width: 250px;
+            /*height: 250px;*/
+            position: relative;
+            top: 50%;
+        }
+
+        @-webkit-keyframes loading {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+            50% {
+                -webkit-transform: rotate(180deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        #img_count {
+            display: inline-block;
+            position: absolute;
+            right: 10%;
+            font-size: 25px;
+            z-index: 100;
+            top: 2%;
+        }
+
+        div#lodding {
+            background: #efeff4;
+            text-align: center;
+            margin: 170px auto 0 auto;
+            display: none;
+        }
+
+        .returnBack {
+            position: absolute;
+            /* top: 10px; */
+            left: 10px;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            border-radius: 50%;
+            background: url(images/index/left.png) no-repeat 10px 15px;
+            background-size: 60%;
+            z-index: 10;
+            padding: 15px;
+            color: #fff;
+        }
+        .set-button{ width: 90%; height: 40px; line-height: 40px; text-align: center; color: #fff; background: #F29600; border: none; padding: 0; margin: 0px 5%; position: absolute;bottom: 20px}
+
+    </style>
+</head>
+<body>
+<a href="javascript:history.go(-1)" class="mui-icon returnBack  "></a>
+
+
+<div id="lodding">
+    <span class="mui-spinner"></span>
+    <p>正在努力加载...</p>
+</div>
+
+<!--<p id="img_count"><span class='num'>1</span>/<i></i></p>-->
+<div id='slider' class='swipe'>
+    <!--
+        <div class='swipe-wrap'>
+
+        </div>-->
+    <div class="wrap-slide">
+        <a href=""><img class='slide-img'></a>
+    </div>
+</div>
+<button type="button" class="set-button">点击下载</button>
+<script src="js/URL.js"></script>
+<script src="js/template.js"></script>
+<script src="js/transform.js"></script>
+<script src="js/alloy_finger.js"></script>
+<script src="js/to.js"></script>
+<script src="js/mui.min.js"></script>
+<script src="js/jquery-1.12.2.min.js"></script>
+
+<script>
+    function windowDes() {
+        return {
+            width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+            height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+        }
+    }
+    $(".swipe").height(windowDes().height - 10);
+
+
+    //    $(document).on('click', function () {
+    //        window.history.go(-1);
+    //    });
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return unescape(r[2]);
+        } else {
+            return null;
+        }
+    }
+    var good_id = getUrlParam("good_id");
+    var indexs = getUrlParam("index");
+
+    //            return;
+
+    var invoice = localStorage.getItem("invoice");
+
+    var $img = $('.slide-img');
+    var $detail = $('.detail');
+    var $num = $('.num');
+    var windowHeight = $(window).height();
+    var pos = 0;
+    var imgSrc = $img[pos];
+    var src;
+    var imgLoad;
+    var imgHeight;
+    var posHeight;
+    var detailHeight;
+
+    $img.attr("src", invoice);
+    //            lazyLoad(pos);
+
+    $(".slide-img").each(function (index, obj) {
+        var pinchImg = obj;
+        Transform(pinchImg);
+        var initScale = 1;
+        new AlloyFinger(pinchImg, {
+            multipointStart: function () {
+                initScale = pinchImg.scaleX;
+            },
+            pinch: function (evt) {
+                pinchImg.scaleX = pinchImg.scaleY = initScale * evt.scale;
+            }
+        });
+    })
+   /* function downloadImage(src) {
+        var a = $("<a></a>").attr("href", src).attr("download", "img.png").appendTo("body");
+
+        a[0].click();
+        a.remove();
+    }*/
+
+
+
+
+    // 扩展API加载完毕后调用onPlusReady回调函数
+    document.addEventListener( "plusready", onPlusReady, false );
+    var r = null;
+    // 扩展API加载完毕，现在可以正常调用扩展API
+    function onPlusReady() {
+    }
+//    filename:"_documents"
+    // 创建下载任务
+    function createDownload(type) {
+        var dtask = plus.downloader.createDownload(invoice, {
+            method: 'GET',
+            filename: ''+type+'/image' + ".jpg"
+        }, function ( d, status ) {
+            // 下载完成
+            if ( status == 200 ) {
+//                mui.toast( "下载成功: " + d.filename );
+                //存储到系统相册
+                plus.gallery.save(d.filename,function() {
+                    mui.toast('保存成功');
+                }, function(e) {
+                    mui.toast('保存失败，请重试！');
+//                    console.log(JSON.stringify(e));
+                });
+            } else {
+                mui.toast( "下载失败: " + status );
+            }
+
+        });
+        //dtask.addEventListener( "statechanged", onStateChanged, false );
+        dtask.start();
+    }
+    //安卓ios兼容
+    var sys = navigator.userAgent;
+    $(".set-button").on("click",function () {
+        if (sys.indexOf("OS") !== -1) {
+            createDownload("_doc");
+        }else {
+            createDownload("_downloads");
+        }
+
+    })
+
+    /*
+     var mySwipe = new Swipe(document.getElementById('slider'), {
+     startSlide: 0,
+     speed: 400,
+     continuous: false,
+     disableScroll: false,
+     stopPropagation: false,
+     callback: function (index, elem) {
+     if (index == 0 || index == data.result[indexs].img.length - 1) {
+
+     }
+     pos = index;
+     imgSrc = $img[pos];
+     if (imgSrc.hasAttribute('data-src')) {
+     lazyLoad(pos);
+     } else {
+     description(pos)
+     }
+     },
+     transitionEnd: function (index, elem) {
+     }
+     });*/
+
+
+    //图片延迟加载
+    function lazyLoad(pos) {
+        src = $(imgSrc).attr('data-src');
+        $(imgSrc).attr('src', src).removeAttr('data-src');
+        imgLoad = document.querySelectorAll(".slide-img")[pos];
+        imgLoad.addEventListener("load", function (event) {
+            description(pos);
+        });
+    }
+
+    //图片描述
+    function description(pos) {
+        $num.html(pos + 1);
+        imgHeight = $img[pos].height;
+        detailHeight = $detail.height();
+        posHeight = imgHeight;
+        if (posHeight + detailHeight > windowHeight) {
+            $detail.css({
+                'top': windowHeight - detailHeight + 'px',
+            });
+        } else {
+            $detail.css({
+                'top': posHeight + 'px',
+            });
+        }
+    }
+
+
+    var h = -($(".slide-img").height()) / 2;
+    $(".slide-img").css("margin-top", h);
+</script>
+<script type="text/javascript">
+    mui.init({
+        keyEventBind: {
+            backbutton: true  //打开back按键监听
+        }
+    });
+    mui.back = function () {
+        window.history.go(-1);
+    }
+</script>
+<script src="js/push.js"></script>
+</body>
+</html>

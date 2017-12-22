@@ -1,0 +1,218 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>按起终点名称规划路线</title>
+	<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css" />
+	<link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+	<link rel="stylesheet" href="css/mui.min.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script src="http://cache.amap.com/lbs/static/es5.min.js"></script>    
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.1&key=78acee11046dfcc17c9e8e319c9a125f"></script>
+</head>
+<body>
+<div id="con_container" style="display: block;">	
+	<div class="handle">
+		<a id="getLocation"><i class="fa fa-dot-circle-o"></i></a>
+		<a id="amap3" class="information3"><i class="fa fa-location-arrow"></i></a>
+		<!--<a id="satellite" class="information3"><i class="fa fa-automobile"></i></a>	
+				<a id="satellite" class="information3"><i class="fa fa-bicycle"></i></a>		
+				<a id="satellite" class="information3"><i class="fa fa-male"></i></a>-->
+		<a id="satellite" class="information3"><i class="fa fa-globe"></i></a>
+	</div>
+	<div id="container"></div>
+	<div id="panel"></div>
+	<div class="button_group" style="left: 37%;">
+		<input id="set_FitView" class="button" type="button" value="补录资料"/>
+	</div>	
+</div>
+<div class="nav">
+	<ul>
+		<li class="on">
+			<a href="index.html">
+				<i></i>
+				<em>首页</em>
+			</a>
+		</li>
+
+		<li>
+			<a href="task.html">
+				<i></i>
+				<em>任务</em>
+			</a>
+		</li>
+
+		<li>
+			<a href="sing.html">
+				<i></i>
+				<em>签到</em>
+			</a>
+		</li>
+
+		<li>
+			<a href="personal.html">
+				<i></i>
+				<em>个人</em>
+			</a>
+		</li>
+	</ul>
+</div>
+<div class="grid" style="display: block;">
+	<span class="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom"></span>
+	<p>拼命加载中<em>....</em></p>
+</div>
+<script src="lib/wgs84.js"></script>
+<script src="./lib/plugs/require/require.js"></script>
+<script src="./lib/app.js"></script>
+<script type="text/javascript">
+require(['jquery', 'mui', 'URL', 'core'], function ($, mui, URL, core) {	
+var con_container = $("#con_container");
+var con_loading = $(".grid");
+var timestamp = new Date().getTime();
+
+var lngX = null,latY = null,lnglat = null;	
+var _url = getUrlParam('position').split(',');
+var task_id = getUrlParam('task_id');
+
+var aut_token = window.localStorage.getItem('aut_token');
+var url_location = URL.get_user_location.format(aut_token);	
+
+var switch_off = parseInt(getUrlParam('switch_off'));
+var point = new AMap.LngLat(_url[0],_url[1]);
+
+var gcj02towgs84 = coordtransform.gcj02towgs84(_url[0], _url[1]);
+console.log(gcj02towgs84);
+var lng = gcj02towgs84[0];
+var lat = gcj02towgs84[1];
+
+	if(switch_off != 0){
+		document.querySelector('.button_group').style.display = 'none';
+	}else{
+		document.getElementById('set_FitView').addEventListener('click',function(event){
+			window.location.href = './warning.html?task_id='+task_id+'&position='+point;
+		},false);
+	}	
+	   
+	//基本地图加载
+    map = new AMap.Map("container", {
+        resizeEnable: true,
+        zoom:17
+    });
+
+	// 卫星图
+	var biao_ji = true;
+	Satellite = new AMap.TileLayer.Satellite({
+		zooms:[3,19],
+		detectRetina:true
+	});
+
+	document.getElementById('satellite').addEventListener('click',function(){
+		if(biao_ji){
+			Satellite.setMap(map);
+			biao_ji = false;
+			mui.toast('显示卫星图层',{duration: 'long', type: 'div'});
+		}else{
+			Satellite.setMap(null);
+			biao_ji = true;
+			mui.toast("隐藏卫星图层", {duration: 'long', type: 'div'});
+		}
+	},false);	
+		
+map.plugin(['AMap.Geolocation','AMap.DragRoute','AMap.ToolBar','AMap.Geocoder','AMap.Driving'], function () {
+	
+    map.addControl(new AMap.ToolBar({offset:new AMap.Pixel(10, 90)}));
+	var geocoder = new AMap.Geocoder({
+		city: "010"//城市，默认：“全国”
+	});
+
+	var map_Markers = new AMap.Marker({
+	    map:map,
+	    bubble:true,
+	    offset:new AMap.Pixel(-10,-10),
+	    draggable: true,
+        cursor: 'move',
+		icon:new AMap.Icon({
+			image:'images/yuan.png',
+			size: new AMap.Size(20,20),
+			imageSize: new AMap.Size(20,20),
+		})
+	})	
+
+	driving= new AMap.Driving({
+		policy:AMap.DrivingPolicy.REAL_TRAFFIC,
+		map: map,
+		panel:"panel",
+		autoFitView: true
+	});
+
+function get_location(set_location) {
+	core.ajax(url_location, {}, function(data) {
+		if(data.status == 200) {
+			lngX = data.result.latitude;
+			latY = data.result.longitude;
+			lnglat = new AMap.LngLat(latY, lngX);
+			console.log(lnglat.toString());
+
+			timestamp2 = new Date().getTime();
+
+			if((timestamp2 - timestamp) <= 300) {
+				setTimeout(function() {
+					con_loading.hide();
+					con_container.show();
+				}, 400);
+			} else {
+				con_loading.hide();
+				con_container.show();
+			}
+
+			set_location();
+		} else {
+			mui.toast(data.msg, {
+				duration: 'long',
+				type: 'div'
+			});
+		}
+	}, function() {}, 'GET');
+}
+
+get_location(function() {	
+	map_Markers.setPosition(lnglat);
+	map.setCenter(lnglat);
+	map.setZoom(17);
+	driving.search(lnglat, point);
+});
+
+	document.getElementById('amap3').addEventListener('click', function(event) {
+		get_location(function(){
+		var dst = new plus.maps.Point(lng, lat); // 目的
+		var src = new plus.maps.Point(lngX, latY); // 起点 
+		geocoder.getAddress(gcj02towgs84, function(status, result) {
+			if(status == 'complete') {
+				console.log(result.regeocode.formattedAddress);
+				points = result.regeocode.formattedAddress;				
+				plus.maps.openSysMap(dst, points, src); //跳转高德				
+			} else {
+				console.log(result);
+			}
+		})				
+		});	 
+	}, false);
+
+	document.getElementById('getLocation').addEventListener('click',function() {
+		get_location(function() {
+			map_Markers.setPosition(lnglat);
+			map.setCenter(lnglat);
+			map.setZoom(17);
+		});
+	}, false)
+
+	map.setFitView();
+	
+});
+ 
+});
+</script>
+</body>
+</html>

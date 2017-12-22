@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/personal.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/icons-extra.css"/>
+    <style>
+        a {
+            color: #000;
+
+        }
+
+        a:hover {
+            color: #000;
+            text-decoration: none;
+        }
+
+        .message_alert {
+            position: fixed;
+            top: 38px;
+            right: 10px;
+            display: inline-block;
+            border: 1px solid #EBECF0;
+            font-size: 15px;
+            text-align: center;
+            background: #fff;
+            box-shadow: -1px 1px 1px #EBECF0;
+            -webkit-box-shadow: -1px 1px 1px #EBECF0;
+            display: none;
+        }
+
+        .message_alert span {
+            position: absolute;
+            height:18px;
+            display: inline-block;
+            width:18px;
+            left:10px;
+            top:7px;
+        }
+
+        .message_alert li {
+            /*border:1px solid #000;*/
+
+            border-bottom: 1px solid #EBECF0;
+        }
+        .message_alert li a {
+            display: inline-block;
+            padding: 6px 36px;
+            padding-right: 70px;
+            width:100%;
+            position: relative;
+        }
+        .ban {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            display: none;
+        }
+    </style>
+</head>
+<script>
+
+</script>
+<body>
+<div id="lodding">
+    <span class="mui-spinner"></span>
+    <p>正在努力加载...</p>
+</div>
+<div class="mui-content">
+    <div id="userInfo"></div>
+    <div class="indent"><span>我的订单</span><a href="indent.html?all">查看全部订单 〉</a></div>
+    <ul class="nav">
+        <li><a href="indent.html?payment"><b><img src="images/personal/1.png"><span class="mui-badge mui-badge-danger">45</span></b><em>待付款</em></a></li>
+        <li><a href="indent.html?waitSend"><b><img src="images/personal/2.png"><span class="mui-badge mui-badge-danger">45</span></b><em>待发货</em></a></li>
+        <li><a href="indent.html?receiving"><b><img src="images/personal/3.png"><span class="mui-badge mui-badge-danger">45</span></b><em>待收货</em></a></li>
+        <li><a href="indent.html?evaluate"><b><img src="images/personal/4.png"><span class="mui-badge mui-badge-danger">45</span></b><em>待评价</em></a></li>
+        <li><a href="indent.html?return"><b><img src="images/personal/personal_6.png"><span class="mui-badge mui-badge-danger">45</span></b><em>退款/售后</em></a></li>
+    </ul>
+    <ul class="nav personal">
+        <li><a href="collect.html"><b><img src="images/personal/2_1.png"></b><em>收藏</em></a></li>
+        <li><a href="offercard.html"><b><img src="images/personal/2_2.png"></b><em>优惠券</em></a></li>
+        <li><a href="checkIn.html"><b><img src="images/jifen.png"></b><em>积分</em></a><!--money_manager.html?currenttab=integral-->
+        </li>
+        <li><a href="money_manager.html?currenttab=money"><b><img src="images/personal/2_4.png"></b><em>钱包</em></a></li>
+    </ul>
+    <ul id="setting">
+        <!--<li><a href="rentOrderList.html"><span>租借订单</span><i></i></a></li>-->
+        <li><a href="address_list.html?tag=2"><span>地址管理</span><i></i></a></li>
+        <li><a href="javascript:;" class="kefu_click"><span>在线客服</span><i></i></a></li>
+
+        <li><a href="prizeCenter.html"><span>便民服务</span><i></i></a></li>
+        <li><a href="help_center.html"><span>帮助中心</span><i></i></a></li>
+        <li><a href="set.html"><span>系统设置</span><i></i></a></li>
+    </ul>
+</div>
+<div class="ban"></div>
+<!--<ul class="message_alert">
+    <li><a href="javascript:;" class="kefu_click"><span style="background: url(images/personal/msg.png) no-repeat 2px 2px;background-size: 80%;-webkit-background-size: 80%;"></span>消息</a></li>
+    <li><a href="index.html"><span style="background: url(images/personal/home.png) no-repeat;background-size: 100%;-webkit-background-size: 100%;"></span>首页</a></li>
+    <li><a href="help_center.html"><span style="background: url(images/personal/help.png) no-repeat;background-size: 100%;-webkit-background-size: 100%;"></span>帮助</a></li>
+</ul>-->
+<!--底部菜单栏-->
+<div class="footNav"></div>
+<script src="js/footer_nav.js"></script>
+<script src="js/zepto.js"></script>
+<script src="js/template.js"></script>
+<script src="js/common.js"></script>
+<script src="js/URL.js"></script>
+<script src="js/mui.min.js"></script>
+<script src="js/_common.js"></script>
+</body>
+
+<script id="user_info" type="text/html">
+    <div class="head">
+        <div class="picture">
+            <div id="header_pic">
+                <a href="user.html"><img src="" alt="头像"></a>
+            </div>
+            <div class="picture-title">{{nickname}}</div>
+            <a class="picture-button">等级:{{level}}</a>
+        </div>
+
+        <div class="head-nav">
+            <a href="mobile.html" class="setting_icon"></a>
+            <a href="set.html" class="message_icon"></a>
+            <a href="user.html">账户管理 〉</a>
+        </div>
+    </div>
+</script>
+<script src="js/personal.js"></script>
+<script src="js/push.js"></script>
+</html>

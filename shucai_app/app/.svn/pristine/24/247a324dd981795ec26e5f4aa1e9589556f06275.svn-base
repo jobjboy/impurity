@@ -1,0 +1,128 @@
+ul,
+li {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+body{ background: #fff;}
+
+input[type=color],
+input[type=date],
+input[type=datetime-local],
+input[type=datetime],
+input[type=email],
+input[type=month],
+input[type=number],
+input[type=password],
+input[type=search],
+input[type=tel],
+input[type=text],
+input[type=time],
+input[type=url],
+input[type=week],
+select,
+textarea {
+	border: none;
+	padding-left: 30px;
+	margin: 0;
+}
+
+#mui-color {
+	/*background-image: linear-gradient(to bottom, #dc6a07, #f39501);*/
+	color: #000;
+	box-shadow: none;
+	border-bottom: 1px solid #E3E3E3;
+	background-color: #fff;
+}
+.mui-input-row .mui-input-clear~.mui-icon-clear.mui-active,
+.mui-input-row .mui-input-password~.mui-icon-eye.mui-active,
+.mui-input-row .mui-input-speech~.mui-icon-speech.mui-active {
+	color: #f29600
+}
+#mui-color a {
+	color: #000;
+}
+
+.mui-title {
+	color: #000;
+}
+
+.register {
+	padding-top: 50px;
+	background: #fff;
+}
+
+.register-logo {
+	background: url(../images/login/newlogo.fw.png) center bottom no-repeat #ffa70e;
+	background-size: 70%;
+	width: 100px;
+	height: 100px;
+	/*border-radius: 50%;*/
+	margin: 50px auto;
+	background-color: #fff;
+}
+
+.register-list {
+	width: 80%;
+	margin: 0 auto;
+}
+
+.register-list li {
+	border-bottom: 1px solid #E3E3E3;
+	margin-bottom: 20px;
+}
+.register-list li input {
+	font-size: 0.8em;
+	padding-left: 40px;
+}
+button:disabled {
+	opacity: 1;
+}
+.register-list li:first-child input {
+	background: url(../images/register/resg_phone.png) 5px center no-repeat;
+	background-size: 20px 26px;
+}
+
+.register-list li:nth-child(2) input {
+	background: url(../images/register/resmail.png) 5px center no-repeat;
+	background-size: 24px 18px;
+	width: 200px;
+}
+
+.register-list li:nth-child(3) input {
+	background: url(../images/login/usermm.png) 5px center no-repeat;
+	background-size: 20px 26px;
+}
+
+.register-list li:nth-child(4) input {
+	background: url(../images/login/usermm.png) 5px center no-repeat;
+	background-size: 20px 26px;
+	width: 90%;
+}
+
+.register-list li:nth-child(4) span {
+	color: #e3e3e5;
+}
+
+.register-yzm {
+	position: absolute;
+	right: 10%;
+	float: right;
+	border-radius: 15px;
+	color: #ffa70e;
+	border-color: #ffa70e;
+	padding: 3px 10px;
+	margin-top: 3px;
+}
+.register-button{ width: 100%; background: #f29600; color: #fff; font-size: 18px; border: none; border-radius: 23px; margin: 20px 0; height: 45px;}
+.register-bottom{ text-align: center; font-size: 14px;}
+.register-bottom a{ color: #f29600;}
+.logo_img {
+	text-align: center;
+	width: 100%;
+	margin-top: 35px;
+	padding-bottom: 20px;
+}
+.logo_img img {
+	max-width: 30%;
+}

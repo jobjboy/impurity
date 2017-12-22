@@ -1,0 +1,74 @@
+ul,
+li {
+	list-style-type: none;
+}
+
+.mui-bar
+{
+    position: fixed;
+    z-index: 10;
+    right: 0;
+    left: 0;
+
+    height: 44px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: #636363;
+    border-bottom: 0;
+    background-color: #ffffff;
+
+    
+}
+#mui-color{ background: #fff; box-shadow: 0 0 0; border-bottom: 1px solid #f4f4f6;}
+#topPopover {
+	position: fixed;
+	top: 16px;
+	right: 10px;
+	width: 150px;
+}
+
+
+#topPopover .mui-popover-arrow {
+	left: auto;
+	right: 10px;
+}
+.mui-popover {
+	height: 190px;
+}
+.mui-content {
+	padding: 10px;
+}
+.mui-tc{ padding:0  10px; margin: 0 auto;}
+.mui-tc li{ border-bottom: 1px solid #acacac; padding: 10px;}
+.mui-tc li a{ color:#292929;}
+.mui-tc li a span{ margin-right: 10px;}
+.more {
+ float: right;
+	text-align: center;
+	z-index: 10;
+	color: #000;
+}
+.set{ width: 100%; margin: 43px 0 0; background: #fff; padding: 10px 10px 0px 10px; box-sizing: border-box; overflow: hidden;}
+.set ul{ padding: 0; margin: 0;}
+.set ul li{ line-height: 40px; font-size: 16px; height: 40px; border-bottom: 1px solid #f4f4f6; overflow: hidden;}
+.set ul li a{ color: #828282; display: block; line-height: 40px;}
+.set ul li:nth-child(4){
+	position: relative;
+}
+.set ul li:nth-child(4) span{
+	position: absolute;
+	right:3%;
+}
+.set ul li a:before{ float: right; font-size: 20px;}
+.set ul li .mui-icon{ font-size: 16px;}
+.set-button{ width: 90%; height: 40px; line-height: 40px; text-align: center; color: #fff; background: #F29600; border: none; padding: 0; margin: 20px 5%;}
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title></title>
+    <!--<link href="css/mui.min.css" rel="stylesheet"/>-->
+    <link rel="stylesheet" href="./layui/css/layui.mobile.css">
+    <style>
+        ::-webkit-scrollbar {
+            /*display: none;*/
+        }
+
+        .layim-chat-main, .layim-chat-main ul {
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
+
+        .return {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            top: 13px;
+            left: 4%;
+            background: url(images/left2.png) no-repeat;
+            background-size: 100%;
+            -webkit-background-size: 100%;
+        }
+
+        div#lodding {
+            text-align: center;
+            margin: 230px auto 0 auto;
+        }
+
+        .mui-spinner {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            -webkit-transform-origin: 50%;
+            transform-origin: 50%;
+            -webkit-animation: spinner-spin 1s step-end infinite;
+            animation: spinner-spin 1s step-end infinite
+        }
+
+        .mui-spinner:after {
+            display: block;
+            width: 100%;
+            height: 100%;
+            content: '';
+            background-image: url('data:image/svg+xml;charset=utf-8,<svg viewBox=\'0 0 120 120\' xmlns=\'http://www.w3.org/2000/svg\' xmlns:xlink=\'http://www.w3.org/1999/xlink\'><defs><line id=\'l\' x1=\'60\' x2=\'60\' y1=\'7\' y2=\'27\' stroke=\'%236c6c6c\' stroke-width=\'11\' stroke-linecap=\'round\'/></defs><g><use xlink:href=\'%23l\' opacity=\'.27\'/><use xlink:href=\'%23l\' opacity=\'.27\' transform=\'rotate(30 60,60)\'/><use xlink:href=\'%23l\' opacity=\'.27\' transform=\'rotate(60 60,60)\'/><use xlink:href=\'%23l\' opacity=\'.27\' transform=\'rotate(90 60,60)\'/><use xlink:href=\'%23l\' opacity=\'.27\' transform=\'rotate(120 60,60)\'/><use xlink:href=\'%23l\' opacity=\'.27\' transform=\'rotate(150 60,60)\'/><use xlink:href=\'%23l\' opacity=\'.37\' transform=\'rotate(180 60,60)\'/><use xlink:href=\'%23l\' opacity=\'.46\' transform=\'rotate(210 60,60)\'/><use xlink:href=\'%23l\' opacity=\'.56\' transform=\'rotate(240 60,60)\'/><use xlink:href=\'%23l\' opacity=\'.66\' transform=\'rotate(270 60,60)\'/><use xlink:href=\'%23l\' opacity=\'.75\' transform=\'rotate(300 60,60)\'/><use xlink:href=\'%23l\' opacity=\'.85\' transform=\'rotate(330 60,60)\'/></g></svg>');
+            background-repeat: no-repeat;
+            background-position: 50%;
+            background-size: 100%
+        }
+
+        @-webkit-keyframes spinner-spin {
+            0% {
+                -webkit-transform: rotate(0deg)
+            }
+            8.33333333% {
+                -webkit-transform: rotate(30deg)
+            }
+            16.66666667% {
+                -webkit-transform: rotate(60deg)
+            }
+            25% {
+                -webkit-transform: rotate(90deg)
+            }
+            33.33333333% {
+                -webkit-transform: rotate(120deg)
+            }
+            41.66666667% {
+                -webkit-transform: rotate(150deg)
+            }
+            50% {
+                -webkit-transform: rotate(180deg)
+            }
+            58.33333333% {
+                -webkit-transform: rotate(210deg)
+            }
+            66.66666667% {
+                -webkit-transform: rotate(240deg)
+            }
+            75% {
+                -webkit-transform: rotate(270deg)
+            }
+            83.33333333% {
+                -webkit-transform: rotate(300deg)
+            }
+            91.66666667% {
+                -webkit-transform: rotate(330deg)
+            }
+            100% {
+                -webkit-transform: rotate(360deg)
+            }
+        }
+
+        @keyframes spinner-spin {
+            0% {
+                transform: rotate(0deg)
+            }
+            8.33333333% {
+                transform: rotate(30deg)
+            }
+            16.66666667% {
+                transform: rotate(60deg)
+            }
+            25% {
+                transform: rotate(90deg)
+            }
+            33.33333333% {
+                transform: rotate(120deg)
+            }
+            41.66666667% {
+                transform: rotate(150deg)
+            }
+            50% {
+                transform: rotate(180deg)
+            }
+            58.33333333% {
+                transform: rotate(210deg)
+            }
+            66.66666667% {
+                transform: rotate(240deg)
+            }
+            75% {
+                transform: rotate(270deg)
+            }
+            83.33333333% {
+                transform: rotate(300deg)
+            }
+            91.66666667% {
+                transform: rotate(330deg)
+            }
+            100% {
+                transform: rotate(360deg)
+            }
+        }
+
+        p.up_lodding {
+            text-align: center;
+            line-height: 2;
+            display: none;
+        }
+
+        p.up_lodding span {
+            display: block;
+            margin: 20px auto 0 auto;
+        }
+
+        .image-file {
+            width: 100px;
+        }
+
+        #big_image .image-bg {
+            width: 70%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+        }
+
+        #big_image {
+            position: fixed;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            top: 0;
+            z-index: 1;
+            display: none;
+        }
+		.layim-chat-title{s
+			color: #fff;
+		}
+    </style>
+    
+    
+</head>
+<body>
+<div id="lodding">
+    <span class="mui-spinner"></span>
+
+    <p>正在努力加载...</p>
+</div>
+
+<script src="js/URL.js"></script>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="js/jquery.signalR-2.0.3.min.js"></script>
+<script src="http://chat.xionggouba.com:8066/signalr/hubs"></script>
+<script src="js/_refresh.js"></script>
+<script src="./layui/layui.js"></script>
+<script src="js/communication.js"></script>
+<script src="js/URL.js"></script>
+<script src="js/transform.js"></script>
+<script src="js/alloy_finger.js"></script>
+<script src="js/to.js"></script>
+<script>
+
+    var kefuAutoReplyMsg = "您好，福鑫客服真诚为您服务！";
+    $.get('http://192.168.0.116/index.php?m=Api&a=getServiceWelcomeInfo', {}, function (res) {
+        kefuAutoReplyMsg = res;
+    })
+
+    var user_id = localStorage.getItem("user_id");
+    var token = localStorage.getItem("token");
+    //console.log(user_id);
+    var layim, toUserId;
+    var _to = {
+        id: 1,
+        name: '福鑫客服',
+        avatar: 'http://192.168.0.116/Public/upload/head_pic/2017/06-07/5937ca3506e29.png',
+        type: 'kefu'
+    }
+    var _own = {
+        own_nickname: '',
+        own_head_pic: '',
+        id: user_id
+    }
+
+    var chat = communication(user_id, function (to, result) {
+        var data_type = result.data_type;
+
+        toUserId = to;
+        if (data_type == 0) {
+            layim.getMessage({
+                username: _to.name
+                , avatar: _to.avatar
+                , id: _to.id
+                , type: _to.type
+                , content: result.data
+            });
+        }
+        if (data_type == 1) {
+            layim.getMessage({
+                username: _to.name
+                , avatar: _to.avatar
+                , id: _to.id
+                , type: _to.type
+                , content: result.data
+            })
+//            $('.layim-chat-main li:last-child').find(".layim-chat-text").text('').append();
+        }
+
+    });
+    $.ajax({
+        type: "get",
+        url: URL.SiteUrl + "/index.php?m=Api&c=User&a=userInfo",
+        data: {user_id: user_id, token: token},
+        async: false,
+        dataType: "json",
+        error: function (data) {
+
+            $('#lodding').css('display', 'none');
+            alert("错误，请检查网络设置!")
+            history.go(-1);
+        },
+        success: function (data) {
+            _own.own_head_pic = !data.result.head_pic ? "./images/no-img_mid_.jpg" : data.result.head_pic;
+            _own.own_nickname = data.result.nickname;
+        }
+    });
+    layui.use('mobile', function () {
+        var mobile = layui.mobile;
+        layim = mobile.layim;
+        layim.config({
+            //上传图片接口  这个没用的
+            uploadImage: {
+                url: URL.SiteUrl + '/index.php?m=Api&c=User&a=set_chat_image' //（返回的数据格式见下文）
+                , type: '' //默认post
+            }
+
+            , init: {
+                mine: {
+                    "username": _own.own_nickname //我的昵称
+                    , "id": _own.id //我的ID
+                    , "avatar": _own.own_head_pic //我的头像
+                }
+            }
+        });
+
+        //创建一个会话
+        layim.chat({
+            id: _to.id
+            , name: _to.name
+            , type: _to.type//friend、group等字符，如果是group，则创建的是群聊
+            , avatar: _to.avatar
+        });
+        //监听发送消息
+        layim.on('sendMessage', function (data) {
+
+            var scrollTop = $(".layim-chat-main")[0].scrollHeight;
+            $(".layim-chat-main").scrollTop(scrollTop);
+
+            var To = data.to;
+            if (_own.id == To.id) {
+                To.id = toUserId;
+            }
+            var pJson = localStorage.getItem("productJson");
+            var pJsonObj = JSON.parse(pJson);
+
+            var msgType = data.mine.content.indexOf("<img") == 0 ? 1 : data.mine.content.indexOf("gotoProductDetail") > 0 ? 2 : 0;
+            /*if(msgType == 2) {
+             data.mine.content = data.mine.content.replace("pro_detail.html?" + pJsonObj.id, "http://192.168.0.116/index.php/Home/Goods/goodsInfo/id/" + pJsonObj.id + ".html");
+             }*/
+            setTimeout(function () {
+                //      console.log('msg=>' + data.mine.content);
+//                console.log(JSON.stringify(data));
+
+                chat.sendMessage(parseInt(To.id), data.mine.content, msgType);
+            }, 1000);
+//            console.log("user:" + user_id);
+//            console.log("to_user" + To.id);
+            //console.log();
+
+        });
+
+        //监听查看更多记录
+        layim.on('chatlog', function (data) {
+            //console.log(data);
+//            layer.msg('do something');
+        });
+
+    });
+
+    //点击图片变大显示 放大缩小
+    function show_image(e) {
+//        window.location.href = "mo_show_image.html?image=" + $(e.target).attr("src");
+        var $clone = $(e.target).clone();
+        $clone.removeClass("image-file").addClass("image-bg");
+        $('#big_image').append($clone).css("display", "block");
+        var pinchImg = $("#big_image .image-bg")[0];
+        Transform(pinchImg);
+        var initScale = 1;
+        new AlloyFinger(pinchImg, {
+            multipointStart: function () {
+                initScale = pinchImg.scaleX;
+            },
+            pinch: function (evt) {
+                pinchImg.scaleX = pinchImg.scaleY = initScale * evt.scale;
+            }
+        });
+    }
+</script>
+<script src="js/mui.min.js"></script>
+
+<script type="text/javascript">
+    mui.init({
+        keyEventBind: {
+            backbutton: true //打开back按键监听
+        }
+    });
+    mui.back = function () {
+        window.history.go(-1);
+    }
+
+    window.onload = function () {
+        $('#lodding').css('display', 'none');
+        $('.layim-chat-main').scrollTop($('.layim-chat-main>ul').height());
+        $('#big_image').height($(window).height());
+
+        $('#big_image').click(function () {
+
+            $(this).children().remove();
+            $(this).css("display", "none");
+
+        });
+//            $('.image-file').click(show_image);
+    }
+</script>
+
+
+<script type="text/javascript">
+    //获取地址栏中参数的值
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)return unescape(r[2]);
+        return null;
+    }
+
+
+    //根据业务来源初始化消息
+    function initMsgBySource() {
+
+        var source = getQueryString("source");
+        if (source == "product") {
+            var pJson = localStorage.getItem("productJson");
+            var pJsonObj = JSON.parse(pJson);
+            console.log(pJsonObj);
+            var msgHtml = '\
+                    <div class="goodInfo" style="max-height: 1px;">\
+                        <img class="mui-media-object mui-pull-left lazy" src="' + pJsonObj.img + '" data-lazyload="' + pJsonObj.img + '" width="22%" style="display: block;float: left;">\
+                        <div class="mui-media-body">\
+                            <span style="display: inline-block;position: absolute;left: 26%;top: 28px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;overflow: hidden;">' + pJsonObj.name + '</span>\
+                            <p class="mui-ellipsis price" style="position: relative;top: 5px;left: 2%;"><em>¥' + pJsonObj.price + '</em></p>\
+                            <button style="position: relative;top:-25px; padding:5px; color:#FFF;left: -6%;float: right; background-color: #f29600;border: 1px solid #f29600;border-radius: 5px;" onclick="gotoProductDetail(\'' + pJsonObj.detail_url_pc + '\',\'' + "pro_detail.html?" + pJsonObj.id + '\')">商品详情</button>\
+                        </div>\
+                    </div>\
+                    ';
+
+            if (meConfig.meown.id == meConfig.meto.id) {
+                meConfig.meto.id = toUserId;
+            }
+
+            $('.layim-chat-send>input').val(msgHtml);
+            $(".layim-send").click();
+            $('.layim-chat-send>input').val("");
+        }
+    }
+
+    //跳转至产品详情页
+    function gotoProductDetail(pc_url, app_url) {
+        location.href = app_url;
+    }
+
+</script>
+<script src="js/push.js"></script>
+</body>
+</html>
+

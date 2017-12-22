@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/help_center.css" rel="stylesheet"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+</head>
+<body>
+<header id="mui-color" class="mui-bar mui-bar-nav">
+    <a href="JavaScript:;" class="mui-action-back mui-icon  mui-icon-left-nav mui-pull-left"></a>
+    <h1 class="mui-title"></h1>
+</header>
+<ul id="help_list">
+</ul>
+<div class="rentxy">
+
+</div>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="js/template.js"></script>
+<script src="js/URL.js"></script>
+<script src="js/mui.min.js"></script>
+<script id="help_items" type="text/html">
+    {{each article}}
+    <li class="help_item" data-href="privacy_content.html?article_id={{$value.article_id}}">
+        <p class="help_item_title">{{$value.title}}<span></span></p>
+    </li>
+    {{/each}}
+</script>
+<script>
+    (function () {
+        var tag = getUrlParam("tag");
+        var user_id = localStorage.getItem("user_id");
+        var token = localStorage.getItem("token");
+        if (tag == 3) {
+            $(".mui-title").text("租借商品协议");
+            $("#help_list").hide();
+            $.ajax({
+                type: "post",
+                url: URL.ApiUrl + URL.rentouProvinsion,
+                data: {user_id:user_id,token:token},
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.status == 1) {
+                        /*var html = template("help_items", data.result);
+                        $("#help_list").append(html);
+                        $("#help_list").delegate("li", "click", function (event) {
+                            window.location.href = $(event.currentTarget).attr("data-href");
+                        });*/
+                        var str = data.result
+                        str= str.split("*");
+                        console.log(str);
+
+                        $(".rentxy").append("<h4>"+str[0]+"</h4>" )
+
+                        for (var i =0; i<str.length-1;i++){
+                            $(".rentxy").append("<p>"+str[i+1]+"</p>" )
+                        }
+
+                    }
+                },
+                error: function (data) {
+                    mui.toast(data.msg, {duration: 'long', type: 'div'})
+                }
+            });
+            return;
+        }
+        else if (tag == 1) {
+            $(".mui-title").text("服务条款");
+        } else if (tag == 2) {
+            $(".mui-title").text("隐私条款");
+        }
+        $.ajax({
+            type: "post",
+            url: URL.SiteUrl + "/index.php?m=Api&c=User&a=reg_help_list",
+            data: {user_id: "", enterprise_id: ""},
+            dataType: 'json',
+            success: function (data) {
+                if (data.status == 1) {
+                    var html = template("help_items", data.result);
+                    $("#help_list").append(html);
+                    $("#help_list").delegate("li", "click", function (event) {
+                        window.location.href = $(event.currentTarget).attr("data-href");
+                    });
+                }
+            },
+            error: function (data) {
+                mui.toast(data.msg, {duration: 'long', type: 'div'})
+            }
+        });
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            } else {
+                return null;
+            }
+        }
+    })();
+</script>
+<script src="js/push.js"></script>
+</body>
+</html>

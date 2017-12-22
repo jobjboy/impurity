@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>智慧城市</title>
+    <link rel="stylesheet" href="css/mui.min.css" />
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/style.css" />
+	<script src="./lib/plugs/require/require.js"></script>
+	<script src="./lib/app.js"></script>  
+	<style>
+		#tip{ width: 100%; height: auto; overflow: hidden; top:0; left: 0; border: none; border-radius: 0; box-shadow: 0 2px 2px rgba(0,0,0,.15);}
+	</style>
+<body>
+    <div class="handle">
+		<a id="satellite" class="information3"><i class="fa fa-globe"></i></a>
+    </div>  	
+<div id='container'></div>
+<div id="tip" style="display: none;"></div>
+<div class="button_group">
+	<input id="confirm" class="button" type="button" value="确认修改">
+	<input id="cancel" class="button" type="button" value="取消修改">
+</div>
+
+		<div class="nav">
+			<ul>
+				<li class="on">
+					<a href="index.html">
+						<i></i>
+						<em>任务</em>
+					</a>
+				</li>
+				
+				<li>
+					<a href="task.html">
+						<i></i>
+						<em>任务</em>
+					</a>
+				</li>
+
+				<li>
+					<a href="sing.html">
+						<i></i>
+						<em>签到</em>
+					</a>
+				</li>
+
+				<li>
+					<a href="personal.html">
+						<i></i>
+						<em>个人</em>
+					</a>
+				</li>
+			</ul>
+		</div>	
+<script type="text/javascript">
+	
+require(['jquery', 'mui', 'URL', 'core','amap'], function ($, mui, URL, core) {	
+	
+    var geolocation,address,lng,lat;
+ 	var send_type = getUrlParam('send_type');
+	var taskId = getUrlParam('task_id');   
+    //加载地图，调用浏览器定位服务
+    map = new AMap.Map('container', {
+        resizeEnable: true,
+        zoom:17
+    });
+	// 卫星图
+	var biao_ji = true;
+	Satellite = new AMap.TileLayer.Satellite({
+		zooms:[3,19],
+		detectRetina:true
+	});
+
+		document.getElementById('satellite').addEventListener('click',function(){
+			if(biao_ji){
+				Satellite.setMap(map);
+				biao_ji = false;
+				mui.toast('显示卫星图层',{duration: 'long', type: 'div'});
+			}else{
+				Satellite.setMap(null);
+				biao_ji = true;
+				mui.toast("隐藏卫星图层", {duration: 'long', type: 'div'});
+			}
+		},false);	
+
+    map.plugin(['AMap.Geolocation','AMap.Geocoder','AMap.ToolBar'], function() {
+	    geocoder = new AMap.Geocoder({
+				city: "010"//城市，默认：“全国”
+			});    
+	    
+	    marker = new AMap.Marker({
+	            map: map,
+	        });    	
+	        
+        geolocation = new AMap.Geolocation({
+            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+            buttonOffset: new AMap.Pixel(15, 70),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+            zoomToAccuracy: true,      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+            panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
+            showCircle: false,        //定位成功后用圆圈表示定位精度范围，默认：true
+            buttonPosition:'LB',
+//          circleOptions: new AMap.Circle({bubble:true})
+        });
+   		map.addControl(new AMap.ToolBar({offset:new AMap.Pixel(10, 300)}));       
+        map.addControl(geolocation);
+        geolocation.getCurrentPosition();
+        
+		document.querySelector('.amap-geolocation-con').addEventListener('click',function(){
+			geolocation.getCurrentPosition();		
+		})
+        
+        AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+        AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+    });
+
+	        
+    map.on('click', function(e) {
+        marker.setPosition(e.lnglat);
+		geocoder.getAddress(e.lnglat,function(status,result){
+		    if(status=='complete'){
+		    	
+				address = result.regeocode.formattedAddress;
+    			lng = e.lnglat.getLng();
+    			lat = e.lnglat.getLat();
+    			
+		        var str=['定位成功'];
+		        str.push('当前位置：' + result.regeocode.formattedAddress);
+		        str.push('经度：' + e.lnglat.getLng());
+		        str.push('纬度：' + e.lnglat.getLat());
+		//      str.push('是否经过偏移：' + (data.isConverted ? '是' : '否'));
+		        document.getElementById('tip').innerHTML = str.join('<br>'); 
+		        document.getElementById('tip').style.display = 'block';
+		    }else{
+		        console.log(result);
+		    }
+		})              
+    });    
+    
+  	document.getElementById('confirm').addEventListener('click',function(){
+  		if(address&&lng&&lat){
+  			lnglatXY = lng+','+lat;
+  				window.location.href = './camera.html?send_type='+send_type+'&lnglatXY='+lnglatXY;
+  		}else{
+  			location.reload();
+  		}
+  	},false);
+ 
+  	document.getElementById('cancel').addEventListener('click',function(){
+			window.history.back();
+  	},false);
+});  	
+  	
+    //解析定位结果
+    function onComplete(data) {
+    	map.setZoom(17);
+    	address = data.formattedAddress;
+    	lng = data.position.getLng();
+    	lat = data.position.getLat();
+        var str=['定位成功'];
+        str.push('当前位置：' + data.formattedAddress);
+        str.push('经度：' + data.position.getLng());
+        str.push('纬度：' + data.position.getLat());
+//      if(data.accuracy){
+//           str.push('精度：' + data.accuracy + ' 米');
+//      }//如为IP精确定位结果则没有精度信息
+//      str.push('是否经过偏移：' + (data.isConverted ? '是' : '否'));
+        document.getElementById('tip').innerHTML = str.join('<br>');
+        document.getElementById('tip').style.display = 'block';
+    }
+    //解析定位错误信息
+    function onError(data) {
+        document.getElementById('tip').innerHTML = '定位失败';
+    }
+   
+</script>
+</body>
+</html>

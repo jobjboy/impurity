@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/offercard.css" rel="stylesheet"/>
+</head>
+<body>
+<header id="mui-color" class="mui-bar mui-bar-nav">
+    <a href="JavaScript:history.go(-1)" class="mui-action-back mui-icon  mui-icon-left-nav mui-pull-left "></a>
+    <h1 class="mui-title">我的优惠券</h1>
+</header>
+
+<div class="container">
+    <dl class="tabs" id="tabs">
+        <dd id="dontuse" class="thistab">未使用</dd>
+        <dd id="hasuse">已使用
+        </dd>
+        <dd id="expired">已过期</dd>
+    </dl>
+    <div id="lodding">
+        <span class="mui-spinner"></span>
+        <p>正在努力加载...</p>
+    </div>
+    <dl id="offercard_content">
+        <dd class="content_none" id="offercard_content_dontuse">
+
+        </dd>
+        <dd class="content_none" id="offercard_content_hasuse">
+
+        </dd>
+        <dd class="content_none" id="offercard_content_expired">
+        </dd>
+    </dl>
+    <div class="fail">
+        <img src="images/noorder.png" alt="">
+        <div class="fail_text">暂无任何相关数据！</div>
+    </div>
+    <p class="pre_lodding">
+        <span class="mui-spinner"></span>
+        正在努力加载...
+    </p>
+    <p class="null">别扯了，已经没有更多订单了...</p>
+</div>
+<script src="js/URL.js"></script>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="js/flexible.js"></script>
+<script src="js/mui.min.js"></script>
+<script src="js/template.js"></script>
+<script src="js/_refresh.js"></script>
+<script src="js/flexible.js"></script>
+<script id="offercard_item" type="text/html">
+    {{each result}}
+    <div class="offercard_page offercard_type2">
+        <span class="offercard_price">¥<em>{{$value.money}}</em></span>
+        <span class="offercard_typename">券</span>
+        <span class="offercard_classfy">消费满</span>
+        <span class="offercard_type">{{$value.condition}}使用</span>
+        <span class="offercard_limit">使用截止日期{{$value.use_end_time}}</span>
+        <i class="clear"></i>
+    </div>
+    {{/each}}
+</script>
+<script>
+    mui.init({
+        keyEventBind: {
+            backbutton: true //打开back按键监听
+        }
+    });
+    mui.back = function() {
+        window.history.go(-1);
+    }
+</script>
+<script src="js/offercard.js"></script>
+
+<script src="js/push.js"></script>
+</body>
+</html>

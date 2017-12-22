@@ -1,0 +1,82 @@
+img{ width: 100%;}
+ul,
+li {
+	list-style-type: none;
+}
+.mui-bar
+{
+    position: fixed;
+    z-index: 100;
+    right: 0;
+    left: 0;
+
+    height: 44px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: #636363;
+    border-bottom: 0;
+    background-color: #ffffff;
+
+
+}
+a {
+    text-decoration: none;
+    color: #000;
+}
+.mui-action-back{
+    color: #000;
+}
+#mui-color{ background: #fff; box-shadow: 0 0 0; border-bottom: 1px solid #f4f4f6; z-index: 100; }
+
+.lottery{ width: 100%; margin-top: 45px;position: relative; overflow: hidden;}
+.lottery-title{ position: relative; z-index: 10; width: 75%; margin: 6% auto 0 auto;}
+.lootery-sm{ position: relative; z-index: 10; width: 65%; margin: -7px  auto  0 auto;}
+
+.lottery-yp{ width: 100%; height: auto;position: relative; z-index: 10; }
+.lottery-yp-wb{ width: 100%; position: relative; z-index: 10; top: 0;}
+.lottery-yp-wb img{ width: 100%;z-index: 10;}
+
+
+.lottery-bg{ width: 100%; z-index: 1; position: absolute; top:-2px;}
+.lottery-bg img{ width: 100%;}
+
+
+.winners{ width: 100%; height: 200px; overflow: hidden; margin-top: 5%; margin-bottom: 10%; position: relative;  z-index: 20;}
+.winners-list{ width: 75%; height: auto; margin: 0 auto;}
+.winners-list h2{ width: 150px; height: 30px; background: #f1405a; margin: 0 auto; border-radius: 15px; font-size: 18px; color: #fff; text-align: center; line-height: 30px; margin-top: 23px;}
+.winners-list h3{ width: 100%; height: 1px; background: #f1405a; margin-top: -16px;}
+
+#scrollDiv{ width: 100%; height: 170px; overflow: hidden; margin-top: 25px; color: #583811; padding-bottom: 20px;}
+#scrollDiv ul{ padding: 0; margin: 0;}
+#scrollDiv ul li{ width: 100%; height: 22px; line-height: 22px; font-size: 0.8em; position: relative;}
+#scrollDiv ul li b{ float: left; width: 45%; display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+#scrollDiv ul li em{ font-style: normal; margin: 0 auto;}
+#scrollDiv ul li span{ float: right; text-align: left; width: 35%; display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+
+
+.active{ width: 78%; height: auto; overflow: hidden; margin: 0 auto; z-index: 20; position: relative;}
+.active h2{ width: 110px; height: 30px; background: #553611; margin: 0 auto; border-radius: 15px; font-size: 18px; color: #fff; text-align: center; line-height: 30px;}
+.active h3{ width: 100%; height: 1px; background: #553611; margin-top: -16px; margin-bottom: 45px;}
+.active ul{ margin: 0; padding: 0;}
+.active ul li{ height: auto; margin-bottom: 20px; line-height: 25px; font-size: 0.8rem; color: #553611;}
+.active ul li em{ width: 25px; height: 25px; border-radius: 50%; background: #553611; display: block; color: #fff; font-style: normal; text-align: center; line-height: 25px; float: left;}
+.active ul li span{ padding-left: 5px;}
+
+
+/**转盘样式****/
+.banner .turnplate{display:block;width:100%;position:relative;}
+.banner .turnplate canvas.item{width:100%;}
+.banner .turnplate img.pointer{position:absolute;width:31.5%;height:42.5%;left:34.6%;top:23%;}
+
+div.mui-popup{ width: auto;}
+div.mui-popup-inner{ padding:60px 100px; background:url(../images/lottery/dialog_bg.png) no-repeat center center;  }
+span.mui-popup-button{ border:none;}
+div.mui-popup-title{ font-size: 20px; display: block; width: 100px; left: 35%; position: absolute; top:10%; color:#C02332;}
+div.mui-popup-text{ width:150px; display:inline-block;position: relative; }
+img#temp{ margin-top: 8px; height: 70px; width: auto;}
+span.mui-popup-button{ font-size: 16px; color:#FFF;/* height: auto;*/}
+p.btns{ background:#F3981E; display: inline-block; width: 95px; color: #FFF; height: 38px; border-radius: 20px; margin:3px  auto 0 auto; }
+div.mui-popup-inner:after{height: 0; background:none;}
+
+
+

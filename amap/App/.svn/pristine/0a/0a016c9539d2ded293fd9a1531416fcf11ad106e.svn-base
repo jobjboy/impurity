@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!--<base href="//webapi.amap.com/ui/1.0/ui/misc/PathSimplifier/examples/" />-->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>智慧城市</title>
+	<link rel="stylesheet" href="css/mui.min.css" />
+	<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css" />
+	<link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script src="http://webapi.amap.com/maps?v=1.4.1&key=78acee11046dfcc17c9e8e319c9a125f"></script>
+	<!--<script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>-->
+	<script src="./lib/plugs/require/require.js"></script>
+	<script src="./lib/app.js"></script>
+
+</head>
+
+<body>
+<header class="mui-bar mui-bar-nav">
+	<a class="mui-action-back mui-icon mui-icon-left-nav mui-icon-arrowleft"></a>
+	<h1 class="mui-title">轨迹</h1>
+</header>
+<div id="con_container" style="display: none;">
+	<div class="handle">	
+		<a id="getLocation"><i class="fa fa-dot-circle-o"></i></a>
+		
+		<a id="pause"><i class="fa fa-pause"></i></a>
+		
+		<a id="start"><i class="fa fa-rotate-right"></i></a>
+		
+		<a id="track"><i class="fa fa-map-marker"></i></a>
+		
+		<a id="satellite"><i class="fa fa-globe"></i></a>
+	</div>
+	<div id="container"></div>
+</div>
+
+<div class="nav">
+	<ul>
+		<li>
+			<a href="index.html">
+				<i><span class="style_badge"></span></i>
+				<em>首页</em>
+			</a>
+		</li>
+
+		<li>
+			<a href="task.html">
+				<i></i>
+				<em>任务</em>
+			</a>
+		</li>
+
+		<li>
+			<a href="sing.html">
+				<i></i>
+				<em>签到</em>
+			</a>
+		</li>
+
+		<li class="on">
+			<a href="personal.html">
+				<i></i>
+				<em>个人</em>
+			</a>
+		</li>
+	</ul>
+</div>
+
+<div class="grid" style="display: block;">
+	<span class="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom"></span>
+	<p>拼命加载中<em>....</em></p>
+</div>
+
+<script type="text/javascript">
+	require(['jquery', 'mui', 'URL', 'core','amap'], function($, mui, URL, core) {
+		var con_container = $("#con_container");
+		var con_loading = $(".grid");
+		var timestamp = new Date().getTime();
+		var id = getUrlParam('id');
+		var aut_token = window.localStorage.getItem('aut_token');
+		var url = URL.trajectory_info.format(aut_token, id);
+
+		//创建地图
+		var map = new AMap.Map('container', {
+			resizeEnable: true,
+			zoom: 17
+		});
+		
+		//卫星图
+		var biaoji = true;
+		Satellite = new AMap.TileLayer.Satellite({
+			zooms: [3, 19],
+			detectRetina: true
+		});
+
+		map.plugin(['AMap.Geocoder', "AMap.ToolBar"], function() {
+			tool = new AMap.ToolBar({
+				offset: new AMap.Pixel(10, 90)
+			})
+
+			map.addControl(tool);
+
+			AMap.event.addListener(map, 'complete', onComplete);
+			
+			document.getElementById('satellite').addEventListener('click', function() {
+				if(biaoji) {
+					Satellite.setMap(map);
+					biaoji = false;
+					mui.toast('显示卫星图层', {
+						duration: 'long',
+						type: 'div'
+					});
+				} else {
+					Satellite.setMap(null);
+					biaoji = true;
+					mui.toast("隐藏卫星图层", {
+						duration: 'long',
+						type: 'div'
+					});
+				}
+			}, false);
+		})
+
+		AMapUI.load(['ui/misc/PathSimplifier', 'lib/$'], function(PathSimplifier, $) {
+
+			if(!PathSimplifier.supportCanvas) {
+				alert('当前环境不支持 Canvas！');
+				return;
+			}
+
+			var pathSimplifierIns = new PathSimplifier({
+				zIndex: 100,
+				autoSetFitView: true,
+				map: map, //所属的地图实例
+
+				getPath: function(pathData, pathIndex) {
+					
+					return pathData.path;
+				},
+				getHoverTitle: function(pathData, pathIndex, pointIndex) {
+
+					if(pointIndex >= 0) {
+						//point 
+						return pathData.name + '，点：' + pointIndex + '/' + pathData.path.length;
+					}
+					return pathData.name + '，点数量' + pathData.path.length;
+				},
+				renderOptions: {
+
+					renderAllPointsIfNumberBelow: 100 //绘制路线节点，如不需要可设置为-1
+				}
+			});
+
+			window.pathSimplifierIns = pathSimplifierIns;
+			
+			core.ajax(url, {}, function(data) {
+				if(data.status == 1) {
+ 			        pathSimplifierIns.setData([{
+			            name: '路线',
+			            path: data.result.locations
+			        }]);							
+					//重新建立一个巡航器
+					navg1 = pathSimplifierIns.createPathNavigator(0, {
+							animInterval:10,
+							loop: true, //循环播放
+							speed: 128//巡航速度，单位千米/小时
+					});
+//					navg1.on('move',function(e){
+					
+//						map.setCenter(this.getPosition())
+//					})	
+
+					map.setZoom(18);
+					map.setCenter(navg1.getPosition());	
+					
+					var panto;
+					var tracking = false;				
+					var pause_bj = true;
+					
+					AMap.event.addListener(tool, 'zoomchanged', function(type) {
+						navg1.pause();
+						clearInterval(panto);
+						$('#pause').find('i').attr('class','fa fa-play');					
+						pause_bj = false;
+					});
+					
+					navg1.start();
+					panto = setInterval(function(){
+						map.panTo(navg1.getPosition())
+					},1000);
+
+					document.getElementById('track').addEventListener('click',function(){					
+						if(tracking){
+							panto = setInterval(function(){
+								map.panTo(navg1.getPosition())
+							},1000);
+							mui.toast('开始追踪', {
+								duration: 'long',
+								type: 'div'
+							});
+							tracking = false;
+						}else{
+							clearInterval(panto);
+							mui.toast('取消追踪', {
+								duration: 'long',
+								type: 'div'
+							});
+							tracking = true;
+						}
+					},false)
+
+					document.getElementById('pause').addEventListener('click',function(){					
+						if(pause_bj) {
+							navg1.pause();					
+							$(this).find('i').attr('class','fa fa-play');
+							pause_bj = false;
+							mui.toast('暂停', {
+								duration: 'long',
+								type: 'div'
+							});
+						} else {
+							if(navg1.getNaviStatus() == 'stop'){
+								navg1.start();
+							}else{
+								navg1.resume();
+							}		
+							
+							$(this).find('i').attr('class','fa fa-pause');
+							
+							pause_bj = true;
+							mui.toast("开始", {
+								duration: 'long',
+								type: 'div'
+							});
+						}											
+					},false)
+					
+					document.getElementById('start').addEventListener('click',function(){
+						navg1.start();						
+						map.panTo(navg1.getPosition())
+	
+						$('#pause').find('i').attr('class','fa fa-pause');
+
+						pause_bj = true;
+						mui.toast("重新开始", {
+								duration: 'long',
+								type: 'div'
+							});
+					},false)
+					
+					document.getElementById('getLocation').addEventListener('click',function(){
+						map.setCenter(navg1.getPosition());
+					})
+	            				
+				} else {
+					mui.toast(data.msg, {
+						duration: 'long',
+						type: 'div'
+					});
+				}
+			}, function() {}, 'get');
+		});
+
+		function onComplete() {
+			timestamp2 = new Date().getTime();
+
+			if((timestamp2 - timestamp) <= 300) {
+				setTimeout(function() {
+					con_loading.hide();
+					con_container.show();
+				}, 400);
+			} else {
+				con_loading.hide();
+				con_container.show();
+			}
+		}
+	});
+</script>
+</body>
+</html>

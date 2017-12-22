@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <title>Document</title>
+</head>
+<body>
+<script src="js/push.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/mui.min.js"></script>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="js/URL.js"></script>
+<script>
+    var v;
+    var type;
+    var str = navigator.userAgent;
+    var flag = localStorage.getItem("flag");
+    // 扩展API加载完毕后调用onPlusReady回调函数
+    document.addEventListener('plusready', onPlusReady, false);
+    // 扩展API加载完毕，现在可以正常调用扩展API
+    function onPlusReady() {
+        // 获取apk/ipa版本号
+//        v = plus.runtime.version;
+        plus.runtime.getProperty(plus.runtime.appid, function (wgtinfo) {
+            v = wgtinfo.version;
+            if (str.indexOf("iPhone OS") != -1) {
+                type = 1;
+            } else {
+                type = 0;
+            }
+            var isUpdate = localStorage.getItem("isupdate");
+            if ((typeof isUpdate) == "string") {
+                if (isUpdate == "true") {
+                    isUpdate = true;
+                } else if (isUpdate == "false") {
+                    isUpdate = false;
+                }
+            }
+            if (!isUpdate) {
+                $.ajax({
+                    type: "post",
+                    url: URL.ApiUrl + "&c=Index&a=get_version",
+                    data: type,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.data.number_sn !== v) {
+                            //console.log(132);
+                            mui.confirm('发现新版本，是否更新？', '温馨提示', ['确认', '取消'], function (e) {
+                                if (e.index == 0) {
+                                    location.href = data.data.url;
+                                } else {
+                                    if (flag) {
+                                        window.localStorage.removeItem("is_already_location");
+                                        localStorage.removeItem('city');
+                                        location.href = "index.html";
+                                    } else {
+                                        localStorage.setItem("flag", "ture");
+                                        location.href = "guide.html";
+                                    }
+                                }
+                            })
+                        } else {
+                            if (flag) {
+                                window.localStorage.removeItem("is_already_location");
+                                localStorage.removeItem('city');
+                                location.href = "index.html";
+                            } else {
+                                localStorage.setItem("flag", "true");
+                                location.href = "guide.html";
+                            }
+                        }
+                    }
+                })
+            } else {
+                if (flag) {
+                   window.localStorage.removeItem("is_already_location");
+                    localStorage.removeItem('city');
+                    location.href = "index.html";
+                } else {
+                    localStorage.setItem("flag", "true");
+                    location.href = "guide.html";
+                }
+            }
+        })
+    }
+
+
+    /*
+
+     */
+</script>
+
+</body>
+</html>

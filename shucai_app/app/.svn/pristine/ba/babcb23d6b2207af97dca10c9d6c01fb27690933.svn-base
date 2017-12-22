@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/indent.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/icons-extra.css"/>
+</head>
+<body>
+<!--头部部分star-->
+<header id="mui-color" class="mui-bar mui-bar-nav" style="box-shadow:0px 0px 0px 2px #EBECF0 ">
+    <a class="mui-action-back mui-icon  mui-icon-left-nav mui-pull-left"></a>
+    <h1 class="mui-title">我的收藏</h1>
+</header>
+<!--头部部分end-->
+<div class="mui-content">
+    <div id="tabbox">
+        <div id="lodding">
+            <span class="mui-spinner"></span>
+            <p>正在努力加载...</p>
+        </div>
+        <div id="collectList">
+            <ul class="indent-list1">
+                <li>
+                    <div class="indent-list-title1 mui-checkbox mui-left">
+                        <!--熊购商城-->
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+        <p class="pre_lodding">
+            <span class="mui-spinner"></span>
+            正在努力加载...
+        </p>
+        <p class="null">别扯了，已经没有更多收藏了...</p>
+    </div>
+</div>
+
+<div class="fail">
+    <img src="images/noorder.png" alt="">
+    <div class="fail_text">您的收藏夹，暂无任何商品，快去逛逛吧！</div>
+</div>
+<script src="./js/common.js"></script>
+<script src="js/mui.min.js"></script>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="./js/URL.js"></script>
+<script src="js/template.js"></script>
+<script src="js/_refresh.js"></script>
+<script id="collect_list" type="text/html">
+    {{each result}}
+    <div class="indent-list-img">
+        <em><a href="pro_detail.html?{{$value.goods_id}}"><img src="{{$value.original_img}}"/></a></em>
+        <span class="item_title"><a href="#">{{$value.goods_name}}</a></span>
+        <span class="total_price">￥{{$value.shop_price}}</span>
+    </div>
+    <div class="indent-list-button">
+        <button type="button" class="mui-btn-sj collect_add">加入购物车</button>
+        <input type="hidden" class="goodsId" value="{{$value.goods_id}}">
+        <a href="#" type="button" class="mui-btn-zf collect_de">删除</a>
+    </div>
+    {{/each}}
+</script>
+<script src="js/collect.js"></script>
+<script src="js/push.js"></script>
+
+</body>
+</html>

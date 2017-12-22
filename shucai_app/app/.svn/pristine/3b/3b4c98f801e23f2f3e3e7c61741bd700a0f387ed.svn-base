@@ -1,0 +1,166 @@
+ul,
+li {
+	list-style-type: none;
+}
+html {
+	background-color: #fff;
+}
+.mui-bar
+{
+    position: fixed;
+    z-index: 10;
+    right: 0;
+    left: 0;
+
+    height: 44px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: #636363;
+    border-bottom: 0;
+    background-color: #ffffff;
+
+    
+}
+#mui-color{ background: #fff; box-shadow: 0 0 0; border-bottom: 1px solid #f4f4f6;}
+#topPopover {
+	position: fixed;
+	top: 16px;
+	right: 10px;
+	width: 150px;
+}
+
+
+#topPopover .mui-popover-arrow {
+	left: auto;
+	right: 10px;
+}
+.mui-popover {
+	height: 190px;
+}
+.mui-content {
+	padding: 10px;
+}
+.mui-tc{ padding:0  10px; margin: 0 auto;}
+.mui-tc li{ border-bottom: 1px solid #acacac; padding: 10px;}
+.mui-tc li a{ color:#292929;}
+.mui-tc li a span{ margin-right: 10px;}
+.more {
+ float: right;
+	text-align: center;
+	z-index: 10;
+	color: #000;
+}
+
+.user{ width: 100%; margin: 43px 0 0; background: #fff; padding: 10px 10px 0px 10px; box-sizing: border-box; overflow: hidden;}
+.user ul{ padding: 0; margin: 0; margin-top: 10px;padding-left: 5%;}
+.user ul li{ line-height: 40px; font-size: 14px; border-bottom: 1px solid #f4f4f6; overflow: hidden;}
+.user ul li span{ float: left; height: 40px; line-height: 40px; color: #666; width: 80px;}
+.user ul li .mui-checkbox.mui-left input[type=checkbox]{left: 0px;}
+.user ul li .mui-left{ width: 40px; float: left; height: 50px;}
+.user ul li .user-input{ width: 70%; float: left; border: none; padding: 0 10px; font-size: 14px; height: 40px; margin: 0; }
+.user ul li .user-radio{ width: 20%; float: left;}
+.user ul li .user-radio label{ float: left; width: auto; padding: 0; margin-left: 25px;}
+.user ul li:nth-child(2) .user-radio{ margin-right: 10px;}
+.user ul li .user-radio input{ left: 0px;}
+.user ul li .user-radio input:before{ font-size: 20px;line-height: 30px;}
+.user ul li .user-radio input[type=radio]:checked:before{ color: #F29600;}
+
+.user ul li .user-yzm{ width: 40%; float: left; border: none; padding: 0 10px; font-size: 14px; height: 40px; margin: 0; }
+.user ul li .user-hq{ margin-top: 3px;}
+.user-button{ width: 90%; height: 40px; line-height: 40px; text-align: center; color: #fff; background: #F29600; border: none; padding: 0; margin: 20px 5%;}
+.picture-img {
+	width: 90px;
+	height: 90px;
+	/*overflow: hidden;*/
+	border-radius: 50%;
+	/*float: left;*/
+	position: relative;
+	/*margin-right: 10px;*/
+	top: 5px;
+	left: 8%;
+	/*padding-bottom: 10px;*/
+	border: 1px solid #9fa1a0;
+	overflow: hidden;
+}
+
+
+
+.passwordbar {
+	display: none;
+}
+#fileHeadForm{
+	opacity: 0;
+}
+#fileHead{
+	opacity: 0;
+
+}
+
+#header_pic{
+	width: 90px;
+	height: 90px;
+	overflow: hidden;
+	border-radius: 50%;
+
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+}
+#header_pic img {
+	width: 88px;
+	height: 88px;
+	margin: 0 auto;
+	border-radius: 50%;
+    position: relative;
+}
+#lodding {
+	background-color: #fff;
+	display: none;
+	text-align: center;
+	margin: 0px auto;
+	padding-top: 25px;
+	/*position: relative;*/
+	/*top:-68px*/
+}
+input::-webkit-input-placeholder { /* WebKit browsers */
+	font-size:14px;
+}
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+	font-size:14px;
+}
+input::-moz-placeholder { /* Mozilla Firefox 19+ */
+	font-size:14px;
+}
+input:-ms-input-placeholder { /* Internet Explorer 10+ */
+	font-size:14px;
+}
+.clearfix::before,
+.clearfix::after {
+	content: "";
+	line-height: 0;
+	height: 0;
+	display: block;
+	visibility: hidden;
+	clear: both;
+}
+input[type=number]{
+	margin-bottom: 0 ;
+}
+
+.register-yzm {
+	position: absolute;
+	right: 3px;
+	border-radius: 15px;
+	color: #ffa70e;
+	border-color: #ffa70e;
+	padding: 3px 10px;
+	top: 17px;
+	font-size: 14px;
+	line-height: 18px;
+}
+.background .box {
+	max-height: 210px;
+}
+.hecont{
+	top: 7px;
+}

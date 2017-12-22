@@ -1,0 +1,188 @@
+html, body, div, p, ul, li, dl, dt, dd, h1, h2, h3, h4, h5, h6, form, input, select, button, textarea, iframe, table, th, td {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+div#lodding {
+    text-align: center;
+    margin: 170px auto 0 auto;
+    display: none;
+}
+#mui-color{
+    background: #fff;
+    box-shadow: 0 0 0;
+    border-bottom: 1px solid #f4f4f6;
+}
+.mui-action-back{
+    color: #000;
+}
+.container{
+    margin-top: 40px;
+}
+
+.tabs {
+    background: #fff;
+    height: auto;
+    border-bottom: 10px solid #EBECF0;
+    width: 100%;
+    overflow: hidden;
+    margin: 0;
+}
+
+.tabs dd {
+    text-align: center;
+    width:31%;
+    height: 50px;
+    line-height: 50px;
+    margin-left: 2%;
+    font-size: 16px;
+    float: left;
+    padding: 0 5px;
+    border-bottom: 4px solid #fff;
+    float: left;
+    overflow: hidden;
+    position: relative;
+}
+
+.tabs dd a {
+    display: block;
+    outline: none;
+}
+
+.tabs dd a:hover {
+    background: #ccc;
+}
+
+.tabs .thistab, .tabs .thistab a:hover {
+    background: #fff;
+    border-bottom: 4px solid #f29600;
+    color: #F29600;
+}
+
+.content_none{
+    display: none;
+}
+
+.offercard_page {
+    width: 95%;
+    height: 4rem;
+    background: url(../images/offercard/offercard.png) no-repeat;
+    -webkit-background-size:100%;
+    background-size: 100%;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+.offercard_type2 {
+    /*background-position: 0 0px;*/
+    /*background-position: 0 -153px;*/
+    /*background-position: 0 -306px;*/
+    /*background-position: 0 -459px;*/
+    /*background-position: 0 -613px;*/
+}
+.offercard_page .offercard_price em {
+    font-style: normal;
+    font-size: 2.5rem;
+}
+.offercard_dontuse{
+    background-position: 0 -4.026316rem;
+}
+.offercard_hasuse{
+    background-position: 0 -8.052632rem;
+}
+.offercard_expired{
+    background-position: 0 -12.078947rem;
+}
+.offercard_page .offercard_price {
+    font-family: Impact;
+    font-size: 2.8rem;
+    float: left;
+    color: #FFF;
+    opacity: 0.7;
+    margin: 1.4rem 0 0 1.0rem;
+    width: 2.5rem;
+    text-align: center;
+    letter-spacing: -.1rem;
+}
+.offercard_page .offercard_typename {
+    float: left;
+    margin: 2.4rem 0 0 1.2rem;
+    color: #fff;
+    opacity: 0.7;
+    font-size: 0.4rem;
+}
+.offercard_page .offercard_classfy {
+    font-size: 0.4rem;
+    color: #FFF;
+    opacity: 0.7;
+    float: left;
+    margin: .6rem 0 0 .1rem;
+    width: 2.5rem;
+}
+.offercard_page .offercard_type {
+    font-size: 0.4rem;
+    color: #FFF;
+    opacity: 0.7;
+    float: left;
+    margin: 1.3rem 0 0 -2.5rem;
+    width: 2.5rem;
+}
+.offercard_type2 .offercard_use {
+    color: #c0ddff;
+    background: #5ba0f1;
+}
+.offercard_page .offercard_use {
+    float: left;
+    background:#CD5C5C;
+    height: 0.8rem;
+    width: 3rem;
+    border-radius: 0.5rem;
+    line-height: 0.8rem;
+    text-align: center;
+    color: #D5E8FF;
+    margin: 2.1rem 0 0 -2.5rem;
+}
+.offercard_type2 .offercard_limit {
+    color: #3984dc;
+}
+
+.offercard_page .offercard_limit {
+    width: 80%;
+    float: left;
+    margin: 0.2rem 0 0 2rem;
+    color: #fff;
+}
+p.pre_lodding {
+    text-align: center;
+    line-height: 2;
+    display: none;
+}
+p.pre_lodding span {
+    display: block;
+    margin: 20px auto 0 auto;
+}
+p.null{
+    text-align: center;
+    display: none;
+    margin: 20px 0 20px 0;
+}
+.fail {
+    display: none;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 18px;
+}
+
+.fail img {
+    margin-top: 80px;
+    width: 30%;
+}
+
+.fail_text {
+    margin-top: 50px;
+    color: #BEBEC1;
+}
+
+.noorder {
+    height: 100%
+}

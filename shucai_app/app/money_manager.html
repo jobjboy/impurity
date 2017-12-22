@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/money_manager.css" rel="stylesheet"/>
+</head>
+<body>
+<header id="mui-color" class="mui-bar mui-bar-nav">
+    <a href="JavaScript:history.go(-1)" class="mui-action-back mui-icon  mui-icon-left-nav mui-pull-left "></a>
+    <h1 class="mui-title">资金管理</h1>
+</header>
+<div id="lodding">
+    <span class="mui-spinner"></span>
+    <p>正在努力加载...</p>
+</div>
+<div class="container">
+    <dl class="money_info clearfix">
+        <dd><p id="pay_points"></p>可用福星</dd>
+        <dd><p id="user_money"></p>可用余额</dd>
+        <dd><a href="recharge.html">充值</a><a href="withdrawal.html">提现</a></dd>
+    </dl>
+    <dl class="tabs" id="tabs">
+        <dd id="all" class="thistab">全部</dd>
+        <dd id="recharge">充值记录</dd>
+        <dd id="integral">福星</dd>
+    </dl>
+    <dl id="money_content">
+        <dd class="" id="all_content">
+            <ul class="money_list">
+
+            </ul>
+        </dd>
+        <dd class="content_none" id="recharge_content">
+            <ul class="money_list">
+            </ul>
+        </dd>
+        <dd class="content_none" id="integral_content">
+            <ul class="money_list">
+            </ul>
+        </dd>
+    </dl>
+    <p class="pre_lodding">
+        <span class="mui-spinner"></span>
+        正在努力加载...
+    </p>
+    <p class="null">别扯了，已经没有更多信息了...</p>
+</div>
+<script src="js/URL.js"></script>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="js/flexible.js"></script>
+<script src="js/template.js"></script>
+<script src="js/mui.min.js"></script>
+
+<script src="js/_refresh.js"></script>
+
+<script id="money_all" type="text/html">
+    {{each result}}
+    <li>
+        <p class="money_item_1">余额：{{$value.user_money}}<span>{{$value.desc}}</span></p>
+        <p class="money_item_2">福星：{{$value.pay_points}}<span>{{$value.change_time}}</span></p>
+    </li>
+    {{/each}}
+</script>
+<script id="money_recharge" type="text/html">
+    {{each result}}
+    <li>
+        <p class="money_item_1">充值金额：{{$value.user_money}}<span>{{$value.desc}}</span></p>
+        <p class="money_item_2">支付状态：{{$value.pay_points}}&nbsp;<span>{{$value.change_time}}</span></p>
+    </li>
+    {{/each}}
+</script>
+<script id="money_integral" type="text/html">
+    {{each result}}
+    <li>
+        <p class="money_item_1">余额：{{$value.user_money}}<span>{{$value.desc}}</span></p>
+        <p class="money_item_2">福星：{{$value.pay_points}}<span>{{$value.change_time}}</span></p>
+    </li>
+    {{/each}}
+</script>
+<script src="js/money_manager.js"></script>
+<script>
+    mui.init({
+        keyEventBind: {
+            backbutton: true //打开back按键监听
+        }
+    });
+    mui.back = function() {
+        window.history.go(-1);
+//        mui.currentWebview.opener().show(mui.currentWebview);
+
+    }
+</script>
+<script src="js/push.js"></script>
+</body>
+</html>

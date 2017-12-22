@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>智慧城市-个人中心</title>
+
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+		<link rel="stylesheet" href="css/mui.min.css">
+		<script src="./lib/plugs/require/require.js"></script>
+		<script src="./lib/app.js"></script>
+	</head>
+	<script>
+	</script>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-icon-arrowleft"></a>
+			<h1 class="mui-title">个人资料</h1>
+		</header>
+
+		<div class="personal">
+			<ul>
+				<li id="imageup"><a class="imageup"><span>头像</span><em class="personal-img"><img src="images/asktech.jpg"></em><i class="mui-navigate-right"></i></a></li>
+				<li>
+					<a href="name.html"><span>昵称</span><em>amp_144525</em><i class="mui-navigate-right"></i></a>
+				</li>
+				<li><span>性别</span><em class="noright">
+					<form class="mui-input-group">
+					<div class="mui-radio">						
+						<!--<input name="radio1" type="radio" checked>-->
+						<label>男</label>
+					</div>
+					<!--<div class="mui-radio">						
+						<input name="radio1" type="radio" >
+						<label>女</label>
+					</div>-->
+				</form></em></li>
+				
+				<li>
+					<a href="number.html"><span>手机号</span><em id="tel">13622312153</em><i class="mui-navigate-right"></i></a>
+				</li>
+				<li>
+					<a href="password.html"><span>登录密码</span><em>设置</em><i class="mui-navigate-right"></i></a>
+				</li>
+			</ul>
+
+
+			
+					<a href="javascript:;" class="logout">退出登录</a>
+			
+		</div>
+		<div class="nav">
+			<ul>
+				
+				<li>
+					<a href="index.html">
+                       <i></i>
+                       <em>首页</em>
+					</a>
+				</li>
+				
+				<li>
+					<a href="task.html">
+                       <i></i>
+                       <em>任务</em>
+					</a>
+				</li>
+				
+				<li>
+					<a href="sing.html">
+                       <i></i>
+                       <em>签到</em>
+					</a>
+				</li>			
+				
+				<li class="on">
+					<a href="personal.html">
+                       <i></i>
+                       <em>个人</em>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<!--<div class="modify-bg">
+			
+		</div>
+		<div class="modify">
+				<h3>修改图像</h3>
+				<ul>
+					<li><a href="1.html">
+						<span><i class="fa fa-camera"></i></span>
+						<em>拍照</em></a>
+					</li>
+
+					<li>
+						<span><i class="fa fa-image"></i></span>
+						<em>相册</em>
+					</li>
+				</ul>
+				<button type="button">取消</button>
+			</div>
+		<script>
+			$("#tc").click(function() {
+				$(".modify-bg").show();
+				$(".modify").show();
+			});
+			$(".modify-bg").click(function() {
+				$(".modify-bg").hide();
+				$(".modify").hide();
+			});
+			$(".modify button").click(function() {
+				$(".modify").hide();
+				$(".modify-bg").hide();
+			});
+		</script>-->
+<script src="./lib/plugs/require/require.js"></script>
+<script src="./lib/app.js"></script>		
+		<script>  
+	require(['jquery', 'mui', 'URL', 'core','base64','amap'], function ($, mui, URL, core) {		
+		
+		var tel = $('#tel').html();
+		var mtel = tel.substr(0, 3) + '****' + tel.substr(7);
+		$('#tel').text(mtel);		
+		
+		document.querySelector('.logout').addEventListener('click',function(){
+			var token = window.localStorage.getItem('aut_token');
+			var url = URL.log_out.format(token);
+			
+			core.ajax(url, {}, function (data) {
+					if (data.status == 1) {
+						console.log(JSON.stringify(data));
+						window.localStorage.removeItem('aut_token');
+						location.href='./login.html';
+					} else if(data.status == 400){
+						console.log('...')
+						window.location.href = './login.html';
+					}else{
+						mui.toast(data.msg, {duration: 'long', type: 'div'});
+					}
+				}, function () {
+				}, 'get');		
+			});
+		});	
+            function plusReady(){  
+                // 弹出系统选择按钮框  
+                mui("#imageup").on("tap",".imageup",function(){  
+                    page.imgUp();  
+                })  
+                  
+            }  
+               
+            var page=null;  
+            page={  
+                imgUp:function(){  
+                    var m=this;  
+                    plus.nativeUI.actionSheet({cancel:"取消",buttons:[  
+                        {title:"拍照"},  
+                        {title:"从相册中选择"}  
+                    ]}, function(e){//1 是拍照  2 从相册中选择  
+                        switch(e.index){  
+                            case 1:clickCamera();break;  
+                            case 2:clickGallery();break;  
+                        }  
+                    });  
+                }  
+                //摄像头  
+            }  
+              
+              
+     //发送照片  
+      
+    function clickGallery() {
+    	//打开相册管理
+        plus.gallery.pick(function(path) {  
+        	//压缩相册文件
+            plus.zip.compressImage({  
+                src: path,  
+                dst: "_doc/chat/gallery/" + path,  
+                quality: 20,  
+                overwrite: true  
+            }, function(e) {  
+            				//压缩成功后回调    文件上传
+                var task = plus.uploader.createUpload(server + "upload/chat", {  
+                    method: "post"  
+                }, function(t, sta) {  //上传成功回调
+                    console.log(JSON.stringify(t))  
+                    if(sta == 200) {  
+                        var msg = t.responseText;  
+                        var oImg = JSON.parse(msg);  
+                        var imgUrl = oImg.urls;  
+                        var re = new RegExp("\\\\", "g");
+                        imgUrl = imgUrl.replace(re, "/");
+                        uploadMsg(2, imgUrl);  
+                    }  
+                });  
+                task.addFile(e.target, {});  
+                task.start();  
+            }, function(err) {  
+                console.error("压缩失败：" + err.message);  
+            });  
+  
+        }, function(err) {});  
+    };  
+      
+      
+    // 拍照  
+      
+    function clickCamera() {  
+        var cmr = plus.camera.getCamera();  //获取摄像头管理对象
+        var res = cmr.supportedImageResolutions[0];  //支持的拍照分辨率
+        var fmt = cmr.supportedImageFormats[0];  //支持的拍照文件格式
+        cmr.captureImage(function(path) {  //拍照操作  
+        
+            	
+            plus.io.resolveLocalFileSystemURL(path, function(entry) {  
+                var localUrl = entry.toLocalURL();  
+                plus.zip.compressImage({  
+                    src: localUrl,  
+                    dst: "_doc/chat/camera/" + localUrl,  
+                    quality: 20,  
+                    overwrite: true  
+                }, function(e) {  
+                    var task = plus.uploader.createUpload(server + "upload/chat", {  
+                        method: "post"  
+                    }, function(t, sta) {  
+                        if(sta == 200) {  
+                            var msg = t.responseText;  
+                            var oImg = JSON.parse(msg);  
+                            var imgUrl = oImg.urls;  
+                            var re = new RegExp("\\\\", "g");  
+                            imgUrl = imgUrl.replace(re, "/");  
+                            console.log(imgUrl);  
+                            uploadMsg(2, imgUrl);  
+                        }  
+                    });  
+                    task.addFile(e.target, {});  
+                    task.start();  
+                }, function(err) {  
+                    console.log("压缩失败：  " + err.message);  
+                });  
+            });  
+        }, function(err) {  
+            console.error("拍照失败：" + err.message);  
+        }, {  
+            index: 1  
+        });  
+    };  
+  
+  
+              
+              
+            if(window.plus){  
+                plusReady();  
+            }else{  
+                document.addEventListener("plusready",plusReady,false);  
+            }  
+              
+        </script>  
+	</body>
+
+</html>

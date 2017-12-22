@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>智慧城市-个人中心</title>
+
+	<link rel="stylesheet" href="css/style.css" />
+	<link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+	<link rel="stylesheet" href="css/mui.min.css">
+	<script src="./lib/plugs/require/require.js"></script>
+	<script src="./lib/app.js"></script>
+</head>
+
+<body>
+<header class="mui-bar mui-bar-nav">
+	<a class="mui-action-back mui-icon mui-icon-left-nav mui-icon-arrowleft"></a>
+	<h1 class="mui-title">个人资料</h1>
+</header>
+
+<div class="personal">
+	<div class="mui-demo-container" id="progressbar" style="display: none;">
+		<div>
+			<p class="mui-progressbar mui-progressbar-infinite"></p>
+		</div>
+	</div>	
+	<ul id="view1">
+
+	</ul>
+	<!--<a href="track_list.html" class="logout">我的轨迹</a>-->
+	<a href="javascript:;" class="logout" id="logout">退出登录</a>
+
+</div>
+<div class="nav">
+	<ul>
+
+		<li>
+			<a href="index.html">
+				<i><span class="style_badge"></span></i>
+				<em>首页</em>
+			</a>
+		</li>
+
+		<li>
+			<a href="task.html">
+				<i></i>
+				<em>任务</em>
+			</a>
+		</li>
+
+		<li>
+			<a href="sing.html">
+				<i></i>
+				<em>签到</em>
+			</a>
+		</li>
+
+		<li class="on">
+			<a href="personal.html">
+				<i></i>
+				<em>个人</em>
+			</a>
+		</li>
+	</ul>
+</div>
+<!--<div class="modify-bg">
+			
+		</div>
+		<div class="modify">
+				<h3>修改图像</h3>
+				<ul>
+					<li><a href="1.html">
+						<span><i class="fa fa-camera"></i></span>
+						<em>拍照</em></a>
+					</li>
+
+					<li>
+						<span><i class="fa fa-image"></i></span>
+						<em>相册</em>
+					</li>
+				</ul>
+				<button type="button">取消</button>
+			</div>
+<script>
+	$("#tc").click(function() {
+		$(".modify-bg").show();
+		$(".modify").show();
+	});
+	$(".modify-bg").click(function() {
+		$(".modify-bg").hide();
+		$(".modify").hide();
+	});
+	$(".modify button").click(function() {
+		$(".modify").hide();
+		$(".modify-bg").hide();
+	});
+</script>-->
+<script src="./lib/plugs/require/require.js"></script>
+<script src="./lib/app.js"></script>
+<script type="text/html" id="tpl">
+	{{each result as value}}
+		<li onclick="plusReady()">
+			<a class="imageup"><span>头像</span><em class="personal-img"><img src="images/asktech.jpg"></em><i class="mui-navigate-right"></i></a>
+		</li>
+		<li>
+			<a href="name.html"><span>昵称</span><em>{{value.alias}}</em><i class="mui-navigate-right"></i></a>
+		</li>	
+		<li>
+			<a href="javascript:;"><span>手机号</span><em id="tel">{{value.user_name}}</em><i class="mui-navigate-right"></i></a>
+		</li>
+		<li>
+			<a href="javascript:;"><span>登录密码</span><em>设置</em><i class="mui-navigate-right"></i></a>
+		</li>
+		<li>
+			<a href="track_list.html"><span>我的轨迹</span><em>查看</em><i class="mui-navigate-right"></i></a>
+		</li>
+		{{if value.model_id == 2}}
+			<li>
+				<a href="member.html"><span>我的队员</span><em>查看</em><i class="mui-navigate-right"></i></a>
+			</li>
+		{{/if}}
+	{{/each}}
+</script>
+
+<script>
+require(['jquery', 'mui', 'URL', 'core', 'tpl'],function($, mui, URL, core, template) {
+
+	var token = window.localStorage.getItem('aut_token');
+	var url = URL.userinfo.format(token);
+	url_img = URL.upload_img;
+	
+	core.ajax(url, {}, function(data) {
+		if(data.status == 1) {
+			var results = {results: data.result};
+			var data2 = {result: results};
+			var html = template('tpl', data2);
+			$('#view1').html(html);
+			
+		} else if(data.status == 400) {
+			window.location.href = './login.html';
+		} else {
+			mui.toast(data.msg, {duration: 'long',type: 'div'});
+		}
+	}, function() {}, 'GET');
+
+	document.getElementById('logout').addEventListener('click', function() {
+		var url = URL.log_out.format(token);
+		core.ajax(url, {}, function(data) {
+			if(data.status == 1) {
+				console.log(JSON.stringify(data));
+				window.localStorage.removeItem('aut_token');
+				location.href = './login.html';
+			} else if(data.status == 400) {
+				console.log('...')
+				window.location.href = './login.html';
+			} else {
+				mui.toast(data.msg, {
+					duration: 'long',
+					type: 'div'
+				});
+			}
+		}, function() {}, 'get');
+	}, false);
+});
+
+function plusReady() {
+	page.imgUp();
+}
+
+var page = null;
+page = {
+	imgUp: function() {
+		var m = this;
+		plus.nativeUI.actionSheet({
+			cancel: "取消",
+			buttons: [{
+					title: "拍照"
+				},
+				{
+					title: "从相册中选择"
+				}
+			]
+		}, function(e) { //1 是拍照  2 从相册中选择  
+			switch(e.index) {
+				case 1:
+					clickCamera();
+					break;
+				case 2:
+					clickGallery();
+					break;
+			}
+		});
+	}
+	//摄像头  
+}
+
+//发送照片  
+function clickGallery() {
+	//打开相册管理
+	plus.gallery.pick(function(p) {
+		console.log('成功：' + p);
+		plus.io.resolveLocalFileSystemURL(p, function(entry) {	
+			var s = entry.toLocalURL();
+			createUpload(s);
+		}, function(e) {
+			console.log('读取录像文件错误：' + e.message);
+		});
+	}, function(e) {
+		console.log('失败：' + e.message);
+	})
+}
+
+// 拍照  
+function clickCamera() {
+	var cmr = plus.camera.getCamera(); //获取摄像头管理对象
+	var res = cmr.supportedImageResolutions[0]; //支持的拍照分辨率
+	var fmt = cmr.supportedImageFormats[0]; //支持的拍照文件格式
+	cmr.captureImage(function(path) { //拍照操作  
+		plus.io.resolveLocalFileSystemURL(path, function(entry) {
+			var s = entry.toLocalURL();
+			createUpload(s);
+		}, function(e) {
+			console.log('读取拍照文件错误：' + e.message);
+		});
+	}, function(err) {
+		console.error("拍照失败：" + err.message);
+	}, {
+		index: 1
+	});
+};
+var task = null;
+
+function createUpload(entry) {
+	document.getElementById('progressbar').style.display = 'block';
+	var task = plus.uploader.createUpload(url_img, {
+			method: "POST",
+			blocksize: 204800,
+			priority: 100
+		},
+		function(t, status) {
+			if(status == 200) {
+				var data = JSON.parse(t.responseText);
+				console.log(JSON.stringify(data));
+				document.getElementById('progressbar').style.display = 'none';
+				plus.nativeUI.toast('上传成功');
+				if(data.status == -1) {
+					mui.toast('上传文件过大', {
+						duration: 'long',
+						type: 'div'
+					});
+				}
+			} else {
+				document.getElementById('progressbar').style.display = 'none';
+				plus.nativeUI.toast('上传失败');
+			}
+		});
+	console.log(entry);
+	task.addFile(entry, {key: "photo"});
+	task.start();
+}
+</script>
+</body>
+
+</html>

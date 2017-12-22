@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>智慧城市-任务</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+		<link rel="stylesheet" href="css/mui.min.css">
+		<script src="./lib/plugs/require/require.js"></script>
+		<script src="./lib/app.js"></script>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">任务详情</h1>
+		</header>
+		<div class="mui-content">
+
+			<div class="info">
+				<h3>任务信息</h3>
+				<ul id="view1">
+					
+				</ul>
+
+			</div>
+		</div>
+
+		<script id="tpl" type="text/html">			
+			<li>
+			    <label>信息ID:</label>
+			    <span>{{result.id}}</span>
+			</li>
+			<li>
+			    <label>围栏ID:</label>
+			    <span>{{result.area_ids}}</span>
+			</li>
+			<li>
+			    <label>申请方:</label>
+			 	{{if result.send_type == 0}}
+				    <span>地面巡查</span>
+				{{else}} 
+					<span>无人机</span>
+			   	{{/if}}				  			   
+			</li>			
+			<li>
+			    <label>任务类型:</label>
+			 	{{if result.send_type == 0}}
+				    <span>路面巡查疑似违章</span>
+				{{else}} 
+					<span>申请支援</span>
+			   	{{/if}}				  			   
+			</li>
+			<li>
+			    <label>添加时间:</label>
+			    <span>{{result.add_time}}</span>
+			</li>
+			<li>
+			    <label>是否有操作:</label>
+			 	{{if result.status == 0}}
+				    <span>未操作</span>
+				{{else if result.status == 1}} 
+					<span>已分配</span>
+				{{else}} 
+					<span>正在处理</span>	
+			   	{{/if}}		
+			</li>
+			<li>
+			    <label>操作描述:</label>
+			    <span>{{result.status_desc}}</span>
+			</li>
+			<li>
+			    <label>违章拍摄的案件号:</label>
+			    <span>{{result.case_number}}</span>
+			</li>
+			<li>
+			    <label>任务地址:</label>
+			    <span>{{result.address}}</span>
+			</li>
+			<li>
+			    <label>任务描述:</label>
+			    <span>{{result.description}}</span>
+			</li>
+			<li>
+			    <label>提交人员ID:</label>
+			    <span>{{result.patroller_id}}</span>
+			</li>
+			<li>
+			    <label>地图位置图片:</label>
+			    <span style="display: block; width: 100%;"><img src="{{result.map_location_image}}"  width="100%"/></span>
+			</li>
+			<li>
+			    <label>建筑全貌图片:</label>
+			    <span style="display: block; width: 100%;"><img src="{{result.architectural_panorama_image}}"  width="100%"/></span>
+			</li>
+			<li>
+			    <label>疑似违章取证图片:</label>
+			    <span style="display: block; width: 100%;">
+			    	{{if result.evidence_image}}
+			    		{{if result.evidence_image.split(',').length > 0}}
+				    		{{each result.evidence_image.split(',') as values}}  
+						       	<img src="{{values}}"  width="100%"/>
+						    {{/each}}  
+						{{else}} 
+						    <img src="{{result.evidence_image}}"  width="100%"/>
+			    		{{/if}}	
+					{{/if}}  
+			    </span>
+			</li>
+			<li>
+			    <label>施工现场图片:</label>
+			    <span style="display: block; width: 100%;">
+			    	{{if result.scene_image}}
+			    		{{if result.scene_image.split(',').length > 0}}
+				    		{{each result.scene_image.split(',') as values}}  
+						       	<img src="{{values}}"  width="100%"/>
+						    {{/each}}  
+						{{else}} 
+						    <img src="{{result.scene_image}}"  width="100%"/>
+			    		{{/if}}	
+					{{/if}}  
+			    </span>
+			</li>		
+		</script>
+
+		<script>
+			require(['jquery', 'mui', 'URL', 'core','tpl',], function ($, mui, URL, core,template) {   	
+	mui.init();
+	
+    var aut_token = window.localStorage.getItem('aut_token');
+	var task_value = getUrlParam('task_value');
+	
+	var url = URL.road_inspection_info;
+	
+	var data = {
+		act: 'api',
+		aut_token: aut_token,
+		id:task_value
+	}		
+        core.ajax(url, data, function (data) {
+        	if (data.status == 1) {
+               // console.log(data.result.task_info);
+           
+				var html = template('tpl', data);
+				
+				$('#view1').html(html);
+				
+            } else if(data.status == 400){
+            	
+            	window.location.href = './login.html';
+            }else{
+            	mui.toast(data.msg, {duration: 'long', type: 'div'});
+            }
+	    }, function () {
+	    }, 'post');	
+	
+});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>按起终点名称规划路线</title>
+	<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css" />
+	<link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+	<link rel="stylesheet" href="css/mui.min.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script src="http://cache.amap.com/lbs/static/es5.min.js"></script>    
+    <!--<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.1&key=78acee11046dfcc17c9e8e319c9a125f"></script>-->
+</head>
+<body>
+		
+		
+        <div class="handle">
+        	<a id="amap3" class="information3 red"><i class="fa fa-location-arrow"></i></a>
+	       	<!--<a id="satellite" class="information3"><i class="fa fa-automobile"></i></a>		
+			<a id="satellite" class="information3"><i class="fa fa-bicycle"></i></a>		
+			<a id="satellite" class="information3"><i class="fa fa-male"></i></a>-->
+			<a id="satellite" class="information3"><i class="fa fa-globe"></i></a>
+        </div>  
+        
+
+        
+		<div class="nav">
+			<ul>
+				<li class="on">
+					<a href="index.html">
+						<i></i>
+						<em>首页</em>
+					</a>
+				</li>
+				
+				<li>
+					<a href="task.html">
+						<i></i>
+						<em>任务</em>
+					</a>
+				</li>
+
+				<li>
+					<a href="sing.html">
+						<i></i>
+						<em>签到</em>
+					</a>
+				</li>
+
+
+				<li>
+					<a href="personal.html">
+						<i></i>
+						<em>个人</em>
+					</a>
+				</li>
+			</ul>
+		</div>	
+<div id="container"></div>
+<div id="panel"></div>
+<div class="button_group" style="left: 37%;">
+	<input id="set_FitView" class="button" type="button" value="补录资料"/>
+</div>
+
+
+<script src="./lib/plugs/require/require.js"></script>
+<script src="./lib/app.js"></script>
+<script type="text/javascript">
+require(['jquery', 'mui', 'URL', 'core','amap'], function ($, mui, URL, core) {	
+	
+	var _url = getUrlParam('position').split(',');
+	var task_id = getUrlParam('task_id');
+	var switch_off = parseInt(getUrlParam('switch_off'));
+	
+	var point = new AMap.LngLat(_url[0],_url[1]);
+	
+	if(switch_off != 0){
+		document.querySelector('.button_group').style.display = 'none';
+	}else{
+		document.getElementById('set_FitView').addEventListener('click',function(event){
+			window.location.href = './warning.html?task_id='+task_id+'&position='+point;
+		},false);
+	}	
+	   
+	//基本地图加载
+    map = new AMap.Map("container", {
+        resizeEnable: true,
+        zoom:16
+    });
+
+	// 卫星图
+	var biao_ji = true;
+	Satellite = new AMap.TileLayer.Satellite({
+		zooms:[3,19],
+		detectRetina:true
+	});
+
+	document.getElementById('satellite').addEventListener('click',function(){
+		if(biao_ji){
+			Satellite.setMap(map);
+			biao_ji = false;
+			mui.toast('显示卫星图层',{duration: 'long', type: 'div'});
+		}else{
+			Satellite.setMap(null);
+			biao_ji = true;
+			mui.toast("隐藏卫星图层", {duration: 'long', type: 'div'});
+		}
+	},false);	
+		
+map.plugin(['AMap.Geolocation','AMap.DragRoute','AMap.ToolBar'], function () {
+	
+	geolocation = new AMap.Geolocation({
+		buttonOffset: new AMap.Pixel(15, 60),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+		panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
+		showCircle: false,       //定位成功后用圆圈表示定位精度范围，默认：true
+		zoomToAccuracy:true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+	});
+    	map.addControl(new AMap.ToolBar({offset:new AMap.Pixel(10, 90)}));
+    	map.addControl(geolocation);
+    	
+		geolocation.getCurrentPosition(function(status, result) {
+			if (status === 'complete' && result.info === 'SUCCESS') {
+				
+//				var lnglats = localStorage.getItem('lnglatXY');
+//			 	var lngX = lnglats.split(',')[0];
+//				var latY = lnglats.split(',')[1];
+
+				var lngX = result.position.getLng();
+				var latY = result.position.getLat();
+				lnglat = new AMap.LngLat(lngX,latY);
+				
+			    AMap.service('AMap.Driving',function(){//回调函数
+				    //实例化Driving
+				  	driving= new AMap.Driving({
+				 		policy:AMap.DrivingPolicy.REAL_TRAFFIC,
+					    map: map,
+					    panel:"panel",
+					    autoFitView:true  	
+				   });
+				    driving.search(lnglat,point);		    
+				}) 				
+				
+				if('Android'===plus.os.name&&navigator.userAgent.indexOf('StreamApp')>0){
+					plus.nativeUI.toast('当前环境暂不支持地图插件');
+					return;
+				}	
+				
+				$.ajax({ 
+				type: "GET",
+				url: "http://restapi.amap.com/v3/assistant/coordinate/convert?key=4de45df23573879001b38c1adcc4df93&locations="+_url+"&coordsys=gps",
+				data: {},
+				dataType: "json",
+				success: function(data){
+					var locations = data.locations.split(',');
+					var lng = locations[0];
+					var lat = locations[1];
+					console.log(lng+'=>'+lat);
+				//	设置目标位置坐标点和其实位置坐标点
+					var dst =  new plus.maps.Point(lng,lat);// 目的
+					var src =  new plus.maps.Point(lngX,latY);// 起点 			
+					AMap.service('AMap.Geocoder',function(){
+						var geocoder = new AMap.Geocoder({
+								city: "010"//城市，默认：“全国”
+							});
+						geocoder.getAddress(data.locations,function(status,result){
+						    if(status=='complete'){	    
+						    	
+						        points = result.regeocode.formattedAddress;
+						        
+								document.getElementById('amap3').addEventListener('click',function(event){
+									plus.maps.openSysMap(dst,points,src);//跳转高德
+								},false);						        
+						    }else{
+						        console.log(result);
+						    } 
+						})
+					});
+				}				
+			}); 				
+		}
+	});
+		
+	map.setFitView();
+
+	AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+	});
+});
+        function onError(data){
+        	mui.toast("当前位置信号弱", {duration: 'long', type: 'div'});
+        	setInterval(function(){
+        		location.reload();
+        	},10000)           
+        }
+        
+</script> 
+</body>
+</html>

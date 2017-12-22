@@ -1,0 +1,423 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <meta name="HandheldFriendly" content="true"/>
+    <link href="css/mui.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/mui.picker.min.css">
+    <link href="css/order.css" rel="stylesheet"/>
+
+</head>
+<body>
+<!--头部部分star-->
+<header class="mui-bar mui-bar-nav ">
+    <a href="JavaScript:;"> <span class="mui-icon mui-icon-back"></span></a>
+
+    <h2 class="mui-title snapH5">确认订单</h2>
+</header>
+<!--头部部分end-->
+<!--主体部分star-->
+<div class="mui-content  clearfix">
+    <div id="lodding">
+        <span class="mui-spinner"></span>
+
+        <p>正在努力加载...</p>
+    </div>
+    <!--收货信息-->
+    <div id="adress_info"></div>
+    <!--支付方式-->
+    <div class="payWay">
+        <span class="check"></span>
+
+        <div class="payWayName">账户余额</div>
+        <div class="payWayPic">
+            <ul class="clearfix">
+                <li class="payWayOne"><em class="checkend"></em>
+
+                    <div src="images/order/yueezhifu.png"></div>
+                    <span>账户余额</span></li>
+                <li class="payWayTwo"><em></em>
+
+                    <div src="images/order/yueezhifu.png"></div>
+                    <span>支付宝</span></li>
+                <li class="payWayThree"><em></em>
+
+                    <div src="images/order/yueezhifu.png"></div>
+                    <span>微信支付</span></li>
+                <li class="payWayFour"><em></em>
+
+                    <div src="images/order/yueezhifu.png"></div>
+                    <span>货到付款</span></li>
+            </ul>
+        </div>
+    </div>
+    <!--商品信息-->
+    <!--配送时间-->
+    <div class="btnbox">
+        <button id='demo3' class="btn mui-btn mui-btn-block">预约配送时间(默认立即配送)</button>
+        <button id='moren' class="mui-btn mui-btn-block">立即送达</button>
+    </div>
+    <div id='result' class="ui-alert"></div>
+
+    <!--<div class="delivery_time"><span></span><p>立即送达</p><i></i></div>
+    <ul class="time_list">
+        <li>立即送达 <span class="chose"></span></li>
+        <li>06:00 - 07:00 <span></span></li>
+        <li>07:00 - 08:00 <span></span></li>
+        <li>08:00 - 09:00 <span></span></li>
+        <li>09:00 - 10:00 <span></span></li>
+        <li>10:00 - 11:00 <span></span></li>
+        <li>11:00 - 12:00 <span></span></li>
+        <li>12:00 - 13:00 <span></span></li>
+        <li>13:00 - 14:00 <span></span></li>
+        <li>14:00 - 15:00 <span></span></li>
+        <li>15:00 - 16:00 <span></span></li>
+        <li>16:00 - 17:00 <span></span></li>
+        <li>17:00 - 18:00 <span></span></li>
+        <li>18:00 - 19:00 <span></span></li>
+        <li>19:00 - 20:00 <span></span></li>
+        <li>20:00 - 21:00 <span></span></li>
+        <li>21:00 - 22:00 <span></span></li>
+        <li>22:00 - 23:30 <span></span></li>
+    </ul>-->
+
+
+    <div id="itemsInfo"></div>
+
+    <div class="coupon">
+        <div class="distribution">
+            <span class="distribution_l">优惠券:&nbsp;&nbsp;未使用</span>
+            <span class="distribution_r"><span class="coupon_1r"></span></span>
+        </div>
+        <ul class="hide" id="coupon_id">
+        </ul>
+
+    </div>
+    <section class="other_info clearfix">
+        <!--优惠券信息-->
+
+        <!--   <div class="distribution">
+               <span class="distribution_l">优惠券:&nbsp;&nbsp;未使用</span>
+               <span class="distribution_r"><span class="coupon_1r"></span></span>
+           </div>
+           <div id="coupon_id"></div>-->
+        <!--用户福星-->
+        <div id="jifen" class="clearfixs">
+            账户福星(100福星=1元)： <span class="balance_p1"></span>
+
+        </div>
+        <div class="pay_point .clearfix">
+            <span class="balance_m">抵扣福星(抵扣不退还):&nbsp;&nbsp; <span class="balance_p"></span></span>
+
+            <div class="mui-switch mui-switch-mini  use_money actived" id="mySwitch2">
+                <div class="mui-switch-handle"></div>
+            </div>
+        </div>
+        <div class="invoice">
+            <input type="text" placeholder="请输入发票抬头" id="invoice_val">
+        </div>
+    </section>
+
+
+    <!--  <div id="result">送货时间：立即送货(默认)</div>
+      <button id='demo5' data-options='{"type":"time"}' class="btn mui-btn mui-btn-block">选择时间 ...</button>-->
+
+    <!--<div class="note">
+        <p>备注</p>
+        <textarea placeholder="请输入备注信息..."></textarea></div>
+    <div class="back_top"></div>-->
+</div>
+</div>
+
+<!--主体部分end-->
+<!--foot部分-->
+<footer>
+    <div id="payLoading">正在加载...</div>
+    <div id="totalPrice"></div>
+    <div id="sub">提交订单</div>
+</footer>
+<!--<div class="coupon">
+    <div class="coupon_1">
+        <span class="coupon_1l">使用优惠券</span>
+        <span class="coupon_1r"></span>
+    </div>
+    <div class="coupon_2 hide">
+        <span class="more"></span>
+        <select id="coupon_id" name="coupon_id" class="vam ou-no">
+            <option value="0">选择优惠券</option>
+        </select>
+    </div>
+    <div class="balance clearfix">
+        <span class="balance_m">账户余额 ￥{{user_money}}</span>
+        <input type="number" id="balance_con" max="{{user_money}}">
+        <button class="use_money">使用</button>
+    </div>
+</div>-->
+<!--mui-backdrop-->
+<!--余额支付密码框-->
+<div class="passwordBox">
+    <div class="bg "></div>
+    <div class="inputbar">
+        <span class="paytitle">支付密码：</span>
+        <input type="password" id="pincode-input2" maxlength="6">
+        <span class="paytitleTips">请输入6位数支付密码</span>
+        <span class="esc"></span>
+        <a class="fgtpw" href="drawCashPassword.html?tag=order">忘记密码？</a>
+        <button class="payenter">确认支付</button>
+    </div>
+</div>
+
+
+<script src="js/zepto.js"></script>
+<script src="js/mui.min.js"></script>
+<script src="js/city.data-3.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/template.js"></script>
+<script src="js/URL.js"></script>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="js/mui.picker.min.js"></script>
+<script type="text/javascript" src="js/mui_common.js"></script>
+
+
+<!--用户信息模板-->
+<script id="userad_info" type="text/html">
+    <section class="address">
+        <span class="address_fix"></span>
+
+        <div class="user_info">
+            <div class="user_con">
+                <a href="address_list.html?tag=car">
+                    <div class="user_np">
+                        <span class="user_name">收货人:{{consignee}}</span>
+                        <span class="user_phone">{{mobile}}</span>
+                    </div>
+                    <span class="user_address">&nbsp;&nbsp;{{temp}}{{address}}</span>
+                    <span class="address_con"></span>
+                </a>
+                {{if can_send==-1}}
+                <div class="peisong" data-send="{{can_send}}">商品在该地区无货</div>
+                {{/if}}
+            </div>
+        </div>
+    </section>
+</script>
+<!--商品数据模板-->
+<script id="items_info" type="text/html">
+    {{each cartList}}
+    <section class="item_info">
+        <div class="indent-list-img">
+            <em>
+                <a href="pro_detail.html?{{$value.goods_id}}">
+                    <img src="{{$value.original_img}}"/>
+                </a>
+            </em>
+            <span class="item_title"><a href="#">{{$value.goods_name}}</a></span>
+            <span class="total_price">￥{{$value.goods_price}}</span>
+            <span class="item_num">×{{$value.goods_num}}</span>
+        </div>
+    </section>
+    {{/each}}
+    <div class="sum_money">
+        <span>共{{cartList.length}}件商品 合计：</span>
+        ￥{{totalPrice.total_fee}}
+    </div>
+</script>
+
+<!--总计数据模板-->
+<!--+ 配送费用：{{postFee}}-->
+<script id="total_price" type="text/html">
+    <div class="pay_money">
+        {{if balance!=''}}
+        使用余额：￥{{balance}}
+        {{/if}}
+        {{if couponFee!=''}}
+        优惠券：{{couponFee}}
+        {{/if}}
+        {{if pointsFee!=''&& pointsFee>0}}
+        使用福星：<i class="fmdk">{{pointsFee*100}}</i>
+        {{/if}}
+        {{if order_prom_amount!=''}}
+        优惠活动：{{order_prom_amount}}
+        {{/if}}
+        <span>应付金额:&nbsp;&nbsp;</span>￥<span class="ypay">{{payables}}</span>
+    </div>
+</script>
+<script id="coupon_avail" type="text/html">
+    {{each couponList as value i}}
+    <li data_couponid="{{value.id}}">{{value.name}}： ￥{{value.money}}</li>
+    {{/each}}
+</script>
+
+<script type="text/javascript">
+    var pays = {};
+    document.addEventListener("plusready", function () {
+        plus.payment.getChannels(function (channels) {
+
+            $.each(channels, function (index, item) {
+                pays[item.id] = item;
+
+                if (!item.serviceReady) {
+
+                    var txt = null;
+                    switch (item.id) {
+                        case "alipay":
+                            txt = "检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，是否立即安装？";
+                            break;
+                        default:
+                            txt = "系统未安装“" + item.description + "”服务，无法完成支付，是否立即安装？";
+                            break;
+                    }
+                    plus.nativeUI.confirm(txt, function (e) {
+                        if (e.index == 0) {
+                            item.installService();
+                        }
+                    }, item.description);
+                }
+            });
+
+        }, function (e) {
+            alert("获取支付通道失败：" + e.message);
+        });
+
+    });
+
+</script>
+<script
+>
+    /* mui.init({
+     keyEventBind: {
+     backbutton: true //打开back按键监听
+     }
+     });
+     mui.back = function () {
+     return false;
+     return;
+     /!* plus.webview.hide("order1")
+     plus.webview.close("order1")*!/
+     //        history.go(-1)
+
+     //        location.href = "shopping_cart.html";
+     /!* mui.plusReady(function () {
+     mui.init();
+     var shop = plus.webview.create("shopping_cart.html", "shop", {
+     width: "100%",
+     height: "100%",
+     position: "absolute",
+     background: "#000000"
+     });
+     plus.webview.currentWebview().append(shop);
+     });*!/
+     }*/
+    mui.init({
+        keyEventBind: {
+            backbutton: true //打开back按键监听
+        }
+    });
+    mui.back = function () {
+        plus.webview.open("shopping_cart.html");
+    };
+    /* mui.plusReady(function () {
+     //首页返回键处理
+     //处理逻辑：2秒内，连续两次按返回键，则退出应用
+     var first = null;
+     plus.key.addEventListener('backbutton', function () {
+     //首次按键，提示‘再按一次退出应用’
+     if (!first) {
+     first = new Date().getTime();
+     //                mui.toast('再按一次退出应用', {duration: 'short', type: 'div'});
+     setTimeout(function () {
+     first = null;
+     }, 2000);
+     } else {
+     if (new Date().getTime() - first < 2000) {
+     //                    plus.runtime.quit();
+     //                    history.go(-1);
+
+     }
+     }
+     }, false);
+     });*/
+</script>
+<script src="js/lhhpayment.js"></script>
+<script src="js/order.js"></script>
+<script>
+    (function ($) {
+        var svTimes, end_time;
+        jquery.ajax({
+            type: "get",
+            url: "http://192.168.0.116/index.php?m=Api&c=Base&a=getServerTime",
+            dataType: "json",
+            success: function (data) {
+                svTimes = (+data.result) * 1000;
+                end_time = (+data.endtime) * 1000;
+
+            }, error: function () {
+                mui.toast("网络请求失败!")
+            }
+        })
+        $.init();
+        var result = $('#result')[0];
+        var btns = $('.btn');
+        btns.each(function (i, btn) {
+            btn.addEventListener('tap', function () {
+//                var optionsJson = this.getAttribute('data-options') || '{}';
+//                var options = JSON.parse(optionsJson);
+                var id = this.getAttribute('id');
+                /*
+                 * 首次显示时实例化组件
+                 * 示例为了简洁，将 options 放在了按钮的 dom 上
+                 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+                 */
+                var y = new Date(svTimes).getFullYear();
+                var m = new Date(svTimes).getMonth() + 1;
+                var d = new Date(svTimes).getDate() + 1;
+                var d2 = new Date(svTimes).getDate();
+                var h = new Date(svTimes).getHours();
+                var bgtime = svTimes;
+
+                var picker = new $.DtPicker({
+                    type: "datetime",//设置日历初始视图模式
+                    beginDate: new Date(bgtime),//设置开始日期
+                    endDate: new Date(end_time),//设置结束日期
+                    labels: ['年', '月', '日', '小时', '分钟'],//设置默认标签区域提示语
+                });
+                picker.show(function (rs) {
+                    /*
+                     * rs.value 拼合后的 value
+                     * rs.text 拼合后的 text
+                     * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+                     * rs.m 月，用法同年
+                     * rs.d 日，用法同年
+                     * rs.h 时，用法同年
+                     * rs.i 分（minutes 的第二个字母），用法同年
+                     */
+                    result.innerText = '配送时间：' + rs.text;
+                    jquery("#result").show();
+                    /*
+                     * 返回 false 可以阻止选择框的关闭
+                     * return false;
+                     */
+                    /*
+                     * 释放组件资源，释放后将将不能再操作组件
+                     * 通常情况下，不需要示放组件，new DtPicker(options) 后，可以一直使用。
+                     * 当前示例，因为内容较多，如不进行资原释放，在某些设备上会较慢。
+                     * 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
+                     */
+                    picker.dispose();
+                });
+            }, false);
+        });
+    })(mui);
+</script>
+<script>
+	/*(function($){
+		$('#sub').on("click",function(){
+			alert(123)
+		})
+	})(jQuery)*/
+</script>
+<script src="js/push.js"></script>
+</body>
+</html>

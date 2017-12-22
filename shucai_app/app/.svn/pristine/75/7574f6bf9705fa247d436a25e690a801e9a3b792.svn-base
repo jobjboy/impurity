@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/user.css" rel="stylesheet"/>
+    <link href="css/icons-extra.css" rel="stylesheet"/>
+</head>
+<body>
+<!--头部部分star-->
+<header id="mui-color" class="mui-bar mui-bar-nav">
+    <span class="mui-icon mui-icon-back mui-action-back"></span>
+    <h1 class="mui-title">账户管理</h1>
+</header>
+<!--头部部分end-->
+
+<div class="user">
+    <div id="use_info"></div>
+    <button type="button" class="user-button">信息修改</button>
+</div>
+<!--{{if head_pic==null}}
+<img  src="images/personal/head_pic.png">
+{{else}}
+<img  src="{{head_pic}}">
+{{/if}}-->
+<div id="lodding">
+    <span class="mui-spinner"></span>
+    <p>正在上传...</p>
+</div>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="js/mui.min.js"></script>
+<script src="js/template.js"></script>
+<script src="js/URL.js"></script>
+<script src="js/alert_plug.js"></script>
+<script src="js/user.js"></script>
+<script id="userInfo" type="text/html">
+    <div class="picture-img">
+        <div id="header_pic"> <img src="" alt="头像"></div>
+
+     </div>
+    <ul>
+        <li>
+            <span>昵称</span>
+            <input type="text" value="{{nickname}}" class="user-input nickname" placeholder="昵称" maxlength="11">
+        </li>
+        <!-- <li>
+             <input type="hidden" class="sexsz" value="{{sex}}">
+             <span>性别</span>
+             <div class="mui-radio user-radio">
+                 <label>保密</label>
+                 <input name="radio1" type="radio" class="secret radio">
+             </div>
+             <div class="mui-radio user-radio">
+                 <label>男</label>
+                 <input name="radio1" type="radio" class="man radio">
+             </div>
+             <div class="mui-radio user-radio">
+                 <label>女</label>
+                 <input name="radio1" type="radio" class="woman radio">
+             </div>
+         </li>-->
+
+
+
+        <li class="hidden">
+            <span>QQ号码</span>
+            <input type="number" value="{{qq}}" class="user-input qq" placeholder="QQ号码" maxlength="11">
+        </li>
+        <li>
+            <span>更换手机号码</span>
+            <input type="number" value="{{mobile}}" class="user-input mobile" placeholder="手机号码">
+        </li>
+        <!--<li class="hidden">
+            <span>邮箱地址</span>
+            <input type="text" value="{{email}}" class="user-input email" placeholder="邮箱地址">
+        </li>-->
+        <!--<li>
+            <span>上传头像</span>
+            <form id="fileHeadForm" enctype="multipart/form-data" method="post" action="XXXXXX" name="head_pic">
+                <input type="file" value="点击上传" class="user-input" id="fileHead" name="head_pic">
+            </form>
+        </li>-->
+
+
+    </ul>
+
+</script>
+<script src="js/push.js"></script>
+<script>
+    mui.init({
+        keyEventBind: {
+            backbutton: true //打开back按键监听
+        }
+    });
+    mui.back = function () {
+        var token = localStorage.getItem("token");
+        console.log(token);
+        if(token){
+            window.history.go(-1);
+        }
+    }
+</script>
+</body>
+</html>

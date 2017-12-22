@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="css/chat.css"/>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <h1 class="mui-title">分类</h1>
+		</header>
+		<!--搜索框-->
+		<div class="mui-content">
+		    <div class="mui-input-row mui-search">
+		        <input type="search" id="search_bar2" class="mui-input-clear" placeholder="请输入商品名称">
+		    </div>
+		    
+		    <!--商品九宫格-->
+		  	<ul class="mui-table-view mui-grid-view mui-grid-9" id="goods">
+			  	<li class="mui-table-view-cell mui-media mui-col-xs-6">
+			  	    <a href="#">
+			  	        <span class="mui-icon"><img src="../images/shucai2.png" width="70%"/></span>
+			  	        <div class="mui-media-body">时令蔬菜<p>Vegetables</p></div>
+			  	    </a>
+			  	</li>
+			  	
+			  	<li class="mui-table-view-cell mui-media mui-col-xs-6">
+			  	    <a href="#">
+			  	        <span class="mui-icon"><img src="../images/shucai2.png" width="70%"/></span>
+			  	        <div class="mui-media-body">Email</div>
+			  	    </a>
+			  	</li>
+			</ul>    
+		</div>
+		
+		<!--底部导航栏-->
+		<div class="footNav"></div>
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/URL.js" ></script>
+		<script type="text/javascript" src="js/jquery-1.11.0.js" ></script>
+		<script type="text/javascript" src="js/template.js" ></script>
+		<script src="js/footer_nav.js"></script>
+		
+		
+		
+		<script type="text/html" id="goods_template">
+			{{each cp as value index}}
+				<li class="mui-table-view-cell mui-media mui-col-xs-6">
+			  	    <a href="#">
+			  	        <span class="mui-icon"><img src="{{value.src}}" width="50%"/></span>
+			  	        <div class="mui-media-body">{{value.name}}<p>{{value.yiyu}}</p></div>
+			  	    </a>
+			  	</li>
+			{{/each}}
+		</script>
+	
+		<script>
+			
+			(function($) {
+            //阻尼系数 感觉在上拉时比较明显
+            var deceleration = mui.os.ios ? 0.003 : 0.0009;
+            $('.mui-scroll-wrapper').scroll({
+                bounce: false,
+                indicators: true, //是否显示滚动条
+                deceleration: deceleration
+            });
+        })(mui);
+        
+		</script>
+		<script src="js/snap_up.js" type="text/javascript"></script>
+	</body>
+</html>

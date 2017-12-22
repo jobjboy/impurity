@@ -1,0 +1,375 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/pro_detail.css" rel="stylesheet"/>
+    <link href="css/icons-extra.css" rel="stylesheet"/>
+
+    <script src="js/template.js"></script>
+    <style>
+        #guige .pro-standard-active {
+            background: #f19700;
+            color: #fff;
+            border: 1px solid #f19700;
+            cursor: pointer;
+            border-radius:4px;
+            margin-right: 5px;
+        }
+
+        .guideAttr {
+            margin: 10px 0;
+        }
+
+        #guige p {
+            margin-bottom: 10px;
+            text-indent: 0;
+        }
+
+        .guideAttr span {
+            padding-left: 10px;
+            padding-right: 10px;
+            border: 1px solid #CCC;
+            line-height: 30px;
+            display: inline-block;
+            -moz-border-radius: 4px;
+            -webkit-border-radius: 4px;
+            border-radius: 4px;
+            margin-right: 5px;
+            margin-bottom: 10px;
+        }
+
+        #output {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+<header class="mui-bar mui-bar-nav ">
+    <a href="javascript:window.history.go(-1);"> <span class="mui-icon mui-icon-back"></span></a>
+    <h2 class="mui-title snapH5">商品详情</h2>
+</header>
+<!--轮播部分-->
+<div class="mui-collapse-content">
+    <div id="slider" class="mui-slider" style=";">
+        <div class="mui-slider-group mui-slider-loop" id="lunbo">
+            <div class="mui-slider-item"><a href="javascript:void(0)"><img src=""/></a></div>
+        </div>
+        <div class="mui-slider-indicator idex">
+
+        </div>
+    </div>
+    <div  class="mui-icon returnBack" onclick="window.history.go(-1)"></div>
+   <!-- <a id="servers" class="mui-icon more"></a>-->
+</div>
+<div id="topPopover" class="mui-popover">
+    <div class="mui-popover-arrow"></div>
+    <div class="mui-scroll-wrapper">
+        <ul class="mui-tc">
+            <li>
+                <a href="mobile.html"><span class="mui-icon mui-icon-chat"></span>消息</a>
+            </li>
+            <li>
+                <a href="javascript:void(0)"><span class="mui-icon-extra mui-icon-extra-share"></span>分享</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="pro-tilte" id="product_name"></div>
+<div class="pro-text">￥<em id="price1"></em>.<a id="price2"></a>
+</div>
+<!--<div class="pro-standard">选择商品属性：
+    <div style="display: inline;" >
+
+    </div>
+</div>-->
+
+<ul class="mui-table-view">
+    <li id="shop_attr" class="mui-table-view-cell mui-collapse">
+        <a class="mui-navigate-right" href="javascript:void(0)">选择商品属性：</a>
+
+        <div class="mui-collapse-content" id="guige">
+
+        </div>
+    </li>
+</ul>
+<div class="pro-condition">
+    <a href="javascript:void(0)" class="mui-navigate-right">
+        <ul id="goods_service">
+            <!--<li><span class="mui-icon mui-icon-checkmarkempty"></span>正品保证</li>
+            <li><span class="mui-icon mui-icon-checkmarkempty"></span>极速退款</li>
+            <li><span class="mui-icon mui-icon-checkmarkempty"></span>不支持7天退货</li>-->
+        </ul>
+    </a>
+</div>
+<div class="pro-amount">选择数量：
+    <div class="numbox" data-numbox-min='1' data-numbox-max='20'>
+        <!--<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+        <input id="test" class="mui-input-numbox" type="number" value="1"/>
+        <button class="mui-btn mui-btn-numbox-plus" type="button">+</button>-->
+        <span class="minus"></span>
+        <input class="num" type="number" min="1" max="20" value="1" disabled="disabled"/>
+        <span class="plus"></span>
+    </div>
+</div>
+
+<div class="pro-foods">
+    <a href="javascript:void(0)" class="mui-navigate-right">食物相克：<span id="xiangke"></span></a>
+</div>
+<!--用户评论-->
+<div class="pro_all">
+    <div class="pro-evaluate">
+        <a href="customer.html" class="mui-navigate-right"></a>
+    </div>
+</div>
+<span class="seemore">查看更多>></span>
+<div class="pro-detail" id="pro_detail">
+
+</div>
+
+<div class="pro-detail-footer navTmp">
+
+
+
+    <div class="detail_footer_left">
+
+        <div id="collect_client" class="collect" style="margin-top: -7px; font-size: 12px;">
+            <em class="btm-act-icn"></em>
+            <span class="collect_text" style="top: -6px; right: 0;">客服</span>
+        </div>
+
+        <div class="collect" id="collect">
+            <span class="mui-icon star" style=""></span>
+            <span class="collect_text" id="collect_text">收藏</span>
+        </div>
+
+
+        <a href="JavaScript:;">
+            <div class="shop_car">
+                <span class="mui-badge mui-badge-danger car_count"></span>
+                <span class="shop_car_img"></span>
+                <span class="shop_car_text">购物车</span>
+            </div>
+        </a>
+
+
+    </div>
+    <!--回到顶部-->
+    <div class="back_top"></div>
+    <div class="pro-detail-buy">
+    	
+        立即购买
+    </div>
+    <div class="pro-detail-cart">
+        加入购物车
+    </div>
+</div>
+
+<!--<button id="rentout">
+    我要租借
+</button>-->
+<div id="output">
+</div>
+<script src="js/mui.min.js"></script>
+<script>
+    mui.init({
+        keyEventBind: {
+            backbutton: true //打开back按键监听
+        }
+    });
+
+    mui.back = function () {
+
+        var viewurls = window.location.hash;
+        var st = viewurls.split("=")[1];
+        console.log(st);
+        if (st == "index") {
+            plus.webview.open("index.html");
+        } else {
+            history.go(-1);
+            mui.currentWebview.opener().show(mui.currentWebview);
+        }
+//        plus.webview.create(st);
+    }
+</script>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="js/jquery.lazyload.js"></script>
+<script src="js/URL.js"></script>
+<!--轮播部分-->
+<script id="template" type="text/template">
+    <div class="mui-slider-item mui-slider-item-duplicate">
+        <a href="javascript:void(0)">
+            <img data-original="{{gallery[0].image_url}}">
+        </a>
+    </div>
+
+    {{each gallery as value i}}
+    <div class="mui-slider-item">
+        <a href="javascript:void(0)">
+            <img data-original="{{value.image_url}}">
+        </a>
+    </div>
+    {{/each}}
+    <div class="mui-slider-item mui-slider-item-duplicate">
+        <a href="#">
+            <img data-original="{{gallery[gallery.length-1].image_url}}">
+        </a>
+    </div>
+</script>
+
+<!--商品规格-->
+<script id="temp_guige" type="text/template">
+    {{each goods_spec_list as value i}}
+    <div class="guideAttr">
+        <p>{{value.spec_name}}</p>
+        <span class="">{{value.item}}</span>
+    </div>
+    {{/each}}
+</script>
+
+<!--用户评论模板-->
+<script id="evaluate_des_id" type="text/template">
+    <ul class="evaluate_des">
+        <li class="des_title">{{username}}<span>{{add_time_text}}</span></li>
+        <li>{{content}}</li>
+    </ul>
+</script>
+<script>
+
+    var pic;
+    var shares = null;
+    var Intent = null, File = null, Uri = null, main = null;
+    // H5 plus事件处理
+    function plusReady() {
+        updateSerivces();
+        /* if(plus.os.name=="Android"){
+         main = plus.android.runtimeMainActivity();
+         Intent = plus.android.importClass("android.content.Intent");
+         File = plus.android.importClass("java.io.File");
+         Uri = plus.android.importClass("android.net.Uri");
+         }*/
+    }
+    if (window.plus) {
+        plusReady();
+    } else {
+        document.addEventListener("plusready", plusReady, false);
+    }
+    /**
+     * 更新分享服务
+     */
+    function updateSerivces() {
+        plus.share.getServices(function (s) {
+            shares = {};
+            for (var i in s) {
+                var t = s[i];
+                shares[t.id] = t;
+//                console.log(JSON.stringify(t.id));
+            }
+        }, function (e) {
+            outSet("获取分享服务列表失败：" + e.message);
+        });
+    }
+
+
+    /**
+     * 分享操作
+     * @param {JSON} sb 分享操作对象s.s为分享通道对象(plus.share.ShareService)
+     * @param {Boolean} bh 是否分享链接
+     */
+    var shareurl = 'http://192.168.0.116/';
+    function shareAction(sb, bh) {
+
+        outSet("分享操作：");
+        /*console.log(JSON.stringify(sb));
+         console.info(JSON.stringify(bh));
+         return;*/
+        //console.log(JSON.stringify(sb));
+        //console.log(shareurl);
+        if (!sb || !sb.s) {
+            outLine("无效的分享服务！");
+            return;
+        }
+        //console.log(JSON.stringify(sb));
+        if (sb.s.id == "qq") {
+            //console.log(123);
+            var msg = {content: "福鑫配送app提供社区派送服务，用户只需在线下单即可在家坐收商品！", href: 'http://192.168.0.116/'};
+        } else {
+            var msg = {content: "福鑫配送app提供社区派送服务，用户只需在线下单即可在家坐收商品！", extra: {scene: sb.x}};
+        }
+
+        if (bh) {
+            //console.log("...........");
+            if (sb.s.id !== "qq") {
+                //console.log(123);
+                msg.href = shareurl;
+                msg.title = "我正在使用福鑫配送app应用，赶紧跟我一起来体验！";
+                msg.thumbs = ["images/pro-detail/logo1.png"];
+                msg.pictures = ["images/pro-detail/logo2.png"];
+            } else {
+                msg.title = "我正在使用福鑫配送app应用，赶紧跟我一起来体验！";
+                msg.thumbs = ["images/pro-detail/logo2.png"];
+                msg.pictures = ["images/pro-detail/logo1.png"];
+            }
+
+
+        } else {
+            if (pic && pic.realUrl) {
+                msg.pictures = [pic.realUrl];
+            }
+        }
+        // 发送分享
+        if (sb.s.authenticated) {
+            outLine("---已授权---");
+            shareMessage(msg, sb.s);
+        } else {
+            outLine("---未授权---");
+            sb.s.authorize(function () {
+                shareMessage(msg, sb.s);
+            }, function (e) {
+                outLine("认证授权失败：" + e.code + " - " + e.message);
+            });
+        }
+    }
+
+
+    /**
+     * 发送分享消息
+     * @param {JSON} msg
+     * @param {plus.share.ShareService} s
+     */
+    function shareMessage(msg, s) {
+        outLine(JSON.stringify(msg));
+        s.send(msg, function () {
+            outLine("分享到\"" + s.description + "\"成功！ ");
+        }, function (e) {
+            outLine("分享到\"" + s.description + "\"失败: " + JSON.stringify(e));
+            //console.log(JSON.stringify(e));
+        });
+    }
+
+    function shareHref() {
+        var shareBts = [];
+        // 更新分享列表
+        var ss = shares['weixin'];
+        ss && ss.nativeClient && (shareBts.push({title: '微信朋友圈', s: ss, x: 'WXSceneTimeline'}),
+                shareBts.push({title: '微信好友', s: ss, x: 'WXSceneSession'}));
+        ss = shares['qq'];
+
+        ss && ss.nativeClient && shareBts.push({title: 'QQ', s: ss});
+        // 弹出分享列表
+        shareBts.length > 0 ? plus.nativeUI.actionSheet({title: '分享链接', cancel: '取消', buttons: shareBts}, function (e) {
+            (e.index > 0) && shareAction(shareBts[e.index - 1], true);
+        }) : plus.nativeUI.alert('当前环境无法支持分享链接操作!');
+    }
+
+</script>
+<script src="js/mui_common.js"></script>
+<script src="js/pro_detail.js"></script>
+<script src="js/push.js"></script>
+</body>
+
+</html>

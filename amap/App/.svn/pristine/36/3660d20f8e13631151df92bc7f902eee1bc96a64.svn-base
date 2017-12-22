@@ -1,0 +1,172 @@
+/**
+ * Created by Liangyong on 2017/4/17 0017.
+ */
+// 当前资源URL目录
+var baseUrl = (function () {
+    var scripts = document.scripts, src = scripts[scripts.length - 1].src;
+    return src.substring(0, src.lastIndexOf("/") + 1);
+})();
+//console.log(baseUrl);
+baseUrl = baseUrl.replace('/js', '');
+
+
+/**
+ * 占位符替换：
+ * 使用方法： "http://{0}/{1}".format("a.com", "index.html")
+ * @returns {String}
+ */
+String.prototype.format = function () {
+    if (arguments.length == 0) return this;
+    for (var s = this, i = 0; i < arguments.length; i++)
+        s = s.replace(new RegExp("\\{" + i + "\\}", "g"), arguments[i]);
+    return s;
+};
+
+/*
+ * 格式化日期
+ */
+Date.prototype.pattern=function(fmt) {
+    var o = {
+        "M+" : this.getMonth()+1, //月份
+        "d+" : this.getDate(), //日
+        "h+" : this.getHours()%12 == 0 ? 12 : this.getHours()%12, //小时
+        "H+" : this.getHours(), //小时
+        "m+" : this.getMinutes(), //分
+        "s+" : this.getSeconds(), //秒
+        "q+" : Math.floor((this.getMonth()+3)/3), //季度
+        "S" : this.getMilliseconds() //毫秒
+    };
+    var week = {
+        "0" : "/u65e5",
+        "1" : "/u4e00",
+        "2" : "/u4e8c",
+        "3" : "/u4e09",
+        "4" : "/u56db",
+        "5" : "/u4e94",
+        "6" : "/u516d"
+    };
+    if(/(y+)/.test(fmt)){
+        fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+    }
+    if(/(E+)/.test(fmt)){
+        fmt=fmt.replace(RegExp.$1, ((RegExp.$1.length>1) ? (RegExp.$1.length>2 ? "/u661f/u671f" : "/u5468") : "")+week[this.getDay()+""]);
+    }
+    for(var k in o){
+        if(new RegExp("("+ k +")").test(fmt)){
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+        }
+    }
+    return fmt;
+}	
+// 获取url中的参数
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+        return unescape(r[2]);
+    } else {
+        return null;
+    }
+}
+
+
+// RequireJs 配置参数
+require.config({
+    baseUrl: baseUrl,
+    waitSeconds: 0,
+    map: {'*': {css: './plugs/require/require.css'}},
+
+    paths: {
+        // 开源插件 CDN
+        'jquery': ['https://cdn.bootcss.com/jquery/1.12.4/jquery.min', './plugs/jquery/jquery.min'],
+        'jquery.cookies': ['https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie', './plugs/jquery/jquery.cookie'],
+
+        'echarts': ['./plugs/echarts/echarts'],
+
+        'range': ['./plugs/jquery/jquery.range'],
+
+        'mui': ['./plugs/mui/mui'],       
+
+        //==========================control .js===============================
+		"amap": ["http://webapi.amap.com/maps?v=1.4.1&key=78acee11046dfcc17c9e8e319c9a125f"],
+		
+        'core': ['./core'],
+
+        'URL': ['./URL'],
+
+        'base64': ['./plugs/jquery/jquery.base64'],
+
+        'banner': ['../js/banner'],
+
+        'md5': ['./plugs/md5/md5'],
+
+        'tpl': ['./plugs/arttempale/arttmpl'],
+    },
+    shim: {
+        'base64': {deps: ['jquery']},
+        'range': {deps: ['jquery']}
+    },
+    deps: ['css!https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css'],
+
+    // 开启debug模式，不缓存资源
+    urlArgs: "t=" + (new Date()).getTime()
+});
+
+
+//框架初始化
+require(['amap','jquery', 'jquery.cookies', 'mui', 'URL', 'core'], function (amap,$, cookie, mui, URL, core) {
+	requirejs('amap');
+    url = window.location.pathname;
+    arr = url.split('/');
+    
+	var token = window.localStorage.getItem('aut_token');
+	
+//  console.log('val='+arr[arr.length - 1]);
+
+    if (!core.getToken() && (arr[arr.length - 1] != 'login.html')) {
+        location.href = './login.html';
+    }
+	
+	if(core.getToken() && (arr[arr.length - 1] != 'login.html')){
+		AMap.service(['AMap.Geolocation'],function(){
+			var geolocation = new AMap.Geolocation();
+//			setInterval(function(){
+				geolocation.getCurrentPosition();
+//			},5000);
+				AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+        		AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+			});		
+	}			
+
+    //解析定位结果
+    function onComplete(data) {
+//  	console.log(data.position.getLng()+'=>'+data.position.getLat());
+//  	mui.toast(data.position.getLng()+'=>'+data.position.getLat(), {duration: 'long', type: 'div'});
+      		var lngX = data.position.getLng();
+			var latY = data.position.getLat();
+			
+			if(localStorage.getItem('lnglatXY')){
+				window.localStorage.removeItem('lnglatXY');
+			}
+			window.localStorage.setItem('lnglatXY',data.position);//替换lnglatXY
+			
+    		var url = URL.upload_coordinate.format(token,latY,lngX);
+			core.ajax(url, {}, function (data) {
+//					console.log(data);
+				if (data.status == 1) {
+					console.log('ok');
+				} else if(data.status == 400){
+//					console.log('error')
+					window.location.href = './login.html'; 
+				}else{
+//					mui.toast(data.msg, {duration: 'long', type: 'div'});
+			}
+			}, function () {
+			}, 'GET');	    	
+    }
+    //解析定位错误信息
+    function onError(data) {
+       console.log('当前位置信号弱');
+    }	
+});
+ 

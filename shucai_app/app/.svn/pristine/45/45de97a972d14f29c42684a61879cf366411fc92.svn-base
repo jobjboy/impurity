@@ -1,0 +1,347 @@
+/*所有的标签和伪类*/
+*, ::before, ::after {
+    padding: 0;
+    margin: 0;
+    /*在移动端特殊的设置*/
+    /*清除点击高亮效果*/
+    -webkit-tap-highlight-color: transparent;
+    /*设置盒子的宽度以边框开始计算*/
+    -webkit-box-sizing: border-box; /*要兼容老的移动浏览器*/
+    box-sizing: border-box;
+}
+
+input, textarea {
+    border: none;
+    outline: none;
+    resize: none;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    padding: 0px;
+    font-size: 14px;
+    line-height: 1.5em;
+    font-family: tahoma, "Microsoft YaHei", Simsun, Mingliu, Arial, Helvetica;
+    color: #333333;
+    width: 100%;
+    height: auto;
+    background-color: #EBECF0;
+}
+
+img {
+    border: 0;
+    vertical-align: middle;
+}
+
+ul,
+li {
+    list-style-type: none;
+}
+
+table,
+td {
+    border-collapse: collapse
+}
+
+address,
+em {
+    font-style: normal;
+}
+
+a {
+    color: #333333;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #f29600;
+    text-decoration: none;
+}
+
+cite, em, s, i, b {
+    font-style: normal
+}
+
+/*通用样式结束*/
+
+/*特殊的属性定义清除浏览器给input自带的样式*/
+
+.clearfix::before,
+.clearfix::after {
+    content: "";
+    line-height: 0;
+    height: 0;
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+/*头部样式*/
+.mui-bar {
+    position: fixed;
+    z-index: 10;
+    right: 0;
+    left: 0;
+
+    height: 44px;
+    padding-right: 10px;
+    padding-left: 10px;
+
+    border-bottom: 0;
+    background-color: #ffffff;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+    box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.mui-bar-nav {
+    top: 0;
+    -webkit-box-shadow: 0 1px 12px #ccc;
+    box-shadow: 0 1px 12px #ccc;
+}
+
+.mui-title {
+    font-weight: 900;
+}
+
+/*容器*/
+.mui-content {
+    background-color: #EBECF0;
+    -webkit-overflow-scrolling: touch;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+
+}
+
+.infocon {
+    width: 94%;
+    height: 80%;
+    margin-top: 44px;
+    margin-left: 3%;
+    background-color: #EBECF0;
+    padding-bottom: 44px;
+    /*overflow: auto;*/
+}
+
+footer {
+    width: 100%;
+    min-height: 44px;
+    position: fixed;
+    bottom: 0;
+    background-color: #ffffff;
+    box-shadow: 0 0 1px 0px #ccc;
+    /*display: table-cell;*/
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#ownInfo {
+    display: inline-block;
+    width: 78%;
+    height: 30px;
+    border: 1px solid #9fa1a0;
+    margin-top: 7px;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14px;
+    /*padding-left: 8px;*/
+    /*-webkit-user-modify: read-write;*/
+    word-wrap: break-word;
+    -webkit-line-break: after-white-space;
+    overflow-y: auto;
+    text-align: left;
+    padding-left: 8px;
+    /*line-height: 15px;*/
+    padding-top: 3px;
+}
+
+.emj {
+    float: left;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: url("../images/emj.png") no-repeat center center;
+    -webkit-background-size: 100%;
+    background-size: 100%;
+    margin-top: 7px;
+    margin-left: 1%;
+}
+
+.pic {
+    float: right;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: url("../images/morepic.png") no-repeat center center;
+    -webkit-background-size: 100%;
+    background-size: 100%;
+    margin-top: 7px;
+    margin-right: 1%;
+}
+
+.own {
+    width: 100%;
+    height: auto;
+    padding-top: 25px;
+    padding-bottom: 10px;
+}
+
+.head_pic {
+    float: left;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-color: #f29600;
+    margin-right: 15px;
+
+}
+
+.own_text {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 80%;
+    background-color: #fff;
+    border-radius: 7px;
+    padding: 10px;
+}
+
+.own_text .wb {
+    display: inline-block;
+    position: relative;
+    top: 0px;
+    right: 24px;
+    width: 0;
+    height: 0;
+    font-size: 0;
+    border: solid 7px;
+    border-color: #EBECF0 #fff #EBECF0 #EBECF0;
+
+}
+
+.im {
+    width: 100%;
+    height: auto;
+    padding-top: 25px;
+    padding-bottom: 10px;
+
+}
+
+.im_pic {
+    float: right;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    /*background-color: red;*/
+}
+.im_pic img{
+     width: 40px;
+     height: 40px;
+ }
+.head_pic img{
+    width: 40px;
+    height: 40px;
+}
+
+.im_text {
+    float: right;
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 80%;
+    margin-right: 15px;
+    background-color: #9EEA6A;
+    border-radius: 7px;
+    padding: 10px;
+    word-break:break-all;
+    word-wrap:break-word;
+    text-align: left;
+}
+
+.im_text .wb {
+    display: inline-block;
+    float: right;
+    position: relative;
+    top: 0px;
+    left: 24px;
+    width: 0;
+    height: 0;
+    font-size: 0;
+    border: solid 7px;
+    border-color: #EBECF0 #EBECF0 #EBECF0 #9EEA6A;
+
+}
+
+.qqFace {
+    margin-top: 4px;
+    background: #fff;
+    padding: 2px;
+    border: 1px #dfe6f6 solid;
+}
+
+/*biaoqing css*/
+
+.page_emotion dd {
+    display: inline-block;
+    float: left;
+    width: 14.2%;
+    height: 24px;
+    margin: 5px 0;
+    text-align: center;
+}
+
+.list_emotion *[data-key] {
+    color: transparent;
+    display: block;
+    width: 24px;
+    height: 24px;
+    margin: auto;
+    background: url(../images/arclist/default.gif) no-repeat 0 0;
+    -webkit-background-size: auto 24px;
+}
+
+.list_emotion *.del {
+    background-image: url(../images/arclist/del.png);
+}
+
+.nav_emotion {
+    padding: 10px 0;
+    text-align: center;
+}
+
+.nav_emotion span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 10px;
+    background: #ebebeb;
+    margin: 0 5px;
+}
+
+.nav_emotion span.on {
+    background-color: #bbb;
+}
+
+.page_emotion {
+    /*position: absolute;*/
+    padding-top: 20px;
+    /*display: none;*/
+    /*bottom: 0px;*/
+}
+.send {
+    float: right;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: url("../images/send.png") no-repeat center center;
+    -webkit-background-size: 100%;
+    background-size: 100%;
+    margin-top: 7px;
+    margin-right: 1%;
+}

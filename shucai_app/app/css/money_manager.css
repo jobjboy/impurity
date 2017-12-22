@@ -1,0 +1,203 @@
+html, body, div, p, ul, li, dl, dt, dd, h1, h2, h3, h4, h5, h6, form, input, select, button, textarea, iframe, table, th, td {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+input,textarea{
+    border: none;
+    outline: none;
+    resize: none;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    padding: 0px;
+    font-size: 12px;
+    line-height: 1.5em;
+    font-family: tahoma, "Microsoft YaHei", Simsun, Mingliu, Arial, Helvetica;
+    color: #333333;
+    background: #f7f7f7;
+    width: 100%;
+    height: auto;
+}
+
+img {
+    border: 0;
+    vertical-align: middle;
+}
+
+ul,
+li {
+    list-style-type: none;
+}
+
+table,
+td {
+    border-collapse: collapse
+}
+
+address,
+em {
+    font-style: normal;
+}
+
+a {
+    color: #333333;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #f29600;
+    text-decoration: none;
+}
+
+cite, em, s, i, b { font-style: normal }
+.clearfix::before,
+.clearfix::after{
+    content: "";
+    line-height:0;
+    height: 0;
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+div#lodding {
+    text-align: center;
+    margin: 170px auto 0 auto;
+    display: none;
+}
+#mui-color {
+    background: #67BD49;
+    box-shadow: 0 0 0;
+    border-bottom: 1px solid rgb(199, 199, 204);
+}
+.mui-title{
+	color: #fff;
+}
+.mui-action-back {
+    color: #000;
+}
+
+.container {
+    margin-top: 40px;
+    display:none;
+}
+
+.money_info {
+    border-bottom: 1px solid rgb(199, 199, 204);
+    padding:10px;
+    font-size: 14px;
+}
+.money_info p{
+     color: red;
+ }
+
+.money_info dd{
+    padding-top: 6px;
+    text-align: center;
+    /*border:1px solid #000;*/
+    display: inline-block;
+    width:33.3%;
+    float: left;
+    border-right: 1px solid rgb(199, 199, 204);
+}
+.money_info dd:last-child{
+    border:none;
+}
+.money_info dd:last-child a{
+    padding:3px 10%;
+    border-radius: 10%;
+    margin-left:0.25rem;
+    background: rgb(255,102,0);
+    color: #fff;
+    font-size: 0.35rem;
+}
+
+.tabs {
+    background: #fff;
+    height: auto;
+    border-bottom: 10px solid #EBECF0;
+    width: 100%;
+    overflow: hidden;
+    margin: 0;
+}
+
+.tabs dd {
+    text-align: center;
+    width: 31%;
+    height: 50px;
+    line-height: 50px;
+    margin-left: 2%;
+    font-size: 16px;
+    float: left;
+    padding: 0 5px;
+    border-bottom: 4px solid #fff;
+    float: left;
+    overflow: hidden;
+    position: relative;
+}
+
+.tabs dd a {
+    display: block;
+    outline: none;
+}
+
+.tabs dd a:hover {
+    background: #ccc;
+}
+
+.tabs .thistab, .tabs .thistab a:hover {
+    background: #fff;
+    border-bottom: 4px solid #f29600;
+    color: #F29600;
+}
+p.pre_lodding {
+    text-align: center;
+    line-height: 2;
+    display: none;
+}
+p.pre_lodding span {
+    display: block;
+    margin: 20px auto 0 auto;
+}
+p.null{
+    text-align: center;
+    display: none;
+    margin: 20px 0 20px 0;
+}
+
+
+.content_none{
+    display: none;
+}
+.money_list{
+    padding:10px;
+}
+.money_list li{
+    border-bottom:1px solid rgb(199, 199, 204);
+    padding:5px 0;
+}
+.money_list p{
+    position: relative;
+}
+.money_list span{
+    position: absolute;
+    right:0;
+}
+
+.money_list .money_item_1 span{
+    color: rgb(141,188,86);
+    font-weight: 600;
+    font-size: 0.4rem;
+}
+.money_list .money_item_2{
+    margin-top: 5px;
+
+}
+.mui-icon-back:before, .mui-icon-left-nav:before{
+	color: #fff;
+}

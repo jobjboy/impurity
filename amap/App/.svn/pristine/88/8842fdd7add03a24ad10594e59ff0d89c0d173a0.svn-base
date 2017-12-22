@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>智慧城市-修改昵称</title>
+
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+		<link rel="stylesheet" href="css/mui.min.css">
+		<script src="./lib/plugs/require/require.js"></script>
+		<script src="./lib/app.js"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-icon-arrowleft"></a>
+			<h1 class="mui-title">修改昵称</h1>
+		</header>
+		<div class="number">
+			<div class="mui-input-row number-top">
+				<input type="text" class="mui-input-clear" placeholder="2-32位字符，支持中文，英文，数字">
+			</div>
+
+            <button type="button" class="number-button">修改</button>
+		</div>
+	</body>
+
+</html>

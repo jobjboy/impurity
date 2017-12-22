@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>签到</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/mui.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/qiandao_style.css">
+</head>
+<body>
+<header id="head">
+    <a class=" mui-icon  mui-icon-back" href="javascript:history.go(-1)" ></a>
+    <h3>签到</h3>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 clearPadding">
+            <div class=""><img src="images/qdBanner.jpg" class="img-responsive"></div>
+
+            <div class="calendar">
+                <div class="calenbox">
+                    <div id="calendar"></div>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-qiandao" onClick="signIn()"></button>
+                </div>
+            </div>
+            <div class="padding10">
+                <div class="font16 pb10 borderb"><strong>签到规则</strong></div>
+                <!--<div class="libaolist">
+                    <div class="clearfix borderb ptb10">
+                        <div class="col-xs-9 clearPadding">
+                            <div class="media">
+                                <a class="media-left pt3" href="javascript:void(0);">
+                                    <img src="images/dou.png" style="width:30px;height:30px;">
+                                </a>
+                                <div class="media-body">
+                                    <div class="">5天礼包（200菲亚时尚欢乐豆）</div>
+                                    <div class="text-muted font12">连续签到5天即可领取</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 clearPadding text-right pt2">
+                            <button class="btn btn-lingqu">领取</button>
+                        </div>
+                    </div>
+                    <div class="clearfix borderb ptb10">
+                        <div class="col-xs-9 clearPadding">
+                            <div class="media">
+                                <a class="media-left pt3" href="javascript:void(0);">
+                                    <img src="images/dou.png" style="width:30px;height:30px;">
+                                </a>
+                                <div class="media-body">
+                                    <div class="">10天礼包（400菲亚时尚欢乐豆）</div>
+                                    <div class="text-muted font12">连续签到10天即可领取</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 clearPadding text-right pt2">
+                            <button class="btn btn-disable" disable>已领取</button>
+                        </div>
+                    </div>
+                    <div class="clearfix borderb ptb10">
+                        <div class="col-xs-9 clearPadding">
+                            <div class="media">
+                                <a class="media-left pt3" href="javascript:void(0);">
+                                    <img src="images/dou.png" style="width:30px;height:30px;">
+                                </a>
+                                <div class="media-body">
+                                    <div class="">15天礼包（800菲亚时尚欢乐豆）</div>
+                                    <div class="text-muted font12">连续签到15天即可领取</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 clearPadding text-right pt2">
+                            <button class="btn btn-lingqu">领取</button>
+                        </div>
+                    </div>
+                    <div class="clearfix borderb ptb10">
+                        <div class="col-xs-9 clearPadding">
+                            <div class="media">
+                                <a class="media-left pt3" href="javascript:void(0);">
+                                    <img src="images/dou.png" style="width:30px;height:30px;">
+                                </a>
+                                <div class="media-body">
+                                    <div class="">20天礼包（1200菲亚时尚欢乐豆）</div>
+                                    <div class="text-muted font12">连续签到20天即可领取</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 clearPadding text-right pt2">
+                            <button class="btn btn-lingqu">领取</button>
+                        </div>
+                    </div>
+                    <div class="clearfix borderb ptb10">
+                        <div class="col-xs-9 clearPadding">
+                            <div class="media">
+                                <a class="media-left pt3" href="javascript:void(0);">
+                                    <img src="images/dou.png" style="width:30px;height:30px;">
+                                </a>
+                                <div class="media-body">
+                                    <div class="">25天礼包（1800菲亚时尚欢乐豆）</div>
+                                    <div class="text-muted font12">连续签到25天即可领取</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 clearPadding text-right pt2">
+                            <button class="btn btn-lingqu">领取</button>
+                        </div>
+                    </div>
+                    <div class="clearfix borderb ptb10">
+                        <div class="col-xs-9 clearPadding">
+                            <div class="media">
+                                <a class="media-left pt3" href="javascript:void(0);">
+                                    <img src="images/dou.png" style="width:30px;height:30px;">
+                                </a>
+                                <div class="media-body">
+                                    <div class="">30天礼包（3000菲亚时尚欢乐豆）</div>
+                                    <div class="text-muted font12">连续签到30天即可领取</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 clearPadding text-right pt2">
+                            <button class="btn btn-lingqu">领取</button>
+                        </div>
+                    </div>
+                </div>-->
+                <div id="rule">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="maskbox"></div>
+<div class="qdbox">
+    <div class="text-center text-green font18"><strong>签到成功！</strong></div>
+    <div class="text-center pt10">您已经累计签到&nbsp;<span class="text-green sdays"></span>&nbsp;天</div>
+    <div class="text-center ptb15"><img src="images/gift.png" style="width:125px;margin-left:20px;"></div>
+    <div class="text-center">
+        <button class="btn btn-lottery">去抽奖</button>
+    </div>
+</div>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="js/calendar.js"></script>
+<script src="js/URL.js"></script>
+<script src="js/mui.min.js"></script>
+
+<script>
+    var token = localStorage.getItem("token");
+    var user_id = localStorage.getItem("user_id");
+    if (token) {
+    } else {
+        location.href = "login.html";
+    }
+    var url = {
+        url1: URL.ApiUrl + URL.LotteryRule,
+        url2: URL.ApiUrl + URL.sign,
+        url3: URL.ApiUrl + URL.signData,
+    };
+
+    function signIn() {
+        $.ajax({
+            url: url.url2,
+            type: "post",
+            dataType: "json",
+            data: {token:token,user_id:user_id},
+            success: function (data) {
+                 ;
+                if(status=200){
+                    var signdays = data.result.sign_num;
+                    $(".sdays").text(signdays);
+                }
+//                history.go(0);
+                $(".maskbox").fadeIn();
+                $(".qdbox").fadeIn();
+                $(".maskbox").height($(document).height());
+                $(".btn-lottery").click(function () {
+                    location.href="lottery.html";
+                })
+            },error:function (data) {
+                mui.toast(data.msg, {duration: 'long', type: 'div'});
+            }
+        })
+
+
+    }
+    $(".maskbox").click(function () {
+        $(".maskbox").fadeOut();
+        $(".qdbox").fadeOut();
+    });
+    $(function () {
+        $.ajax({
+            url: url.url3,
+            type: "post",
+            dataType: "json",
+            data: {token:token,user_id:user_id},
+            success: function (data) {
+
+                if (data.msg=="token错误"){
+                    location.href="login.html";
+                }
+
+                var signList=[];
+                var arr = data.result.res_day;
+                $(arr).each(function (i,v) {
+                    signList.push({"signDay":v})
+                })
+                //ajax获取日历json数据
+//                [{"signDay": "08"}, {"signDay": "09"}];
+                calUtil.init(signList);
+                if (data.result.day!==null){
+                    $(".btn-qiandao").text("已签到").attr("disabled","disabled");
+                }else {
+                    $(".btn-qiandao").text("马上签到").attr("","")
+                }
+            },error:function (data) {
+            mui.toast(data.msg, {duration: 'long', type: 'div'});
+        }
+        })
+
+
+    });
+    $.ajax({
+        url: url.url1,
+        type: "get",
+        dataType: "json",
+        success: function (data) {
+            //console.log(data);
+            var str = data.result.rule;
+            str = str.split("*")
+//            console.log(str);
+            $.each(str,function (i, v) {
+//                $(v).text(str[i]);
+                $("#rule").append("<p>"+this+"</p>");
+
+            })
+            var sys = navigator.userAgent;
+            if (sys.indexOf("OS") !== -1) {
+                $("#rule").append("<p>ps:苹果不是赞助商。</p>")
+            }
+        },error:function (data) {
+        mui.toast(data.msg, {duration: 'long', type: 'div'});
+    }
+    })
+    mui.init({
+        keyEventBind: {
+            backbutton: true //打开back按键监听
+        }
+    });
+    mui.back = function() {
+        window.history.go(-1);
+    }
+</script>
+<script src="js/push.js"></script>
+
+</body>
+</html>

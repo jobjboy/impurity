@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>智慧城市-消息</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+		<link rel="stylesheet" href="css/mui.min.css">
+		<script src="./lib/plugs/require/require.js"></script>
+		<script src="./lib/app.js"></script>
+	</head>
+
+	<body style="background: #fff;">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-icon-arrowleft"></a>
+			<h1 class="mui-title">消息中心</h1>
+		</header>
+		
+		<div class="news-content" id="view">
+
+		</div>
+	</body>
+	
+<script id="tpl" type="text/html">
+	{{echa result as value}}
+		<h3>{{value.title}}</h3>
+		<h4>{{value.type}} {{value.add_time}}</h4>
+		<div class="news-detail">
+			{{value.message}}
+		</div>	
+	{{/echa}}
+</script>	
+	
+<script type="text/javascript">
+require(['jquery', 'mui', 'URL', 'core','tpl'], function ($, mui, URL, core, tpl) {
+	var ref_id = getUrlParam('ref_id');
+	
+	var aut_token = window.localStorage.getItem('aut_token');
+	var url_msg = URL.get_messages;
+	var url_read = URL.message_read;
+	
+	var data_msg = {
+		act: 'api',
+		aut_token: aut_token,
+		page: 1,
+		page_size: 20,
+		is_push: 0,
+		is_read: 0
+	}
+	
+	var data_read = {
+		act: 'api',
+		aut_token: aut_token,
+		id:ref_id
+	}	
+
+	core.ajax(url_msg, data_msg, function(data) {
+		if(data.status == 1) {
+			for(i in data.result){
+				if(data.result[i].ref_id == ref_id){
+					var html = tpl('tpl',data.result[i]);
+					document.getElementById('view').innerHTML = html;	
+				}
+			}
+		} else {
+			mui.toast(data.msg, {duration: 'long',type: 'div'});
+		}
+	}, function() {}, 'post');
+	
+
+	core.ajax(url_read, data_read, function(data) {
+		if(data.status == 1) {
+			console.log(data.msg);
+		} else {
+			mui.toast(data.msg, {duration: 'long',type: 'div'});
+		}
+	}, function() {}, 'post');
+
+});	
+</script>
+</html>

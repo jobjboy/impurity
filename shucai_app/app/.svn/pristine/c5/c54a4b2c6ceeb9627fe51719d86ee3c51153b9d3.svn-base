@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/refund.css" rel="stylesheet"/>
+</head>
+<body>
+<!--头部部分star-->
+<header id="mui-color" class="mui-bar mui-bar-nav">
+    <span class="mui-icon mui-icon-back mui-action-back"></span>
+    <h1 class="mui-title">申请退货</h1>
+</header>
+<!--头部部分end-->
+<div id="lodding">
+    <span class="mui-spinner"></span>
+    <p>正在努力加载...</p>
+</div>
+<div class="mui-content">
+    <form id="evaluate_form" method="post" action="#" enctype="multipart/form-data">
+
+    <section class="explain">
+        <h3 class="title">退货说明</h3>
+        <textarea type="text" name="reason" id="reason" placeholder="请输入退款说明"></textarea>
+        <span>200</span>
+    </section>
+
+    <section class="imgFile">
+        <h3 class="title">上传凭证</h3>
+            <div class="describe-add">
+                <a class="up_file" id="fileList0">
+                    <input type="file" onChange="handleFile(this,0)" name="img_file[]" accept="image/*"/>
+                    <div class="img_rong"><em class="mui-icon mui-icon-camera"></em> 添加图片</div>
+                </a>
+            </div>
+            <div class="describe-add">
+                <a class="up_file" id="fileList1">
+                    <input type="file" onChange="handleFile(this,1)" name="img_file[]" accept="image/*"/>
+                    <div class="img_rong"><em class="mui-icon mui-icon-camera"></em> 添加图片</div>
+                </a>
+            </div>
+            <div class="describe-add">
+                <a class="up_file" id="fileList2">
+                    <input type="file" onChange="handleFile(this,2)" name="img_file[]" accept="image/*"/>
+                    <div class="img_rong"><em class="mui-icon mui-icon-camera"></em> 添加图片</div>
+                </a>
+            </div>
+            <div class="describe-add">
+                <a class="up_file" id="fileList3">
+                    <input type="file" onChange="handleFile(this,3)" name="img_file[]" accept="image/*"/>
+                    <div class="img_rong"><em class="mui-icon mui-icon-camera"></em> 添加图片</div>
+                </a>
+            </div>
+            <div class="describe-add">
+                <a class="up_file" id="fileList4">
+                    <input type="file" onChange="handleFile(this,4)" name="img_file[]" accept="image/*"/>
+                    <div class="img_rong"><em class="mui-icon mui-icon-camera"></em> 添加图片</div>
+                </a>
+            </div>
+
+            <input id="goods_id" name="goods_id" type="hidden" value="" />
+            <input id="user_id" name="user_id" type="hidden" value="" />
+            <input id="order_id" name="order_id" type="hidden" value="" />
+            <input id="token" name="token" type="hidden" value="" />
+            <input id="order_sn" name="order_sn" type="hidden" value="" />
+            <input id="type" name="type" type="hidden" value="0" />
+            <input id="unique_id" name="unique_id" type="hidden" value="" />
+    </section>
+    </form>
+
+    <button type="button" class="evaluate-button" id="evaluate_button" >提交</button>
+</div>
+<!--<script src="js/URL.js"></script>-->
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="js/jquery.form.min.js"></script>
+<script src="js/mui.min.js"></script>
+<script src="js/refund.js"></script>
+
+<script>
+    function handleFile(obj,id) {
+        fileList = document.getElementById("fileList" + id);
+        var files = obj.files;
+        img = new Image();
+        if (window.URL) {
+            img.src = window.URL.createObjectURL(files[0]); //创建一个object URL，并不是你的本地路径
+            img.style.maxHeight = "100px";
+            img.style.maxWidth = "100px";
+            img.style.margin="0px auto";
+            img.style.display ="blcok"
+            img.onload = function (e) {
+                window.URL.revokeObjectURL(this.src); //图片加载后，释放object URL
+            }
+            if (fileList.lastElementChild) {
+                fileList.removeChild(fileList.lastElementChild);
+            }
+            fileList.appendChild(img);
+        } else if (window.FileReader) {
+            //opera不支持createObjectURL/revokeObjectURL方法。我们用FileReader对象来处理
+            var reader = new FileReader();
+            reader.readAsDataURL(files[0]);
+            reader.onload = function (e) {
+                img.src = this.result;
+                img.style.maxHeight = "100px";
+                img.style.maxWidth = "100px";
+                img.style.margin="0px auto";
+                img.style.display ="blcok"
+                fileList.appendChild(img);
+            }
+        } else {
+            //ie
+            obj.select();
+            obj.blur();
+            var nfile = document.selection.createRange().text;
+            document.selection.empty();
+            img.src = nfile;
+            img.style.maxHeight = "100px";
+            img.style.maxWidth = "100px";
+            img.style.margin="0px auto";
+            img.style.display ="blcok"
+            img.onload = function () {
+
+            }
+            fileList.appendChild(img);
+        }
+    }
+</script>
+</body>
+</html>

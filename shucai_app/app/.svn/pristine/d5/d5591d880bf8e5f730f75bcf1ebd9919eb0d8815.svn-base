@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/user.css" rel="stylesheet" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/icons-extra.css" rel="stylesheet" />
+
+	</head>
+	<body>
+		<!--头部部分star-->
+		<header id="mui-color" class="mui-bar mui-bar-nav">
+			<span class="mui-icon mui-icon-back mui-action-back"></span>
+			<h1 class="mui-title">修改登录密码</h1>
+		</header>
+		<!--头部部分end-->
+		
+		<div class="user">
+			<ul>
+				<li>
+					<span>原密码</span>
+					<input type="password" class="user-input old_password" placeholder="原密码">
+				</li>				
+				<li>
+					<span>新密码</span>
+					<input type="password"  class="user-input new_password" placeholder="新密码">
+				</li>
+				<li>
+					<span>确认密码</span>
+					<input type="password" class="user-input confirm_password" placeholder="确认密码">
+				</li>  
+				
+			</ul>
+			<button type="button" class="user-button">确认修改</button>
+		</div>
+
+		<script src="js/jquery-1.12.2.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/URL.js"></script>
+		<script src="js/revamp.js"></script>
+		<script src="js/push.js"></script>
+	</body>
+</html>

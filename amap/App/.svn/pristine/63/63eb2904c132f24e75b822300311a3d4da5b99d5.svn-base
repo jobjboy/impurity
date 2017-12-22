@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>智慧城市-任务</title>
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="font-awesome/css/font-awesome.css" />		
+		<script src="http://webapi.amap.com/maps?v=1.4.1&key=78acee11046dfcc17c9e8e319c9a125f"></script>
+		<!--<script type="text/javascript" src="js/jquery-1.12.2.min.js" ></script>-->
+		<!--<script src="js/mui.min.js"></script>-->
+	
+	</head>
+
+	<body>
+		
+<header class="mui-bar mui-bar-nav">
+	<a class="mui-action-back mui-icon mui-icon-left-nav mui-icon-arrowleft"></a>
+	<h1 class="mui-title">队员历史轨迹</h1>
+</header>
+
+<div id="tab1">
+	<!-- 最外层导航 -->
+	<div class="box2" style="display:block;" id="track" >
+
+	</div>
+	
+	<div id="pageing" style="padding: 20px;">
+		<button id="more" type="button" class="mui-btn mui-btn-outlined mui-btn-block" data-page="more">加载更多...</button>
+	</div>
+	<div id="tishi" style="padding: 20px;display: none;text-align: center;">没有更多了...</div>
+</div>
+<div class="nav">
+	<ul>
+		<li>
+			<a href="index.html">
+				<i><span class="style_badge"></span></i>
+				<em>首页</em>
+			</a>
+		</li>
+
+		<li>
+			<a href="task.html">
+				<i></i>
+				<em>任务</em>
+			</a>
+		</li>
+
+		<li>
+			<a href="sing.html">
+				<i></i>
+				<em>签到</em>
+			</a>
+		</li>
+
+		<li class="on">
+			<a href="personal.html">
+				<i></i>
+				<em>个人</em>
+			</a>
+		</li>
+	</ul>
+</div>
+<div class="grid" style="display: block;">
+	<span class="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom"></span>
+	<p>拼命加载中<em>....</em></p>
+</div>
+<script src="./lib/plugs/require/require.js"></script>
+<script src="./lib/app.js"></script>
+
+<script id="tpl" type="text/html">
+	{{each result as value}}
+	<dl>
+		<div class="task-detail">
+			<h3>队员ID: {{value.patroller_id}}</h3>
+			<span>记录ID: {{value.id}}</span>
+			<em>记录时间: {{value.date}}</em>
+		</div>
+		<a class="task-lx" href="trackTeam.html?patroller_id={{value.patroller_id}}&id={{value.id}}">
+			<i></i>
+			<em>查看</em>
+		</a>
+	</dl>
+	{{/each}}
+</script>
+			
+		
+<script type="text/javascript">
+	require(['jquery', 'mui', 'URL', 'core', 'tpl'], function($, mui, URL, core, template) {
+		core = requirejs('core');
+		var con_container = $("#tab1");
+		var con_loading = $(".grid");
+		var timestamp = new Date().getTime();
+		
+		var user_id = getUrlParam('user_id');
+		var page=1;
+		var aut_token = window.localStorage.getItem('aut_token');
+		var url = URL.team_member_trajectory_list.format(aut_token,page,'10',user_id);
+		
+		function More() {
+			document.getElementById('more').addEventListener('click', function() {
+				page++;		
+				var _url = URL.team_member_trajectory_list.format(aut_token,page,'10',user_id);
+				core.ajax(_url, {}, function(data) {
+					if(data.status == 1) {
+						if(data.result.length > 0){
+							html = template('tpl', data);
+							$('#track').append(html);							
+						}else{
+							document.getElementById('pageing').style.display = 'none';
+							document.getElementById('tishi').style.display = 'block';						
+						}	
+					}
+				}, function(data) {}, 'get');
+			})
+		}
+
+		core.ajax(url, {}, function(data) {
+				
+			if(data.status == 1) {
+				html = template('tpl', data);
+				$('#track').html(html);
+				
+				More();
+				timestamp2 = new Date().getTime();
+
+				if((timestamp2 - timestamp) <= 300) {
+					setTimeout(function() {
+						con_loading.hide();
+						con_container.show();
+					}, 400);
+				} else {
+					con_loading.hide();
+					con_container.show();
+				}				
+			} else {
+				mui.toast(data.msg, {
+					duration: 'long',
+					type: 'div'
+				});
+			}
+		}, function() {}, 'GET');
+
+	});
+</script>
+
+	</body>
+
+</html>

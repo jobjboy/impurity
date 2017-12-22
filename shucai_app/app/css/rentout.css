@@ -1,0 +1,526 @@
+/*所有的标签和伪类*/
+*,::before,::after{
+    padding: 0;
+    margin: 0;
+    /*在移动端特殊的设置*/
+    /*清除点击高亮效果*/
+    -webkit-tap-highlight-color: transparent;
+    /*设置盒子的宽度以边框开始计算*/
+    -webkit-box-sizing: border-box;/*要兼容老的移动浏览器*/
+    box-sizing: border-box;
+}
+
+
+input,textarea{
+    border: none;
+    outline: none;
+    resize: none;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    padding: 0px;
+    font-size: 12px;
+    line-height: 1.5em;
+    font-family: tahoma, "Microsoft YaHei", Simsun, Mingliu, Arial, Helvetica;
+    color: #333333;
+    background: #f7f7f7;
+    width: 100%;
+    height: auto;
+}
+
+img {
+    border: 0;
+    vertical-align: middle;
+}
+
+ul,
+li {
+    list-style-type: none;
+}
+
+table,
+td {
+    border-collapse: collapse
+}
+
+address,
+em {
+    font-style: normal;
+}
+
+a {
+    color: #333333;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #f29600;
+    text-decoration: none;
+}
+
+a:link {
+    font-size: 12px;
+    color: #000000;
+    text-decoration: none;
+}
+a:visited {
+    font-size: 12px;
+    color: #000000;
+    text-decoration: none;
+}
+
+cite, em, s, i, b { font-style: normal }
+
+/*通用样式结束*/
+
+/*特殊的属性定义清除浏览器给input自带的样式*/
+
+.clearfix::before,
+.clearfix::after{
+    content: "";
+    line-height:0;
+    height: 0;
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+/*头部样式*/
+.mui-bar
+{
+    position: fixed;
+    z-index: 10;
+    right: 0;
+    left: 0;
+
+    height: 44px;
+    padding-right: 10px;
+    padding-left: 10px;
+
+    border-bottom: 0;
+    background-color: #ffffff;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+    box-shadow: 0 0 1px rgba(0, 0, 0, .85);
+
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+.mui-bar-nav
+{
+    top: 0;
+    -webkit-box-shadow: 0 1px 12px #ccc;
+    box-shadow: 0 1px 12px #ccc;
+}
+.mui-title
+{
+    font-weight: 900;
+}
+.message {
+    display: inline-block;
+    width: 24px;
+    height: 22px;
+    background: url(../images/message.fw.png);
+    -webkit-background-size: 100%;
+    background-size: 100%;
+    position: absolute;
+    top: 12px;
+    right: 4%;
+}
+
+/*容器*/
+.mui-content
+{
+    background-color: #FFFFFF;
+
+    -webkit-overflow-scrolling: touch;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+.lmessage {
+    display: inline-block;
+    width: 24px;
+    height: 23px;
+    background: url(../images/index/message.png) no-repeat;
+    -webkit-background-size: 100%;
+    background-size: 100%;
+    position: absolute;
+    top: 12px;
+    right: 4%;
+}
+
+.snapH5 {
+    font-weight: 300;
+}
+
+div#lodding {
+    text-align: center;
+    margin: 20px auto 0 auto;
+    display: block;
+}
+#pullrefresh {
+    margin-top: 175px;
+    width: 100%;
+    height:auto;
+    overflow: inherit;
+}
+.mui-scroll {
+    /*padding-bottom: 50px;*/
+
+}
+
+p.null {
+    text-align: center;
+    padding-top: 20px;
+    display: none;
+}
+p.up_lodding {
+    text-align: center;
+    line-height: 2;
+    display: none;
+}
+p.up_lodding span {
+    display: block;
+    margin: 20px auto 0 auto;
+}
+
+p.pre_lodding {
+    text-align: center;
+    line-height: 2;
+    display: none;
+}
+p.pre_lodding span {
+    display: block;
+    margin: 30px auto 0 auto;
+}
+
+#pullrefresh {
+    /*position: absolute; border: 1px solid red;*/
+    /*z-index: -1;*/
+}
+.hot
+{
+    width: 100%;
+    height: 100%;
+}
+.hot_title
+{
+    height: 28px;
+    width: 100%;
+    background-color: #EAECEF;
+}
+
+.hot_title h5
+{
+    font-size: 17px;
+    font-weight: 900;
+    color: #787878;
+    line-height: 28px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    top: -20px;
+}
+.hot_title .line1
+{
+    display: inline-block;
+    width: 38%;
+    border-top: 1px solid #BCBCBC;
+    position: relative;
+    top: 1px;
+    left: 0%;
+}
+.hot_title .line2
+{
+    display: inline-block;
+    width: 38%;
+    border-top: 1px solid #BCBCBC;
+    margin-top: -33px;
+    float: right;
+}
+.hot_items
+{
+    width: 50%;
+    height: 360px;
+    border-bottom: 1px solid #DBDBDB;
+    border-right: 1px solid #DBDBDB;
+    overflow: hidden;
+    float: left;
+}
+.hot_items a
+{
+    display: block;
+
+}
+.hot_items .item_img {
+    height: 162px;
+}
+.hot_items .item_img img
+{
+    /*max-height: 142px;*/
+    width: 142px;
+    -webkit-background-size: 100%;
+    background-size: 100%;
+    position: relative;
+    left: 50%;
+    margin-left: -68px;
+    margin-top: 8px;
+}
+.hot_items .item_title
+{
+    font-size: 12px;
+    color: #282828;
+    position: relative;
+    margin-top: 8px ;
+    padding-left: 6.42%;
+    padding-right: 2%;
+    word-break: break-all;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    height: 16px;
+    margin-bottom: 0px;
+    overflow: hidden;
+}
+.hot_items p:nth-child(3){
+    height: 54px;
+    -webkit-line-clamp: 3;
+}
+.hot_items .item_num {
+    width: 60%;
+    font-size: 14px;
+    position: relative;
+    top: 10px;
+    left: 6.42%;
+    margin: 0;
+}
+.bin_item_num {
+    color: red;
+}
+.hot_items .shopping_buy{
+    display: inline-block;
+    width: 40%;
+    height: 22px;
+    float: right;
+    border-radius: 15px;
+    text-align: center;
+    margin-right: 4%;
+    margin-top: -10px;
+    border:1px solid rgb(50,50,50);
+}
+
+.ctitle
+{
+    height: 37px;
+    width: 100%;
+}
+
+.ctitle h5
+{
+    font-size: 15px;
+    /*font-weight: 900;*/
+    color: #000;
+    line-height: 37px;
+    text-align: center;
+}
+.ctitle .line1
+{
+    display: inline-block;
+    width: 1.67%;
+    border-top: 2px solid rgb(242,150,0);
+    position: relative;
+    top: 20px;
+    left: 37%;
+    float: left;
+}
+.ctitle .line2
+{
+    display: inline-block;
+    width: 1.67%;
+    border-top: 2px solid rgb(242,150,0);
+    position: relative;
+    top: -35px;
+    left: 63%;
+}
+/*回到顶部*/
+.back_top
+{
+    width: 46px;
+    height: 46px;
+    background: url(../images/index/back_top_button@3x.png)no-repeat;
+    -webkit-background-size: 100%;
+    background-size: 100%;
+    position: fixed;
+    bottom: 55px;
+    right: 6%;
+    opacity: 0.5;
+    /*display: none;*/
+}
+
+/*!*用户信息*!
+.user_info {
+    width: 100%;
+    height: 78px;
+    margin: 0;
+    border-bottom: 10px solid #EBECF0;
+}
+.user_con {
+    display: inline-block;
+    width: 95%;
+    height: 70px;;
+    position: relative;
+    left: 50%;
+    margin-left: -47.5%;
+    margin-top: 10px;
+}
+.user_name {
+    float: left;
+    font-size: 1em;
+    color: #252525;
+
+
+}
+.user_phone {
+    float: left;
+    font-size: 1em;
+    !*font-weight: bold;*!
+    margin-left: 2em;
+}
+.address_fix {
+    display: inline-block;
+    float: left;
+    width: 25px;
+    height: 25px;
+    background: url("../images/fix.png") no-repeat;
+    -webkit-background-size:100%;
+    background-size: 100%;
+    position: relative;
+    top: 26px;
+    margin-left: 4%;
+}
+.user_np {
+    width: 90%;
+    height: 30px;
+    line-height: 30px;
+}
+.user_address {
+    display: block;
+    margin-left: -8px;
+    height: 20px;
+}
+.address_con {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    right: 20%;
+    top: 32%;
+    border-right: 1px solid #333;
+    border-top: 1px solid #333;
+    -webkit-transform: rotate(45deg)
+}
+#adress_info {
+    display: flex;
+    justify-content: center;
+}
+.address {
+    width: 75%;
+    border: 1px solid #EBECF0;
+
+}
+
+.payWay {
+    width: 75%;
+    height: 119px;
+    border-bottom: 1px solid #EBECF0;
+    position: relative;
+    left: 50%;
+    margin-left: -37.5%;
+}
+.payWayName {
+    width: 100%;
+    height: 37px;
+    text-align: left;
+    padding-left: 11%;
+    line-height: 37px;
+    border-bottom: 1px solid #EBECF0;
+}
+.payWay ul {
+    width: 100%;
+    height: 72px;
+
+}
+.payWay li {
+    float: left;
+    width: 25%;
+    text-align: center;
+}
+.payWay li span {
+    !*float: left;*!
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    top: 10px;
+
+}
+.payWay li div {
+    display: inline-block;
+    width: 44px;
+    height: 32px;
+
+}
+.payWay .payWayOne {
+    background: url("../images/order/yueezhifu.png") no-repeat center center;
+    -webkit-background-size: 32px;
+    background-size: 32px;
+}
+.payWay .payWayTwo {
+    background: url("../images/order/zhifubao.png") no-repeat center center;
+    -webkit-background-size: 32px;
+    background-size: 32px;
+}
+.payWay .payWayThree {
+    background: url("../images/order/weixinzhifu.png") no-repeat center center;
+    -webkit-background-size: 32px;
+    background-size: 32px;
+}
+.payWay .payWayFour {
+    background: url("../images/order/huodaofukuan.png") no-repeat center center;
+    -webkit-background-size: 32px;
+    background-size: 32px;
+}
+.check {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url("../images/order/checkend.png");
+    -webkit-background-size:100%;
+    background-size:100%;
+    position: relative;
+    top: 10px;
+    left: 5%;
+    float: left;
+}
+
+.checkend {
+    display: inline-block;
+    !*float: right;*!
+    width: 12px;
+    height: 12px;
+    background: url("../images/order/xuanzhong.png");
+    -webkit-background-size: 100%;
+    background-size: 100%;
+    position: relative;
+    top: -10px;
+    left: 36px;
+}*/
+#zanwu {
+    display: none;
+    text-align: center;
+    margin-top: 100px;
+}

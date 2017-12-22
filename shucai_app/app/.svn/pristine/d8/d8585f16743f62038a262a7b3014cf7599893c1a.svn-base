@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/fresh.css" rel="stylesheet"/>
+</head>
+<body>
+<!--头部部分star-->
+<header class="mui-bar mui-bar-nav">
+    <a class=" mui-icon  mui-icon-left-nav mui-pull-left" href="index.html"></a>
+    <h1 class="mui-title" id="pro_title"></h1>
+    <span class="message"></span>
+</header>
+<!--头部部分end-->
+<!--主体部分star-->
+<div class="mui-content ">
+
+    <!--搜索栏-->
+    <!--<div class="searchBar">
+        <div class="jianbian"></div>
+        <div class="mui-input-row mui-search">
+            <input type="search" class="mui-input-clear" placeholder="搜索您需要的商品">
+        </div>
+        &lt;!&ndash;城市&ndash;&gt;
+        &lt;!&ndash; <select name="citys" id="city">
+             <option value="sz">深圳</option>
+             <option value="gz">广州</option>
+             <option value="dg">东莞</option>
+         </select>
+         <span class="mui-icon mui-icon-arrowdown"></span>&ndash;&gt;
+    </div>-->
+    <!--商品分类-->
+    <div class="nav">
+    </div>
+    <div id="choice">
+        <div class="ctitle">
+            <span class="line1"></span>
+            <h5>精选商品</h5>
+            <span class="line2"></span>
+        </div>
+        <div id="choiceItems">
+        </div>
+    </div>
+    <!--热销商品-->
+    <div class="hot">
+        <div class="hot_title">
+            <span class="line1"></span>
+            <h5>热销推荐</h5>
+            <span class="line2"></span>
+        </div>
+        <p class="no_items">暂无商品数据!</p>
+        <div class="content">
+            <p class="up_lodding">
+                <span class="mui-spinner"></span>
+                正在努力加载...
+            </p>
+            <div id="hotItems" class="clearfix">
+            </div>
+            <p class="pre_lodding">
+                <span class="mui-spinner"></span>
+                正在努力加载...
+            </p>
+            <p class="null">别扯了，已经没有更多商品了...</p>
+        </div>
+    </div>
+    <!--<div class="kb"></div>-->
+    <!--回到顶部-->
+    <div class="back_top" id="back_top"></div>
+</div>
+<!--主体部分end-->
+<!--<div class="nomore">没有更多啦！</div>-->
+<!--底部菜单栏-->
+<div class="footNav"></div>
+
+<script src="js/URL.js"></script>
+<script src="js/jquery-1.12.2.min.js"></script>
+<script src="./js/common.js"></script>
+<script src="js/mui.min.js"></script>
+<script src="js/template.js"></script>
+<script src="js/footer_nav.js"></script>
+<script src="js/swiperLaoding.js"></script>
+<script src="js/_refresh.js"></script>
+
+<!--分类导航数据-->
+<script id="temp_nav" type="text/html">
+    <div class="scoll">
+        {{each navlist as value i}}
+        <div class="lis1" data-id="{{value.id}}">
+            <a href="#">
+                <div class="nav1"><img src="{{value.nav_img}}" alt=""/></div>
+                <span>{{value.name}}</span>
+            </a>
+        </div>
+        {{/each}}
+    </div>
+
+</script>
+<!--每日抢鲜数据模板-->
+<script id="tmp_snapUp" type="text/html">
+    <div class="ctitle">
+        <span class="line1"></span>
+        <h5>{{promote_name}}</h5>
+        <span class="line2"></span>
+    </div>
+    {{each promote_list as value i}}
+    <div class="snapUp_items">
+        <a href="pro_detail.html?{{value.goods_id}}">
+            <div class="item_img"><img src="{{value.original_img}}" alt=""/></div>
+        </a>
+    </div>
+    {{/each}}
+</script>
+<!--今日特价数据-->
+<script id="tmp_dicount" type="text/html">
+    {{each dicount_list as value i}}
+    <div class="choice_items">
+        <a href="pro_detail.html?{{value.goods_id}}">
+            <div class="item_img"><img src="{{value.original_img}}" alt=""/></div>
+        </a>
+
+        <p class="item_title">{{value.goods_name}}</p>
+        <span class="price">￥{{value.shop_price}}</span>
+
+        <div class="shopping_car" data-id="{{value.goods_id}}"></div>
+    </div>
+    {{/each}}
+</script>
+
+<!--精选产品数据-->
+<script id="temp2" type="text/html">
+    {{each recommend_list as value i}}
+    <div class="choice_items">
+        <a href="pro_detail.html?{{value.goods_id}}">
+            <div class="item_img"><img src="{{value.original_img}}" alt=""/></div>
+        </a>
+        <p class="item_title">{{value.goods_name}}</p>
+        <span class="price">￥{{value.shop_price}}</span>
+        <div class="shopping_car" data-id="{{value.goods_id}}"></div>
+    </div>
+    {{/each}}
+</script>
+
+<!--热销产品数据-->
+<script id="temp3" type="text/html">
+
+    {{each goods_list as value i}}
+    <div class="hot_items">
+        <a href="pro_detail.html?{{value.goods_id}}">
+            <div class="item_img"><img src="{{value.original_img}}"/></div>
+        </a>
+        <p class="item_title">{{value.goods_name}}</p>
+        <p class="item_num">已卖{{value.sales_sum}}件</p>
+        <span class="price">￥{{value.shop_price}}</span>
+        <div class="shopping_car_wrap" data-id="{{value.goods_id}}"><span class="shopping_car" data-id="{{value.goods_id}}"></span></div>
+    </div>
+    {{/each}}
+</script>
+<script src="js/fm.js"></script>
+<script src="js/push.js"></script>
+</body>
+</html>

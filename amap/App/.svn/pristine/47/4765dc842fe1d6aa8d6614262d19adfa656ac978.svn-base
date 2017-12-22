@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>智慧城市-消息</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+		<link rel="stylesheet" href="css/mui.min.css">
+		<script src="./lib/plugs/require/require.js"></script>
+		<script src="./lib/app.js"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-icon-arrowleft"></a>
+			<h1 class="mui-title">消息中心</h1>
+		</header>
+		
+		<div class="news">
+			<ul>
+				<li><a href="news_list.html">
+					<span>速去帮忙拍照 ，他们的无人机出问题了</span>
+					<p><em>系统消息</em><b>2小时前</b></p></a>
+				</li>
+				
+				<li><a href="news_list.html">
+					<span>速去帮忙拍照 ，他们的无人机出问题了</span>
+					<p><em>系统消息</em><b>2小时前</b></p></a>
+				</li>
+				
+				<li><a href="news_list.html">
+					<span>速去帮忙拍照 ，他们的无人机出问题了</span>
+					<p><em>系统消息</em><b>2小时前</b></p></a>
+				</li>
+				
+				<li><a href="news_list.html">
+					<span>速去帮忙拍照 ，他们的无人机出问题了</span>
+					<p><em>系统消息</em><b>2小时前</b></p></a>
+				</li>
+				
+				<li><a href="news_list.html">
+					<span>速去帮忙拍照 ，他们的无人机出问题了</span>
+					<p><em>系统消息</em><b>2小时前</b></p></a>
+				</li>
+				
+				<li><a href="news_list.html">
+					<span>速去帮忙拍照 ，他们的无人机出问题了</span>
+					<p><em>系统消息</em><b>2小时前</b></p></a>
+				</li>
+				
+				<li><a href="news_list.html">
+					<span>速去帮忙拍照 ，他们的无人机出问题了</span>
+					<p><em>系统消息</em><b>2小时前</b></p></a>
+				</li>
+				
+				<li><a href="news_list.html">
+					<span>速去帮忙拍照 ，他们的无人机出问题了</span>
+					<p><em>系统消息</em><b>2小时前</b></p></a>
+				</li>
+				
+				<li><a href="news_list.html">
+					<span>速去帮忙拍照 ，他们的无人机出问题了</span>
+					<p><em>系统消息</em><b>2小时前</b></p></a>
+				</li>
+			</ul>
+		</div>
+	</body>
+
+</html>
