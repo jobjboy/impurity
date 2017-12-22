@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>
+			电力智能用电综合管理平台-系统配置
+		</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="./css/x-admin.css" media="all">
+		<script src="./lib/plugs/require/require.js"></script>
+		<script type="text/javascript" src="./lib/app.js"></script>
+		 <style>
+        html{
+            height: 100%;
+        }
+        body{
+            height: 100%;
+        }
+    </style>
+	</head>
+
+	<body>
+		
+		<div class="left">
+			<div class="left-top">导航</div>
+			<div class="left-search">
+				<input class="left-input" type="text" value="" placeholder="请输入用户名称">
+				<input class="left-button" type="submit" value="" />
+			</div>
+			<div class="left-class">
+				<div class="myDiv">
+					<a href="system.html">系统配置</a>
+				</div>
+
+			</div>
+			
+			<div class="logo_xh"><img src="images/logo_xh.png"></div>
+		</div>
+
+
+		<div class="x-nav">
+			<span class="layui-breadcrumb" style="visibility: visible;">
+			  <a href="system.html"><cite>系统配置</cite></a>
+			</span>
+		</div>
+
+		<div class="right">
+
+
+			<div class="result">
+
+	
+				<div class="result-detail">
+
+					<div class="layui-tab-content">
+						<div class="layui-tab-item layui-show">
+							<table class="layui-table">
+								<thead>
+									<tr>
+										<th>名称</th>
+										<th>说明</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody id="page_body">
+	
+																													
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+				
+
+				</div>
+			</div>
+		</div>
+		</div>
+
+
+<script type="text/html" id="tpl_page">
+
+			{{# layui.each(d.items, function(index, v){ }}
+
+			<tr>
+				<td>{{ v.name }}</td>
+		
+				<td>
+				{{# if(v.content == 1){ }}					
+					开启
+					{{# }else if(v.content == 0){ }}
+					关闭
+					{{# }else{ }}
+					{{ v.content }}
+				{{# }}}
+				</td>
+				<td>
+					<a href="system_detail.html?act=edit" data-id="{{ v.id }}"  class="layui-btn layui-btn-small edit_item" lay-event="edit">详情</a>
+					
+					<a href="system_item.html?act=edit" data-id="{{ v.id }}" class="layui-btn layui-btn-small edit_item"><i class="fa fa fa-edit"></i> 编辑</a>
+					
+                     
+					<!--<a href="user_item.html" class="layui-btn layui-btn-small" lay-event="edit">子用户</a>-->
+					<!--<a class="layui-btn layui-btn-danger layui-btn-small remove" data-delete="{{ v.id }}"><i class="fa fa-trash-o"></i> 删除</a>-->
+				</td>
+			</tr>
+
+			{{#  }); }}
+		
+		</script>
+
+		<script type="text/javascript">
+
+			require(['jquery', 'URL', 'app.plugs', 'listen'], function ($) {
+
+				layui.use(['laytpl', 'laypage', 'form', 'paging'], function () {
+
+					$("#btn_query").click(function () {
+
+						name = $("#input_search").val();
+						if (name === '' || name.length === 0) {
+							layer.msg('请输入搜索关键字');
+						}
+						fun(name);
+						return false;
+					});
+
+					plugs = requirejs('app.plugs');
+					URL = requirejs('URL');
+
+					var pageSize = 20;
+					var fun = function (name) {
+
+						var url = URL.systemconfig.list.format(name);
+
+						plugs.page(url, pageSize, function () {
+							$("a.remove").attr('data-url', URL.systemconfig.action);
+							$("a.edit_item").each(function (index, item) {
+								item = $(item);
+								var href = item.attr('href') + '&u=' + encodeURI(URL.systemconfig.controller_name + '?id=' + item.attr('data-id'));
+								$(item).attr('href', href);
+
+							}, 'get')
+
+						});
+					}
+
+					fun('');
+				});
+
+
+			});
+		</script>
+	</body>
+
+</html>

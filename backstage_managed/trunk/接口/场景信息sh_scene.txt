@@ -1,0 +1,45 @@
+一、列表
+GET请求
+http://dev.api.smarthome.com/api/scene?name=&pIndex=1&pSize=10
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "items": [
+            {
+                "id": 1,
+                "name": "客厅",
+                "status": 1,
+                "user_id": 1
+            }
+        ],
+        "count": 1,
+        "page": 1
+    }
+}
+
+
+二、删除
+DELETE请求
+http://dev.api.smarthome.com/api/scene?id=2
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}
+
+
+
+三、新增/修改
+POST请求
+http://dev.api.smarthome.com/api/scene
+
+参数：{"id":"0","name":"test","user_id":"1"}
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}

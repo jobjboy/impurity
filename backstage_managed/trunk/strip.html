@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>
+        电力智能用电综合管理平台
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="./css/x-admin.css" media="all">
+    <script src="./lib/plugs/require/require.js"></script>
+    <script type="text/javascript" src="./lib/app.js"></script>
+    <link rel="stylesheet" href="css/jquery.range.css">
+    <link rel="stylesheet" href="css/mui.min.css">
+    <style>
+        .mui-input-range input[type=range] {
+            height: 10px;
+        }
+
+        .mui-input-range .mui-tooltip {
+            display: none;
+        }
+
+        .light {
+            box-sizing: content-box;
+        }
+
+        .mui-input-row.mui-input-range {
+            padding: 0;
+        }
+        
+    </style>
+</head>
+
+<body>
+<div class="left">
+    <div class="left-top">导航</div>
+    <div class="left-search">
+        <input class="left-input" type="text" value="" placeholder="请输入用户名称">
+        <input class="left-button" type="submit" value=""/>
+    </div>
+    <div class="left-class">
+        <div class="myDiv">
+            <a href="user_plot.html">小区</a>
+        </div>
+
+        <div class="myDiv">
+            <a href="user_building.html">楼栋</a>
+        </div>
+
+        <div class="myDiv">
+            <a href="user_room.html">房号</a>
+        </div>
+
+        <div class="myDiv">
+            <a href="user.html">用户管理</a>
+        </div>
+
+        <div class="myDiv">
+            <a href="examine.html">用户设备</a>
+        </div>
+
+        <div class="myDiv">
+            <a href="scene.html">场景</a>
+        </div>
+
+        <div class="myDiv">
+            <a href="contextual.html">情景</a>
+        </div>
+    </div>
+    
+    <div class="logo_xh"><img src="images/logo_xh.png"></div>
+</div>
+
+<div class="x-nav">
+			<span class="layui-breadcrumb" style="visibility: visible;">
+              <a><cite>首页</cite><span class="layui-box">&gt;</span></a>
+			<a><cite>智能家居</cite><span class="layui-box">&gt;</span></a>
+			<a>灯带</a>
+			</span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin:3px 0 0 10px;float: right" href="javascript:window.history.back();" title="返回"><i class="layui-icon" style="line-height:30px"></i></a>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
+
+</div>
+
+<div class="right-hs">
+
+    <div class="light" id="con_container">
+        <div class="dswitch">
+            <button style="transform: rotate(10deg);"></button>
+        </div>
+
+        <div class="strip_hg">
+
+
+            <h5 style="clear: left;">速度：<span id='range_speed-range1-val'>0</span></h5>
+
+            <div class="mui-input-row mui-input-range">
+                <input type="range" id='range_speed-range1' class="slider_v" data-type="speed" value="0" min="0"
+                       max="100">
+            </div>
+
+            <h5 style="clear: left;">R：<span id='block-range1-val'>0</span></h5>
+
+            <div class="mui-input-row mui-input-range">
+                <input type="range" id='block-range1' class="slider_v" data-type="R" value="0" min="0" max="255">
+            </div>
+
+            <h5 style="clear: left;">G：<span id='block-range2-val'>0</span></h5>
+
+            <div class="mui-input-row mui-input-range">
+                <input type="range" id='block-range2' class="slider_v" data-type="G" value="0" min="0" max="255">
+            </div>
+
+            <h5 style="clear: left;">B：<span id='block-range3-val'>0</span></h5>
+
+            <div class="mui-input-row mui-input-range">
+                <input type="range" id='block-range3' class="slider_v" data-type="B" value="0" min="0" max="255">
+            </div>
+
+            <ul class="model_ul">
+                <li>
+                    <button data-action="Immutability" id="Immutability_btn" class="stip_type">常亮</button>
+                </li>
+                <li>
+                    <button data-action="Hop" id="Hop_btn" class="stip_type">跳变</button>
+                </li>
+                <li>
+                    <button data-action="Gradual" id="Gradual_btn" class="stip_type">渐变</button>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+<div class="conditioner" id="con_loading">
+    <div class="loading">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+</body>
+<script src="js/mui.min.js"></script>
+<script>
+    mui.init({
+        swipeBack: true //启用右滑关闭功能
+    });
+</script>
+
+<style type="text/css">
+    ul.model_ul {
+        margin-top: 20px;
+    }
+
+    ul.model_ul li button {
+        width: 60px;
+        height: 60px;
+        border: 1px solid #eaeaea;
+        border-radius: 50%;
+        float: left;
+        margin-right: 30px;
+        display: block;
+        background: #FFF;
+        font-size: 14px;
+        letter-spacing: 3px;
+        margin-bottom: 20px;
+    }
+
+    ul.model_ul li button.curr {
+        background: #4FD4FF;
+        color: #FFF;
+        border: 1px solid #4FD4FF;
+    }
+
+</style>
+<script type="text/javascript">
+    require(['jquery', 'range', 'URL', 'app.plugs', 'listen'], function ($) {
+
+        URL = requirejs('URL');
+
+        var id = getUrlParam('installed_id') ? getUrlParam('installed_id') : 275;
+        
+         var timestamp = new Date().getTime();
+
+        $(document).ready(function () {
+            plugs = requirejs('app.plugs');
+            
+            
+            con_container = $("#con_container");
+            con_loading = $("#con_loading");
+
+            var t = 1;
+            var curtains_img = $("#curtains_img");
+            var range_speed = $("#range_speed-range1"); //速度滑竿对象
+
+            var slider1 = $("#block-range1"); //红滑竿对象
+            var slider2 = $("#block-range2"); //绿滑竿对象
+            var slider3 = $("#block-range3"); //蓝滑竿对象
+
+            var switch_btn = $(".strip_hg");
+
+            var action = {
+
+                /**
+                 * 设备参数
+                 */
+                equipment_args: {
+                    eqpInstalledId: 0, //设备ID
+                    curr_status: 0, //设备开关 01-开  00关
+                    speed: 0, //速度
+
+                    color: {
+                        R: 0,
+                        G: 0,
+                        B: 0,
+                    },
+
+                    type: 'Hop' //灯带 模式
+
+                },
+
+                /**
+                 * 解析数据后的操作
+                 */
+                parse_data_after: function () {
+
+                    range_speed.attr('def_val', this.equipment_args.speed);
+                    slider1.attr('def_val', this.equipment_args.color.R);
+                    slider2.attr('def_val', this.equipment_args.color.G);
+                    slider3.attr('def_val', this.equipment_args.color.B);
+
+                    range_speed.val(this.equipment_args.speed); //设置速度
+                    slider1.val(this.equipment_args.color.R); //设置R
+                    slider2.val(this.equipment_args.color.G); //设置G
+                    slider3.val(this.equipment_args.color.B); //设置B
+
+
+                    $("#" + this.equipment_args.type + '_btn').addClass('curr');
+
+                    $("#range_speed-range1-val").text((parseInt(this.equipment_args.speed)));
+                    $("#block-range1-val").text(this.equipment_args.color.R);
+                    $("#block-range2-val").text(this.equipment_args.color.G);
+                    $("#block-range3-val").text(this.equipment_args.color.B);
+
+                    this.setStatus(this.equipment_args.curr_status == 'Close' ? 10 : -60);
+
+                    this.init_event(); //初始化事件
+                    
+                    timestamp2 = new Date().getTime();
+                    if ((timestamp2 - timestamp) <= 300) {
+
+                        setTimeout(function () {
+                            con_loading.hide();
+                            con_container.show();
+                        }, 400);
+                    } else {
+                        con_loading.hide();
+                        con_container.show();
+                    }
+                    
+
+                    slider1.css({
+                        "background": 'rgb(255,' + this.equipment_args.color.R + ',' + this.equipment_args.color.R + ')'
+                    });
+
+                    slider2.css({
+                        "background": 'rgb(' + this.equipment_args.color.G + ',255,' + this.equipment_args.color.G + ')'
+                    });
+
+                    slider3.css({
+                        "background": 'rgb(' + this.equipment_args.color.R + ',' + this.equipment_args.color.R + ',255)'
+                    });
+                    
+
+
+                },
+
+                /**
+                 * 初始化数据加载
+                 */
+                init_data: function () {
+
+                    var _this = this;
+                    plugs.ajax(URL.eqpstatus.format(id), {}, function (data) {
+
+                        (data.code == 1) ? _this.parse_data(data.data) : layer.msg('执行设备指令失败');
+                    }, function () {
+
+                    }, 'GET');
+                },
+
+                /**
+                 * 解析服务器返回的数据
+                 */
+                parse_data: function (data) {
+
+                    if (data == null) {
+
+                        data = {
+                            eqp_no: "EQPKT0000022",
+                            eqp_name: "灯带",
+                            eqp_type: "灯带",
+                            curr_status: "01",
+                            curr_info: "{'Content':'0,0,0,0'}",
+                            change_time: "2017-09-29T16:49:10",
+                            pre_status: "00",
+                            pre_info: "{'Content':'10'}",
+                            data_time: "2017-09-29T16:49:10",
+                            power: 1000,
+                            voltage: 220,
+                            electricity: 50,
+                            remarks: null,
+                            energy: 0,
+                            installed_id: id
+                        };
+                        // var v = data.curr_info.split(':')[1].replace('}', '').replace('\'', '').replace('\'', '').split(',');
+
+                        var v = [0, 0, 0, 0];
+                        var model_type = 'Hop';
+
+
+                    } else {
+
+                        info = JSON.parse(data.curr_info); //设备信息
+                        var v = (info.Content).split(',');
+                        var model_type = info.Type;
+
+                    }
+
+                    this.equipment_args.speed = v[0];
+                    this.equipment_args.eqpInstalledId = data.installed_id;
+                    this.equipment_args.curr_status = model_type;
+
+                    this.equipment_args.type = model_type;
+
+                    this.equipment_args.color.R = v[1];
+                    this.equipment_args.color.G = v[2];
+                    this.equipment_args.color.B = v[3];
+
+
+                    this.parse_data_after();
+                },
+
+                /**
+                 * 检查开关
+                 */
+                check_switch: function () {
+                    if (this.equipment_args.curr_status == 'Close') {
+                        layer.msg('请先打开设备');
+                        return false;
+                    }
+                    return true;
+                },
+                /**
+                 * 初始化事件
+                 */
+                init_event: function () {
+
+                    var _this = this;
+
+                    if ( _this.equipment_args.curr_status == 'Close') {
+                        $('.slider_v').attr('disabled', true);
+                    }
+
+                    //开关
+                    $(".dswitch").click(function () {
+
+                        var act = _this.equipment_args.curr_status == 'Close' ? 'Open' : 'Close';
+
+                        var list = f(); //获取集合数据
+
+                        _this.requestCmd(_this.cmd({
+
+                            Type: act,
+                            Content: list.speed + ',' + list.R + ',' + list.G + ',' + list.B
+
+                        }), this, function () {
+
+                            _this.equipment_args.curr_status = act == 'Open' ? 'Open' : 'Close';
+
+                           // _this.setStatus(act == 'Close' ? -60 : 10);
+
+                            _this.setStatus(act == 'Close' ? 10 : -60);
+
+                            if (act == 'Close') {
+                                $('.slider_v').attr('disabled', true);
+                            }else{
+                                $('.slider_v').attr('disabled', false);
+                            }
+                        });
+
+                    });
+
+                    var f = function () {
+                        arr = {};
+                        $("input.slider_v").each(function (index, item) {
+                            item = $(item);
+                            v = item.val();
+                            arr[item.attr('data-type')] = v;
+                        });
+                        return arr;
+                    }
+
+                    //模式切换
+                    $("ul.model_ul button").click(function () {
+
+                        if (!_this.check_switch()) {
+                            return;
+                        }
+
+                        _btn = $(this);
+
+                        act = _btn.attr('data-action');
+
+                        var list = f(); //获取集合数据
+
+                        _this.requestCmd(_this.cmd({
+
+                            Type: act,
+                            Content: list.speed + ',' + list.R + ',' + list.G + ',' + list.B
+
+                        }), this, function () {
+                            $(".stip_type").removeClass('curr');
+                            _btn.addClass('curr');
+                        });
+                    });
+
+                    $("div.mui-input-range").click(function () {
+                        _this.check_switch();
+                    })
+
+
+                    //滑竿事件绑定
+
+                    flags = false;
+                    var rangeList = document.querySelectorAll('input[type="range"]');
+                    for (var i = 0, len = rangeList.length; i < len; i++) {
+
+                        rangeList[i].addEventListener('change', function () {
+
+
+                            if (this.id.indexOf('field') >= 0) {
+                                document.getElementById(+'-input').value = this.value;
+                            } else {
+
+                                if (this.id == 'range_speed-range1') {
+
+                                    document.getElementById(this.id + '-val').innerHTML =  this.value;
+
+                                } else {
+                                    document.getElementById(this.id + '-val').innerHTML = this.value;
+                                }
+                            }
+
+                            var list = f(); //获取集合数据
+
+
+                            var type = this.getAttribute('data-type');
+
+                            var v = this.value;
+
+                            var c = [];
+
+                            switch (type) {
+                                case  'speed':
+
+                                    list.speed = v;
+                                    break;
+
+                                case  'R':
+
+                                    c = [255, v, v];
+                                    list.R = v;
+                                    break;
+                                case  'G':
+
+                                    c = [v, 255, v];
+                                    list.G = v;
+                                    break;
+
+                                case  'B':
+
+                                    c = [v, v, 255];
+                                    list.B = v;
+                                    break;
+                            }
+
+                            range_obj = this;
+
+
+                            _this.requestCmd(_this.cmd({
+
+                                Type: 'Hop',
+                                Content: list.speed + ',' + list.R + ',' + list.G + ',' + list.B
+
+                            }), this, function () {
+
+                                $(range_obj).css({
+                                    "background": 'rgb(' + c[0] + ',' + c[1] + ',' + c[2] + ')'
+                                });
+
+                            });
+                        });
+                    }
+                },
+
+                /**
+                 * 执行CMD请求
+                 */
+                requestCmd: function (cmd, _this, call) {
+                    plugs.executeCmd(cmd, call, function () { //错误的回调
+
+
+                    });
+                },
+
+                /**
+                 * 返回要发送的指令
+                 */
+                cmd: function (cmd) {
+
+                    return JSON.stringify({
+                        eqpInstalledId: this.equipment_args.eqpInstalledId,
+                        cmd: cmd
+                    });
+                },
+
+                /**
+                 * 亮度
+                 * 控制
+                 */
+                control_brightness: function (args) {
+
+                    var _this = this;
+
+                    var default_brightness = _this.equipment_args.brightness;
+
+                    (args.Content > default_brightness) ? _this.equipment_args.brightness += 1 : _this.equipment_args.brightness -= 1;
+
+                    plugs.executeCmd(_this.cmd(args), function () {
+
+                    }, function () { //错误的回调
+                        (args.Content > default_brightness) ? _this.equipment_args.brightness -= 1 : _this.equipment_args.brightness += 1;
+                    });
+                },
+
+                /**
+                 * 设置状态展示
+                 */
+                setStatus: function (r) {
+                    $("div.dswitch button").css({
+                        "transform": "rotate(" + r + "deg)",
+                        "margin-top": "0"
+                    });
+                },
+
+            };
+            action.init_data();
+
+
+            /*   setInterval(function () {
+             action.init_data();
+             }, 3000)*/
+
+        });
+    });
+</script>
+
+</html>

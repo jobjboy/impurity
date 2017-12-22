@@ -1,0 +1,89 @@
+一、列表
+GET请求
+http://dev.api.smarthome.com/api/eqpcontrolcmd?type=&pIndex=1&pSize=10
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "items": [
+            {
+                "id": 5,
+                "eqp_base_info_id": 1,
+                "virtual_cmd_type": "GotoTemperature",
+                "virtual_cmd_content": "1",
+                "real_cmd_type": null,
+                "real_cmd_content": null,
+                "operation_time": "2017-09-18T13:58:33",
+                "operation_user": 1
+            },
+            {
+                "id": 4,
+                "eqp_base_info_id": 1,
+                "virtual_cmd_type": "ReduceTemperature",
+                "virtual_cmd_content": "1",
+                "real_cmd_type": null,
+                "real_cmd_content": null,
+                "operation_time": "2017-09-18T13:58:17",
+                "operation_user": 1
+            },
+            {
+                "id": 3,
+                "eqp_base_info_id": 1,
+                "virtual_cmd_type": "IncreaseTemperature",
+                "virtual_cmd_content": "1",
+                "real_cmd_type": null,
+                "real_cmd_content": null,
+                "operation_time": "2017-09-18T13:58:00",
+                "operation_user": 1
+            },
+            {
+                "id": 2,
+                "eqp_base_info_id": 1,
+                "virtual_cmd_type": "Close",
+                "virtual_cmd_content": "1",
+                "real_cmd_type": null,
+                "real_cmd_content": null,
+                "operation_time": "2017-09-18T13:56:28",
+                "operation_user": 1
+            },
+            {
+                "id": 1,
+                "eqp_base_info_id": 1,
+                "virtual_cmd_type": "Open",
+                "virtual_cmd_content": "1",
+                "real_cmd_type": null,
+                "real_cmd_content": null,
+                "operation_time": "2017-09-18T13:56:32",
+                "operation_user": 1
+            }
+        ],
+        "count": 5,
+        "page": 1
+    }
+}
+
+
+二、删除
+DELETE请求
+http://dev.api.smarthome.com/api/eqpcontrolcmd?id=6
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}
+
+
+
+三、新增/修改
+POST请求
+http://dev.api.smarthome.com/api/eqpcontrolcmd
+
+参数：{"id":"0","eqp_base_info_id":"1","virtual_cmd_type":"testvirtual_cmd_type","virtual_cmd_content":"testvirtual_cmd_content","real_cmd_type":"testreal_cmd_type","real_cmd_content":"testreal_cmd_content"}
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}

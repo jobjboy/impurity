@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>
+			电力智能用电综合管理平台-报表管理
+		</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="./css/x-admin.css" media="all">
+		<script src="./lib/plugs/require/require.js"></script>
+		<script type="text/javascript" src="./lib/app.js"></script>
+
+		<style>
+			html {
+				height: 100%;
+			}
+			
+			body {
+				height: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+
+	<div class="left">
+		<div class="left-top">导航</div>
+		<div class="left-search">
+			<input class="left-input" type="text" value="" placeholder="请输入关键字">
+			<input class="left-button" type="submit" value="" />
+		</div>
+		<div class="left-class">
+			<div class="myDiv">
+				<a href="statement.html">小区用户统计报表</a>
+			</div>
+
+			<div class="myDiv">
+				<a href="statement2.html">用户电力报表</a>
+			</div>
+
+			<div class="myDiv">
+				<a href="statement3.html">用户安装设备报表</a>
+			</div>
+
+			<div class="myDiv">
+				<a href="statement4.html">用户预警统计报表</a>
+			</div>
+
+		</div>
+
+		<div class="logo_xh"><img src="images/logo_xh.png"></div>
+	</div>
+
+
+		<div class="x-nav">
+			<span class="layui-breadcrumb" style="visibility: visible;">
+              <a href="statement.html"><cite>报表管理</cite><span class="layui-box">&gt;</span></a>
+			  <a href="statement3.html"><cite>用户安装设备报表</cite></a>
+			</span>
+		</div>
+
+		<div class="right">
+
+			<div class="result">
+
+				<div class="result-detail">
+
+					<div class="layui-tab-content">
+						<div class="layui-tab-item layui-show">
+							<table class="layui-table">
+								<thead>
+									<tr>
+										<th>用户编号</th>
+										<th>用户名称</th>
+										<th>设备名称</th>
+										<th>安装场景</th>
+										<th>安装时间</th>
+									</tr>
+								</thead>
+								<tbody id="page_body">
+																													
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="result-detail-bottom">
+
+						<div id="page"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+
+	<script type="text/html" id="tpl_page">
+
+		{{# layui.each(d.items, function(index, v){ }}
+		<tr>
+			<td>{{ v.user_no }}</td>
+			<td>{{ v.username }}</td>
+			<td>{{v.eqp_name}}</td>
+			<td>{{v.scene_name}}</td>
+			<td>{{v.installed_time.replace('T',' ')}}</td>
+		</tr>
+		{{#  }); }}
+	</script>
+
+<script type="text/javascript">
+			require(['jquery', 'URL', 'app.plugs', 'listen'], function($) {
+
+				layui.use(['laytpl', 'laypage', 'form'], function() {
+
+					$(document).ready(function() {
+						$(".myDiv").on("click", function() {
+							$(this).next("ul").slideToggle(300).siblings("ul").slideUp(500)
+						})
+					})
+
+					plugs = requirejs('app.plugs');
+					URL = requirejs('URL');
+					userId = getUrlParam('userid');
+//					console.log(userId);
+					var pageSize = 20;
+					var fun = function (userId) {
+
+						var url = URL.getuserinstalleqpreportdetail.format(userId);
+
+						plugs.page(url, pageSize, function () {
+
+						});
+					}
+
+					fun(userId);
+				});
+
+			});
+		</script>
+
+	</body>
+
+</html>

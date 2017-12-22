@@ -1,0 +1,94 @@
+@charset "utf-8";
+/* CSS Document */
+
+* {
+	margin:0;
+	padding:0;
+}
+body { padding:0px;
+	font-size: 12px;
+	line-height: 1.5em;
+	font-family: tahoma, "Microsoft YaHei", Simsun, Mingliu, Arial, Helvetica;
+	color: #333333;
+	background:#fff;
+	width:100%;
+	overflow-x:hidden; 
+}
+img {
+	border:0;
+	vertical-align:middle;
+
+}
+ul,li{
+	list-style-type: none;
+}
+table,td{
+	border-collapse:collapse
+}
+address,em{
+	font-style:normal;
+}
+a{
+	color:#333333;
+	text-decoration:none;
+}
+a:focus {
+    outline:none;
+}
+a:hover{
+	color:#0d6cae;
+	text-decoration:none;
+}
+
+
+/*通用样式结束*/
+.head{ width: 1200px; height: 100px; margin: 0 auto;}
+.logo{ width: 209px; height: 60px; float: left; margin-top: 16px;}
+.login_xh{ width: 300px; float: left; margin-left: 30px;}
+.menu{ float: right;}
+.menu ul li{ float: left; height: 20px; line-height: 20px; padding: 0 5px; margin-top: 23px; background:linear-gradient(to right,#23262e,#23262e,#23262e) no-repeat  right / 1px 12px;}
+.menu ul li a{ color: #23262e;}
+.menu ul li a:hover{ color: #009688;}
+.menu ul li:last-child{ background: none;}
+.main{ width: 100%; height: 572px; background: url(../images/bg.jpg) center no-repeat;}
+.main-center{ width: 1200px; height: auto; overflow: hidden; margin: 0 auto;}
+
+.login{ width: 380px; height: 380px; background: #fff; border-radius: 10px; float: right; margin: 95px 100px 0 0 ;}
+.login h3{ width: 100%; height: 65px; line-height: 65px; text-align: center; font-size: 16px; color: #323232; font-weight: normal; border-bottom: 1px dashed #dfdfe1; margin-bottom: 30px;}
+.login-name{ width: 100%; height: 42px; margin-bottom: 15px; color: #4c4c4c; font-size: 13px; text-align: center; position: relative;}
+.login-name input{ width: 270px; height: 40px; border: 1px solid #b6b6b6; border-radius: 5px; line-height: 40px;color: #989898; padding: 0 10px 0 40px; box-sizing: border-box;}
+.login-password{ width: 100%; height: 42px; margin-bottom: 15px; color: #4c4c4c; font-size: 13px; text-align: center; position: relative;}
+.login-password input{ width: 270px; height: 40px; border: 1px solid #b6b6b6; border-radius: 5px; line-height: 40px; 
+ color: #989898; padding: 0 10px 0 40px; box-sizing: border-box;}
+#captcha{ text-align: center; width: 298px; height:auto;
+	margin:0 auto 25px;}
+.login-button{ width: 320px; height:40px; line-height: 40px; text-align: center; background: #1368c2; color:#fff; border:none; border-radius: 20px; margin-left: 30px; cursor: pointer; font-size: 20px;}
+
+.footer{ width: 100%; height:60px; line-height: 60px; text-align: center; color:#23262e; position: absolute; bottom:0}
+
+
+.username{ width: 18px; height: 18px; display: block; background: url(../images/id.png) no-repeat center; position: absolute; left: 90px; top:10px}
+.password{ width: 18px; height: 18px; display: block; background: url(../images/password.png) no-repeat center; position: absolute; left: 90px; top:10px}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

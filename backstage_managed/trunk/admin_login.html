@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>
+			电力智能用电综合管理平台-管理员管理
+		</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="./css/x-admin.css" media="all">
+		<script src="./lib/plugs/require/require.js"></script>
+		<script type="text/javascript" src="./lib/app.js"></script>
+		<style>
+			html {
+				height: 100%;
+			}
+			
+			body {
+				height: 100%;
+			}
+			.layui-textarea{width: 80%;border:none}
+			.layui-input{border:none}
+		</style>
+	</head>
+
+	<body>
+	<div class="left">
+		<div class="left-top">导航</div>
+		<div class="left-search">
+			<input class="left-input" type="text" value="" placeholder="请输入关键字">
+			<input class="left-button" type="submit" value="" />
+		</div>
+		<div class="left-class">
+			<div class="myDiv">
+				<a href="./admin_login.html">用户信息</a>
+			</div>
+
+			<!--<div class="myDiv">-->
+				<!--<a href="javascript:;">密码修改</a>-->
+			<!--</div>-->
+
+		</div>
+
+		<div class="logo_xh"><img src="images/logo_xh.png"></div>
+	</div>
+
+	<div class="x-nav">
+			<span class="layui-breadcrumb" style="visibility: visible;">
+			  <a href="javascript:;"><cite>个人信息</cite></a>
+			</span>
+	</div>
+
+	<div class="right">
+		<div class="right_detail">
+			<form class="layui-form" action="">
+				<div id="page_body" style="display: flex;align-items: flex-end;justify-content: space-around">
+
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<script type="text/html" id="tpl_page">
+
+		{{# layui.each(d.items, function(index, d){ }}
+
+		<div class="right_flex" style="width: 30%">
+			<div class="layui-form-item">
+				<span class="layui-form-label">管理员用户组:</span>
+
+				<div class="layui-input-block">
+
+					<input type="text" name="account" readonly
+						   value="{{# if(!d.account){ }}{{# }else{ }}{{d.account}}{{# } }}" lay-verify="account"
+						   autocomplete="off" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<span class="layui-form-label">管理员账户:</span>
+
+				<div class="layui-input-block">
+
+					<input type="text" name="account" readonly
+						   value="{{# if(!d.account){ }}{{# }else{ }}{{d.account}}{{# } }}" lay-verify="account"
+						   autocomplete="off" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">管理员密码:</label>
+
+				<div class="layui-input-block">
+					<input type="password" name="password" value="{{# if(!d.password){ }}{{# }else{ }}{{d.password}}{{# } }}" lay-verify="password"
+						   autocomplete="off" readonly class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">管理员名称:</label>
+				<div class="layui-input-block">
+					<input type="text" name="name" value="{{# if(!d.name){ }}{{# }else{ }}{{d.name}}{{# } }}"
+						   lay-verify="password" autocomplete="off" readonly class="layui-input">
+				</div>
+			</div>
+
+		</div>
+
+
+		<div class="left_flex" style="width: 30%">
+			<div class="layui-form-item">
+				<label class="layui-form-label">管理员角色:</label>
+
+				<div class="layui-input-block">
+
+					<input type="text" name="group_name" value="{{# if(!d.group_name){ }}{{# }else{ }}{{d.group_name}}{{# } }}"
+						   lay-verify="group_name" readonly
+						   autocomplete="off" class="layui-input">
+
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">管理员电话:</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="mobile" value="{{# if(!d.mobile){ }}{{# }else{ }}{{d.mobile}}{{# } }}"
+						   lay-verify="mobile"
+						   autocomplete="off" readonly class="layui-input">
+				</div>
+			</div>
+
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">管理员邮箱:</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="we_chat" value="{{# if(!d.email){ }}{{# }else{ }}{{d.email}}{{# } }}"
+						   lay-verify="email"
+						   autocomplete="off" readonly class="layui-input">
+				</div>
+			</div>
+
+		</div>
+
+		<div style="width: 40%">
+			<div class="layui-form-item">
+				<label class="layui-form-label">注册日期:</label>
+				<div class="layui-input-block">
+					<input type="text" name="creation_time" value="{{# if(!d.creation_time.replace(/T/,' ')){ }}{{# }else{ }}{{d.creation_time.replace(/T/,' ')}}{{# } }}"
+						   lay-verify="creation_time"
+						   autocomplete="off" readonly class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item layui-form-text">
+				<label class="layui-form-label">描述:</label>
+
+				<div class="layui-input-block">
+					<textarea style="resize: none;" readonly name="remarks" class="layui-textarea">{{# if(d.remarks == null){ }}{{# }else{ }}{{d.remarks}}{{# } }}</textarea>
+				</div>
+			</div>
+		</div>
+
+		</div>
+		{{#  }); }}
+	</script>
+
+
+		<script type="text/javascript">
+
+			require(['jquery', 'URL', 'app.plugs', 'listen'], function ($) {
+
+				layui.use(['laytpl', 'laypage', 'form', 'paging'], function () {
+
+					plugs = requirejs('app.plugs');
+					URL = requirejs('URL');
+					name = window.localStorage.getItem('account');
+					console.log(name);
+					var pageSize = 20;
+					var fun = function () {
+
+						var url = URL.admin.list.format('');
+						plugs.ajax(url+'&pSize=20&pIndex=0&pageSize=20', {}, function (data) {
+							if (data.code == 1) {
+								var flag = false;
+								var name_no = '';
+								for (var i = 0;i < data.data.items.length;i++){
+									if(name == data.data.items[i].account){
+										flag = true;
+										name_no = data.data.items[i].name;
+									}
+								}
+								if(flag){
+									var url = URL.admin.list.format(name_no);
+									plugs.page(url, pageSize, function () {
+
+									});
+								}
+							} else {
+								layer.msg('网络链接失败，请稍后再试', {
+									icon: 5
+								});
+							}
+						}, function () {
+
+						}, 'get');
+					}
+					fun();
+				});
+
+
+			});
+		</script>
+
+	</body>
+
+</html>

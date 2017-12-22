@@ -1,0 +1,53 @@
+一、列表
+GET请求
+http://dev.api.smarthome.com/api/admingrouprightsrelation?groupId=1&name=&pIndex=1&pSize=10
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "items": [
+            {
+                "group_id": 1,
+                "rights_id": 1,
+                "name": "test",
+                "path": "pathpathpath",
+                "parent_id": 0,
+                "depth": 0,
+                "type": 1,
+                "web_name": "test",
+                "web_url": "web_urlweb_url",
+                "remarks": "hh"
+            }
+        ],
+        "count": 1,
+        "page": 1
+    }
+}
+
+
+二、删除
+DELETE请求
+http://dev.api.smarthome.com/api/admingrouprightsrelation
+
+参数：{"groupId":"1","rightsIdStr":"1,2,3,4"}
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}
+
+
+
+三、新增
+POST请求
+http://dev.api.smarthome.com/api/admingrouprightsrelation
+
+参数：{"groupId":"1","rightsIdStr":"1,2,3,4"}
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}

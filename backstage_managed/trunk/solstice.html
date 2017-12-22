@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>
+			电力智能用电综合管理平台
+		</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="./css/x-admin.css" media="all">
+		<script src="./js/jquery-1.11.0.js"></script>
+
+		<style>
+			html {
+				height: 100%;
+			}
+			
+			body {
+				height: 100%;
+			}
+	</style>
+	</head>
+
+	<body>
+		
+
+		<div class="left">
+			<div class="left-top">导航</div>
+			<div class="left-search">
+				<input class="left-input" type="text" value="" placeholder="请输入用户名称">
+				<input class="left-button" type="submit" value="" />
+			</div>
+			<div class="left-class">
+				<div class="myDiv">用户管理</div>
+				<ul>
+					<li><a href="javascript:;" data-url="appliances.html">演示区域1</a></li>
+					<li><a href="">演示区域2</a></li>
+					<li><a href="">演示区域3</a></li>
+					<li><a href="">演示区域4</a></li>
+					<li><a href="">中新知识城南安置区</a></li>
+				</ul>
+				
+				<div class="myDiv">权限管理</div>
+				<ul>
+					<li><a href="">演示区域1</a></li>
+					<li><a href="">演示区域2</a></li>
+					<li><a href="">演示区域3</a></li>
+					<li><a href="">演示区域4</a></li>
+					<li><a href="">中新知识城南安置区</a></li>
+				</ul>
+				
+				<div class="myDiv">管理员管理</div>
+				<ul>
+					<li><a href="">演示区域1</a></li>
+					<li><a href="">演示区域2</a></li>
+					<li><a href="">演示区域3</a></li>
+					<li><a href="">演示区域4</a></li>
+					<li><a href="">中新知识城南安置区</a></li>
+				</ul>
+			</div>
+			
+			<div class="logo_xh"><img src="images/logo_xh.png"></div>
+		</div>
+		<div class="x-nav">
+			<span class="layui-breadcrumb" style="visibility: visible;">
+              <a><cite>首页</cite><span class="layui-box">&gt;</span></a>
+			<a><cite>智能家居</cite></a>
+			</span>
+			<a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
+		</div>
+
+		<div class="right">
+			
+			<div class="inquire">
+				<h3>查询条件</h3>
+				<div class="inpuire-detail">
+					<ul>
+						<li><span>小区名称：</span><input class="inpuire-input" type="text" value="" placeholder="请输入小区名称"></li>
+						<!--<li><span>台区编号：</span><input class="inpuire-input" type="text" value="" placeholder="请输入台区编号"></li>-->
+						<li><span>用户编号：</span><input class="inpuire-input" type="text" value="" placeholder="请输入用户编号"></li>
+						<li><span>日期：</span><input class="inpuire-input" type="text" value="" id="date" placeholder="请输入日期"></li>					
+						<li>
+							<div class="inpuire-button">
+								<button class="layui-btn layui-btn-normal">查询</button>
+								<button class="layui-btn layui-btn-normal">导出Excel</button>
+								<a href="compile.html" class="layui-btn layui-btn-normal">添加</a>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="result">
+				<h3>查询结果</h3>
+				<div class="result-detail">
+					<div class="layui-tab">
+						<!--<ul class="layui-tab-title">
+							<li class="layui-this">电量</li>						
+							<li>气量</li>
+							<li>水量</li>
+						</ul>-->
+						<div class="layui-tab-content">
+							<div class="layui-tab-item layui-show">
+								<table class="layui-table">
+									<tr>
+										<th rowspan="2">序号</th>
+										<th rowspan="2">用户名称</th>	
+										<th rowspan="2">实名认证</th>
+										<th rowspan="2">用户地址</th>
+										<th rowspan="2">户型</th>
+										<th rowspan="2">日期</th>
+										<th rowspan="2">联系方式</th>
+										<th rowspan="2">权限</th>
+										<th width="200">操作</th>
+									</tr>
+									<tbody>									
+										<tr>
+											<td>1</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td>
+											  <a href="compile.html" class="layui-btn layui-btn-primary layui-btn-small" lay-event="detail">查看</a>
+											  <a href="compile.html" class="layui-btn layui-btn-small" lay-event="edit">编辑</a>
+											  <button class="layui-btn layui-btn-danger layui-btn-small" lay-event="del">删除</button>
+											</td>
+										</tr>										
+										<tr>
+											<td>2</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td>
+											  <a class="layui-btn layui-btn-primary layui-btn-small" lay-event="detail">查看</a>
+											  <a class="layui-btn layui-btn-small" lay-event="edit">编辑</a>
+											  <a class="layui-btn layui-btn-danger layui-btn-small" lay-event="del">删除</a>												
+											</td>
+										</tr>
+										
+										<tr>
+											<td>3</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td>
+											  <a class="layui-btn layui-btn-primary layui-btn-small" lay-event="detail">查看</a>
+											  <a class="layui-btn layui-btn-small" lay-event="edit">编辑</a>
+											  <a class="layui-btn layui-btn-danger layui-btn-small" lay-event="del">删除</a>												
+											</td>											
+										</tr>
+										
+										<tr>
+											<td>4</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td>
+											  <a class="layui-btn layui-btn-primary layui-btn-small" lay-event="detail" href="appliances.html">查看</a>
+											  <a class="layui-btn layui-btn-small" lay-event="edit">编辑</a>
+											  <a class="layui-btn layui-btn-danger layui-btn-small" lay-event="del">删除</a>												
+											</td>											
+										</tr>
+										
+										<tr>
+											<td>5</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td>
+											  <a class="layui-btn layui-btn-primary layui-btn-small" lay-event="detail">查看</a>
+											  <a class="layui-btn layui-btn-small" lay-event="edit">编辑</a>
+											  <a class="layui-btn layui-btn-danger layui-btn-small" lay-event="del">删除</a>												
+											</td>											
+										</tr>
+										
+										<tr>
+											<td>6</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td>
+											  <a class="layui-btn layui-btn-primary layui-btn-small" lay-event="detail">查看</a>
+											  <a class="layui-btn layui-btn-small" lay-event="edit">编辑</a>
+											  <a class="layui-btn layui-btn-danger layui-btn-small" lay-event="del">删除</a>												
+											</td>											
+										</tr>
+										
+										<tr>
+											<td>7</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td>
+											  <a class="layui-btn layui-btn-primary layui-btn-small" lay-event="detail">查看</a>
+											  <a class="layui-btn layui-btn-small" lay-event="edit">编辑</a>
+											  <a class="layui-btn layui-btn-danger layui-btn-small" lay-event="del">删除</a>												
+											</td>											
+										</tr>
+										
+										<tr>
+											<td>8</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td>
+											  <a class="layui-btn layui-btn-primary layui-btn-small" lay-event="detail">查看</a>
+											  <a class="layui-btn layui-btn-small" lay-event="edit">编辑</a>
+											  <a class="layui-btn layui-btn-danger layui-btn-small" lay-event="del">删除</a>												
+											</td>										
+										</tr>
+										
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="result-detail-bottom">
+						
+							<div id="page"></div>
+						</div>
+					</div>					
+				</div>
+			</div>
+		</div>
+		<script src="lib/dist/layui.js" charset="utf-8"></script>
+	
+		<script>
+			layui.use('table', function() {
+				var table = layui.table;
+
+			});
+
+layui.use(['laypage', 'layer'], function(){
+  var laypage = layui.laypage
+  ,layer = layui.layer;
+  
+  //总页数低于页码总数
+  laypage.render({
+    elem: 'page'
+    ,count: 50 //数据总数
+  });
+});
+			layui.use('laydate', function() {
+				var laydate = layui.laydate;
+				//常规用法
+				laydate.render({
+					elem: '#date'
+				});
+				laydate.render({
+					elem: '#date2'
+				});
+				laydate.render({
+					elem: '#date3'
+				});
+			});
+			layui.use('element', function() {
+				var $ = layui.jquery,
+					element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+			});
+
+			$(document).ready(function() {
+				$(".myDiv").on("click", function() {
+					$(this).next("ul").slideToggle(300).siblings("ul").slideUp(500)
+				})
+			})
+		</script>
+
+	</body>
+
+</html>

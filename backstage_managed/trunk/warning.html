@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>
+			电力智能用电综合管理平台-预警系统
+		</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="./css/x-admin.css" media="all">
+		<script src="./lib/plugs/require/require.js"></script>
+		<script type="text/javascript" src="./lib/app.js"></script>
+
+		<style>
+			html {
+				height: 100%;
+			}
+			
+			body {
+				height: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		
+		<div class="left">
+			<div class="left-top">导航</div>
+			<div class="left-search">
+				<input class="left-input" type="text" value="" placeholder="请输入用户名称">
+				<input class="left-button" type="submit" value="" />
+			</div>
+			<div class="left-class">
+				<div class="myDiv">
+					<a href="warning.html">预警系统</a>
+				</div>
+
+			</div>
+			
+			<div class="logo_xh"><img src="images/logo_xh.png"></div>
+		</div>
+
+
+		<div class="x-nav">
+			<span class="layui-breadcrumb" style="visibility: visible;">
+              <a><cite>首页</cite><span class="layui-box">&gt;</span></a>
+			  <a><cite>预警系统</cite></a>
+			</span>
+		</div>
+
+		<div class="right">
+
+			<div class="inquire">
+				<h3>查询条件</h3>
+				<div class="inpuire-detail">
+					<ul>
+						<form class="layui-form" action="">
+							<li>
+								<div class="layui-form-item">
+									<label id="test" class="layui-form-label">用户名称：</label>
+
+									<div class="layui-input-block">
+										<input type="text" name="name" id="input_search" style="width:350px;"
+											   placeholder="请输入搜索关键字" class="layui-input">
+									</div>
+
+								</div>
+							</li>
+							<li class="right">
+								<div class="inpuire-button">
+									<button id="btn_query" class="layui-btn layui-btn-normal"><i class="fa fa-search"></i> 查询</button>
+								</div>
+							</li>
+						</form>
+					</ul>
+				</div>
+			</div>
+			<div class="layui-form-item" style="display: flex;align-items: baseline;margin: 20px 0 -25px;">
+				<label class="layui-form-label">处理状态:</label>
+				<div class="layui-input-block" style="margin-left: 0">
+					<select name="status" id="status" lay-filter="aihao" lay-search style="padding: 4px 10px;">
+						<option  value="0" selected>待查阅</option>
+						<option  value="1">已查阅</option>
+						<option  value="2">处理中</option>
+						<option  value="3">已处理</option>
+					</select>
+				</div>
+			</div>
+			<div class="result">
+
+				<div class="result-detail">
+
+					<div class="layui-tab-content">
+						<div class="layui-tab-item layui-show">
+							<table class="layui-table">
+								<thead>
+									<tr>
+										<th>用户名称</th>
+										<th>小区</th>
+										<th>楼栋</th>
+										<th>房号</th>
+										<th>耗能</th>
+										<th>最大耗能</th>
+										<th>单位</th>
+										<th>预警原因</th>
+										<th>预警时间</th>
+										<th>处理时间</th>
+										<th>预警状态</th>
+										<th>描述</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody id="page_body">
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="result-detail-bottom">
+
+						<div id="page"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+
+	</body>
+	<script type="text/html" id="tpl_page">
+
+		{{# layui.each(d.items, function(index, v){ }}
+
+		<tr>
+			<td>{{ v.username }}</td>
+			<td>{{ v.estate_name }}</td>
+			<td>{{v.estate_ridgepole_name}}</td>
+			<td>{{v.estate_house_name}}</td>
+			<td>{{v.used_energy}}</td>
+			<td>{{v.max_energy}}</td>
+			<td>{{v.energy_unit}}</td>
+			<td>{{v.warning_title}}</td>
+			<td>{{v.data_time.replace("T"," ")}}</td>
+			<td>{{v.warning_time.replace("T"," ")}}</td>
+			<td> {{# if(v.status == 3){ }}
+				已处理
+				{{# }else if(v.status == 2){ }}
+				处理中
+				{{# }else if(v.status == 1){ }}
+				已查阅
+				{{# }else { }}
+				待查阅
+				{{# } }}
+			</td>
+			<td>
+				{{# if(v.remarks == null || v.remarks == ''){ }}
+				无描述
+				{{# }else{ }}
+				{{v.remarks}}
+				{{# } }}
+			</td>
+			<td>
+				<!--<a href="warning_item.html?act=edit" data-id="{{ v.warning_id }}"  class="layui-btn layui-btn-small edit_item" lay-event="edit">详情</a>-->
+				<a href="warning_item.html?act=edit" data-id="{{ v.warning_id }}" class="layui-btn layui-btn-small edit_item"><i class="fa fa fa-edit"></i>处理</a>
+				<!--<a href="user_item.html" class="layui-btn layui-btn-small" lay-event="edit">子用户</a>-->
+				<!--<a class="layui-btn layui-btn-danger layui-btn-small remove" data-delete="{{ v.id }}"><i class="fa fa-trash-o"></i> 删除</a>-->
+			</td>
+		</tr>
+
+		{{#  }); }}
+	</script>
+	<script type="text/javascript">
+
+		require(['jquery', 'URL', 'app.plugs', 'listen'], function ($) {
+
+			layui.use(['laytpl', 'laypage', 'form'], function () {
+
+				status = $('#status').val();
+
+				$("#btn_query").click(function () {
+					name = $("#input_search").val();
+					if (name === '' || name.length === 0) {
+						layer.msg('请输入搜索关键字');
+					}
+					fun(status,name);
+					return false;
+				});
+				//下拉监听
+				document.getElementById('status').addEventListener('change',function(){
+					console.log("当前选项是:"+this.value);
+					fun(this.value,'');
+				},false);
+
+				plugs = requirejs('app.plugs');
+				URL = requirejs('URL');
+				var pageSize = 20;
+				var fun = function (status,name) {
+
+					var url = URL.warning.list.format(status,name);
+
+					plugs.page(url, pageSize, function () {
+
+						$("a.remove").attr('data-url', URL.warning.action);
+						$("a.edit_item").each(function (index, item) {
+							item = $(item);
+							console.log(item.attr('data-id'));
+							var href = item.attr('href') + '&u=' + encodeURI(URL.warning.controller_name + '?id=' + item.attr('data-id'));
+							$(item).attr('href', href);
+						}, 'get')
+
+					});
+				}
+
+				fun(status,'');
+			});
+
+
+		});
+	</script>
+</html>

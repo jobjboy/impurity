@@ -1,0 +1,47 @@
+一、列表
+GET请求
+http://dev.api.smarthome.com/api/contextualmodel?name=&pIndex=1&pSize=10
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "items": [
+            {
+                "id": 1,
+                "name": "早餐模式",
+                "status": 1,
+                "operation_time": "2017-09-19T11:58:11",
+                "remarks": "哈哈",
+                "user_id": 1
+            }
+        ],
+        "count": 1,
+        "page": 1
+    }
+}
+
+
+二、删除
+DELETE请求
+http://dev.api.smarthome.com/api/contextualmodel?id=2
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}
+
+
+
+三、新增/修改
+POST请求
+http://dev.api.smarthome.com/api/contextualmodel
+
+参数：{"id":"0","name":"test","remarks":"hh","user_id":"1","status":"1"}
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}

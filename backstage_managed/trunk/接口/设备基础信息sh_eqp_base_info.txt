@@ -1,0 +1,58 @@
+一、列表
+GET请求
+http://dev.api.smarthome.com/api/eqpbaseinfo?no=&name=&pIndex=1&pSize=10
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "items": [
+            {
+                "id": 1,
+                "no": "EQPKT0000011",
+                "name": "格力空调",
+                "eqp_type": 1,
+                "eqp_brand": 1,
+                "eqp_model": 1,
+                "prod_factory": "格力制造",
+                "prod_batch": "PL20170918",
+                "prod_no": "PL20170918122356",
+                "prod_time": "2017-09-18T13:52:52",
+                "power": 1000,
+                "voltage": 220,
+                "electricity": 50,
+                "energy_unit": "kwh",
+                "operation_time": "2017-09-18T13:55:14",
+                "operation_user": 1,
+                "remarks": null
+            }
+        ],
+        "count": 1,
+        "page": 1
+    }
+}
+
+
+二、删除
+DELETE请求
+http://dev.api.smarthome.com/api/eqpbaseinfo?id=2
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}
+
+
+
+三、新增/修改
+POST请求
+http://dev.api.smarthome.com/api/eqpbaseinfo
+
+参数：{"id":"0","no":"XLGL000002","name":"test","eqp_type":"1","eqp_brand":"1","eqp_model":"1","prod_factory":"testprod_factory","prod_batch":"testprod_batch","prod_no":"testprod_no","prod_time":"2017-09-18 12:55:56","power":"1200","voltage":"220","electricity":"56","energy_unit":"kwh","remarks":""}
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}

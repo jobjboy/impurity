@@ -1,0 +1,65 @@
+一、列表
+GET请求
+http://dev.api.smarthome.com/api/eqpbrand?name=&pIndex=1&pSize=10
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "items": [
+            {
+                "id": 2,
+                "name": "test",
+                "parent_id": 0,
+                "status": 1,
+                "operation_time": "2017-09-18T19:08:28",
+                "operation_user": 1,
+                "remarks": ""
+            },
+            {
+                "id": 1,
+                "name": "格力",
+                "parent_id": 0,
+                "status": 1,
+                "operation_time": "2017-09-08T13:45:20",
+                "operation_user": 1,
+                "remarks": null
+            }
+        ],
+        "count": 2,
+        "page": 1
+    }
+}
+
+
+二、删除
+DELETE请求
+http://dev.api.smarthome.com/api/eqpbrand?id=2
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}
+
+
+
+三、新增/修改
+POST请求
+http://dev.api.smarthome.com/api/eqpbrand
+
+参数：{"id":"0","name":"test","parent_id":"0","remarks":""}
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}
+
+
+
+        var pageSize = 5000;
+        var url = URL.equipment_brand.list.format(name, '');
+        plugs.page(url, pageSize, function () {
+            layui.form().render();
+        }, 'post', '#eqp_model_select','#eqp_model_select_tpl');

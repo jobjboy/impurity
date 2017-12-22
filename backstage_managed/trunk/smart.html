@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>
+        电力智能用电综合管理平台
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="./css/x-admin.css" media="all">
+    <script src="./lib/plugs/require/require.js"></script>
+    <script type="text/javascript" src="./lib/app.js"></script>
+
+</head>
+
+<body>
+<div class="left">
+    <div class="left-top">导航</div>
+    <div class="left-search">
+        <input class="left-input" type="text" value="" placeholder="请输入用户名称">
+        <input class="left-button" type="submit" value=""/>
+    </div>
+    <div class="left-class">
+        <div class="myDiv">
+            <a href="user_plot.html">小区</a>
+        </div>
+
+        <div class="myDiv">
+            <a href="user_building.html">楼栋</a>
+        </div>
+
+        <div class="myDiv">
+            <a href="user_room.html">房号</a>
+        </div>
+
+        <div class="myDiv">
+            <a href="user.html">用户管理</a>
+        </div>
+
+        <div class="myDiv">
+            <a href="examine.html">用户设备</a>
+        </div>
+
+        <div class="myDiv">
+            <a href="scene.html">场景</a>
+        </div>
+
+        <div class="myDiv">
+            <a href="contextual.html">情景</a>
+        </div>
+    </div>
+
+    <div class="logo_xh"><img src="images/logo_xh.png"></div>
+</div>
+
+<div class="x-nav">
+			<span class="layui-breadcrumb" style="visibility: visible;">
+                <a href="user.html"><cite>用户管理</cite><span class="layui-box">&gt;</span></a>
+			    <a href="examine.html"><cite>用户设备列表</cite><span class="layui-box">&gt;</span></a>
+			    <a href="smart.html"><cite>空调</cite></a>
+			</span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin:3px 0 0 10px;float: right" href="javascript:window.history.back();" title="返回"><i class="layui-icon" style="line-height:30px"></i></a>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon"
+                                                                        style="line-height:30px">ဂ</i></a>
+</div>
+
+<div class="right-hs">
+    <div class="smart">
+
+        <div class="smart-center">
+            <div class="temperature">
+                <div class="change">
+                    <div class="color" id="pan"></div>
+                </div>
+
+                <button data-action="GotoTemperature" class="decrease temperature_btn"></button>
+                <button data-action="GotoTemperature" class="increase temperature_btn"></button>
+
+            </div>
+
+            <div class="conditioner">
+                <div class="air">
+                    <a id="notice_switch" class="switch on"></a>
+                </div>
+
+                <div class="function">
+                    <ul>
+
+                        <li class="switch_conditioner">
+                            <span></span>
+                            <em>开关</em>
+                        </li>
+
+                        <li class="refrigeration">
+                            <span class="on"></span>
+                            <em>制冷</em>
+                        </li>
+
+                        <li class="aeration">
+                            <span></span>
+                            <em>换气</em>
+                        </li>
+
+                        <li class="arefaction">
+                            <span></span>
+                            <em>除湿</em>
+                        </li>
+
+                        <li class="heating">
+                            <span></span>
+                            <em>制热</em>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="buttonset" id="buttonset">
+                <button class="wind">风速 <img src="images/button1.png"></button>
+                <button class="dry">干燥 <img src="images/button2.png"></button>
+                <button class="health">健康 <img src="images/button3.png"></button>
+                <button class="lamplight">灯光 <img src="images/button4.png"></button>
+                <button class="energy">节能 <img src="images/button5.png"></button>
+                <button class="swing">上下扫风 <img src="images/button6.png"></button>
+                <button class="shangxia">左右扫风 <img src="images/button7.png"></button>
+                <button class="sleep">睡眠 <img src="images/button8.png"></button>
+                <button class="superstrong">超强 <img src="images/button9.png"></button>
+                <button class="subscribe">预约 <img src="images/button10.png"></button>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    require(['jquery', 'echarts', 'URL', 'app.plugs'], function ($, echarts) {
+
+        plugs = requirejs('app.plugs');
+        URL = requirejs('URL');
+
+        var id = getUrlParam('installed_id') ? getUrlParam('installed_id') : 1;
+
+        var myChart = echarts.init(document.getElementById('pan'));
+        var switch_btn = $(".function ul li.switch_conditioner span");
+        var notice_switch = $("#notice_switch");
+
+        var timer;
+        var is_first=true;
+
+        var action = {
+
+            /**
+             * 设备参数
+             */
+            equipment_args: {
+                eqpInstalledId: 0, //设备ID
+                temperature: 0, //温度
+                curr_status: -1,  //设备开关 01-开  00关
+
+            },
+            /**
+             * 图表插件参数
+             */
+            chart_option_close: {
+                tooltip: {
+                    formatter: "{a} <br/>{b} : {c}"
+                },
+                series: [
+                    {
+                        name: '温度',
+                        min: 16,
+                        max: 30,
+                        type: 'gauge',
+                        radius: '100%',
+                        data: [{value: 30, name: ''}],
+                        axisLine: {            // 坐标轴线
+                            lineStyle: {       // 属性lineStyle控制线条样式
+                                color: [[0.3, '#6F6F6F'], [0.7, '#6F6F6F'], [1, '#6F6F6F']],
+                                width: 25,
+                                shadowColor: '#fff', //默认透明
+                                shadowBlur: 10
+                            }
+                        },
+                        detail: {
+                            formatter: '{value}°',
+                            fontSize: 40,
+                            borderWidth: 1,
+                            borderColor: '#fff',
+                            shadowColor: '#fff', //默认透明
+                            shadowBlur: 5,
+                            offsetCenter: [0, '50%'],       // x, y，单位px
+                        }
+
+                    }
+                ]
+            },
+            chart_option_open: {
+                tooltip: {
+                    formatter: "{a} <br/>{b} : {c}"
+                },
+                series: [
+                    {
+                        name: '温度',
+                        min: 20,
+                        max: 30,
+                        type: 'gauge',
+                        radius: '100%',
+                        data: [{value: 30, name: ''}],
+                        axisLine: {            // 坐标轴线
+                            lineStyle: {       // 属性lineStyle控制线条样式
+                                color: [[0.3, '#00c0f1'], [0.7, '#ffcc00'], [1, '#f47264']],
+                                width: 25,
+                                shadowColor: '#fff', //默认透明
+                                shadowBlur: 10
+                            }
+                        },
+                        detail: {
+                            formatter: '{value}°',
+                            fontSize: 40,
+                            borderWidth: 1,
+                            borderColor: '#fff',
+                            shadowColor: '#fff', //默认透明
+                            shadowBlur: 5,
+                            offsetCenter: [0, '50%'],       // x, y，单位px
+                        },
+
+                    }
+                ]
+            },
+
+            /**
+             * 解析数据后的操作
+             */
+            parse_data_after: function () {
+
+
+                if (this.equipment_args.curr_status == '00') {
+
+                    switch_btn.addClass('on');
+                    notice_switch.addClass('open_');
+
+                    this.chart(this.chart_option_close);
+
+                } else if (this.equipment_args.curr_status == '01') {
+
+                    switch_btn.removeClass('on');
+                    notice_switch.removeClass('open_');
+                    this.chart(this.chart_option_open);
+                }
+
+                this.init_event(); //初始化事件
+            },
+
+            /**
+             * 生成图表
+             */
+            chart: function (option) {
+
+                option.series[0].data[0].value = this.equipment_args.temperature;
+                myChart.setOption(option, false);
+            },
+
+
+            /**
+             * 初始化数据加载
+             */
+            init_data: function () {
+
+                var _this = this;
+                plugs.ajax(URL.eqpstatus.format(id), {}, function (data) {
+                    (data.code == 1) ? _this.parse_data(data.data) : layer.msg('执行设备指令失败');
+                }, function () {
+
+                }, 'GET');
+            },
+
+            /**
+             * 解析服务器返回的数据
+             */
+            parse_data: function (data) {
+
+                var info = JSON.parse(data.curr_info); //设备信息
+                this.equipment_args.temperature = parseInt(info.Content);
+                this.equipment_args.eqpInstalledId = data.installed_id;
+                this.equipment_args.curr_status = data.curr_status;
+                this.parse_data_after();
+            },
+
+            /**
+             * 初始化事件
+             */
+            init_event: function () {
+
+
+                $(".temperature_btn").off("click");
+
+                $(".function ul li.switch_conditioner span").off("click");
+
+                if(timer){
+                    clearInterval(timer);
+                    timer=null;
+                }
+
+                timer = setInterval(function () {
+                    action.init_data();
+                }, 3000);
+
+
+                var _this = this;
+
+                var default_temperature = _this.equipment_args.temperature;
+
+                var a=timer;
+
+                //模式更换
+                switch_btn.click(function () {
+
+                    clearInterval(a);
+                    timer=null;
+
+                    var _this2 = $(this);
+                    if (_this2.hasClass("on")) {  //open
+
+                        _this._switch('Open', function () {
+
+                            _this2.removeClass("on");
+                            notice_switch.removeClass('open_');
+                            _this.chart(_this.chart_option_open);
+
+                            _this.equipment_args.curr_status = '01';
+
+                            timer = setInterval(function () {
+                                action.init_data();
+                            }, 3000);
+
+                        });
+                    } else {
+
+                        _this._switch('Close', function () {
+
+                            switch_btn.addClass('on');
+                            notice_switch.addClass('open_');
+                            _this.chart(_this.chart_option_close);
+
+                            _this.equipment_args.curr_status = '00';
+
+                            timer = setInterval(function () {
+                                action.init_data();
+                            }, 3000);
+
+                        });
+                    }
+                });
+
+
+                $("#buttonset button").click(function () {
+                    layer.msg('该功能正在完善中...');
+                });
+
+                //加减温度
+
+                $(".temperature_btn").click(function () {
+
+                    if (_this.equipment_args.curr_status == '00') {
+                        layer.msg('请先打开空调');
+                        return;
+                    }
+
+                    var type = $(this).attr("data-action");
+
+                    var args = {
+                        Type: type,
+                        Content: _this.equipment_args.temperature
+                    };
+
+                    (!$(this).hasClass('decrease')) ? _this.equipment_args.temperature += 1 : _this.equipment_args.temperature -= 1;
+
+                    if (_this.equipment_args.temperature > 28) {
+
+                        _this.equipment_args.temperature--;
+                        layer.msg('空调最高温度不能高于28℃');
+                        return;
+                    }
+
+                    if (_this.equipment_args.temperature < 20) {
+                        _this.equipment_args.temperature++;
+                        layer.msg('空调最低温度不能低于20℃');
+                        return;
+                    }
+
+                    var obj_this = $(this);
+
+                    var a=timer;
+                    args.Content = action.equipment_args.temperature;
+
+                    plugs.executeCmd(_this.cmd(args), _this.control_temperature, function () {
+                        _this.control_temperature = default_temperature;
+                        _this.control_temperature;
+
+                        clearInterval(a);
+                        timer=null;
+
+                    });
+
+                });
+            },
+
+            /**
+             * 开关空调
+             */
+            _switch: function (action, callback) {
+
+                plugs.executeCmd(this.cmd({
+                    Type: action,
+                    Content: 1
+                }), callback, function () {
+
+                });
+            },
+
+            /**
+             * 返回要发送的指令
+             */
+            cmd: function (cmd) {
+
+                return JSON.stringify({
+                    eqpInstalledId: this.equipment_args.eqpInstalledId,
+                    cmd: cmd
+                });
+
+            },
+
+            /**
+             * 温度控制
+             */
+            control_temperature: function () {
+
+                action.chart_option_open.series[0].data[0].value = action.equipment_args.temperature;
+                myChart.setOption(action.chart_option_open, false);
+
+
+            }
+        };
+
+
+
+         action.init_data();
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+一、列表
+GET请求
+http://dev.api.smarthome.com/api/rights?name=&pIndex=1&pSize=10
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "items": [
+            {
+                "id": 1,
+                "name": "test",
+                "path": "pathpathpath",
+                "depth": 0,
+                "parent_id": 0,
+                "type": 1,
+                "web_name": "test",
+                "web_url": "web_urlweb_url",
+                "remarks": "hh"
+            }
+        ],
+        "count": 1,
+        "page": 1
+    }
+}
+
+二、详情
+GET请求
+http://dev.api.smarthome.com/api/rights?id=2
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "id": 1,
+        "name": "test",
+        "path": "pathpathpath",
+        "depth": 0,
+        "parent_id": 0,
+        "type": 1,
+        "web_name": "test",
+        "web_url": "web_urlweb_url",
+        "remarks": "hh"
+    }
+}
+
+
+三、删除
+DELETE请求
+http://dev.api.smarthome.com/api/rights?id=2
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}
+
+
+
+四、新增/修改
+POST请求
+http://dev.api.smarthome.com/api/rights
+
+参数：{"id":"0","name":"test","path":"pathpathpath","depth":"0","parent_id":"0","type":"1","web_name":"test","web_url":"web_urlweb_url","remarks":"hh"}
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}

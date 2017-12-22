@@ -1,0 +1,49 @@
+一、列表
+GET请求
+http://dev.api.smarthome.com/api/usersignagreement?userNo=&username=&pIndex=1&pSize=10
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "items": [
+            {
+                "username": "诸葛亮",
+                "user_no": "dlj000001",
+                "agreement_name": "注册协议",
+                "agreement_time": "2017-09-18T16:51:41",
+                "status": 1,
+                "terminate_time": null,
+                "remarks": "hh"
+            }
+        ],
+        "count": 1,
+        "page": 1
+    }
+}
+
+
+二、详情
+GET请求
+http://dev.api.smarthome.com/api/usersignagreement?id=2
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}
+
+
+
+三、签约/解约
+POST请求
+注：当id=0时，执行签约；当id>0时，执行解约。
+http://dev.api.smarthome.com/api/usersignagreement
+
+参数：{"id":"0","user_id":"1","agreement_id":"1","remarks":"hh"}
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}

@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>
+			电力智能用电综合管理平台
+		</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="./css/x-admin.css" media="all">
+		<script src="./js/jquery-1.11.0.js"></script>
+
+		<style>
+			html {
+				height: 100%;
+			}
+			
+			body {
+				height: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="left">
+			<div class="left-top">导航</div>
+			<div class="left-search">
+				<input class="left-input" type="text" value="" placeholder="请输入客户名称">
+				<input class="left-button" type="submit" value="" />
+			</div>
+			<div class="left-class">
+				<div class="myDiv">演示中心</div>
+				<ul>
+					<li><a href="">演示中心1</a></li>
+					<li><a href="">演示中心2</a></li>
+					<li><a href="">演示中心3</a></li>
+					<li><a href="">演示中心4</a></li>
+					<li><a href="">中新知识城南安置区</a></li>
+				</ul>
+
+			</div>
+		</div>
+
+		<div class="right">
+			<div class="inquire">
+				<h3>查询条件</h3>
+				<div class="inpuire-detail">
+					<ul>
+						<li><span>小区名称：</span><input class="inpuire-input" type="text" value="" placeholder="请输入小区名称"></li>
+						<li><span>台区编号：</span><input class="inpuire-input" type="text" value="" placeholder="请输入台区编号"></li>
+						<li><span>用户编号：</span><input class="inpuire-input" type="text" value="" placeholder="请输入用户编号"></li>
+						<li><span>日期：</span><input class="inpuire-input" type="text" value="" id="date" placeholder="请输入日期"></li>
+					</ul>
+					<div class="inpuire-button">
+						<button class="layui-btn layui-btn-normal">查询</button><button class="layui-btn layui-btn-normal">导出Excel</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="result">
+				<h3>查询结果</h3>
+				<div class="result-detail">
+					<div class="layui-tab">
+						<ul class="layui-tab-title">
+							<li class="layui-this">电量</li>						
+							<li>气量</li>
+							<li>水量</li>
+						</ul>
+						<div class="layui-tab-content">
+							<div class="layui-tab-item layui-show">
+								<table class="layui-table">
+									<tr>
+										<th rowspan="2">序号</th>
+										<th rowspan="2">用户编号</th>
+										<th rowspan="2">用户名称</th>
+										<th rowspan="2">用户地址</th>
+										<th rowspan="2">台区名称</th>
+										<th rowspan="2">台区编号</th>
+										<th rowspan="2">表号</th>
+										<th rowspan="2">日期</th>
+										<th colspan="5">有功电量(kwh)</th>
+										<th rowspan="2">无功电量</th>
+									</tr>
+									<tr>
+										<th>总</th>
+										<th>尖</th>
+										<th>峰</th>
+										<th>平</th>
+										<th>谷</th>
+									</tr>
+
+									<tbody>
+										<tr>
+											<td>1</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>2</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>3</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>4</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>5</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>6</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>7</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>8</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+									</tbody>
+								</table>
+							</div>
+							<div class="layui-tab-item">
+								<table class="layui-table">
+									<tr>
+										<th rowspan="2">序号</th>
+										<th rowspan="2">用户编号</th>
+										<th rowspan="2">用户名称</th>
+										<th rowspan="2">用户地址</th>
+										<th rowspan="2">台区名称</th>
+										<th rowspan="2">台区编号</th>
+										<th rowspan="2">表号</th>
+										<th rowspan="2">日期</th>
+										<th colspan="5">有功电量(kwh)</th>
+										<th rowspan="2">无功电量</th>
+									</tr>
+									<tr>
+										<th>总</th>
+										<th>尖</th>
+										<th>峰</th>
+										<th>平</th>
+										<th>谷</th>
+									</tr>
+
+									<tbody>
+										<tr>
+											<td>1</td>
+											<td>水电费</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>2</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>3</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>4</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>5</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>6</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>7</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>8</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+									</tbody>
+								</table>
+							</div>
+							<div class="layui-tab-item"><table class="layui-table">
+									<tr>
+										<th rowspan="2">序号</th>
+										<th rowspan="2">用户编号</th>
+										<th rowspan="2">用户名称</th>
+										<th rowspan="2">用户地址</th>
+										<th rowspan="2">台区名称</th>
+										<th rowspan="2">台区编号</th>
+										<th rowspan="2">表号</th>
+										<th rowspan="2">日期</th>
+										<th colspan="5">有功电量(kwh)</th>
+										<th rowspan="2">无功电量</th>
+									</tr>
+									<tr>
+										<th>总</th>
+										<th>尖</th>
+										<th>峰</th>
+										<th>平</th>
+										<th>谷</th>
+									</tr>
+
+									<tbody>
+										<tr>
+											<td>1</td>
+											<td>用户编号</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>2</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>3</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>4</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>5</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>6</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>7</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+										<tr>
+											<td>8</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										
+									</tbody>
+								</table></div>
+						</div>
+						<div class="result-detail-bottom">
+						
+							<div id="page"></div>
+						</div>
+					</div>					
+				</div>
+			</div>
+		</div>
+		<script src="lib/dist/layui.js" charset="utf-8"></script>
+
+		<script>
+			layui.use('table', function() {
+				var table = layui.table;
+
+			});
+
+layui.use(['laypage', 'layer'], function(){
+  var laypage = layui.laypage
+  ,layer = layui.layer;
+  
+  //总页数低于页码总数
+  laypage.render({
+    elem: 'page'
+    ,count: 50 //数据总数
+  });
+});
+			layui.use('laydate', function() {
+				var laydate = layui.laydate;
+				//常规用法
+				laydate.render({
+					elem: '#date'
+				});
+				laydate.render({
+					elem: '#date2'
+				});
+				laydate.render({
+					elem: '#date3'
+				});
+			});
+			layui.use('element', function() {
+				var $ = layui.jquery,
+					element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+			});
+
+			$(document).ready(function() {
+				$(".myDiv").on("click", function() {
+					$(this).next("ul").slideToggle(300).siblings("ul").slideUp(500)
+				})
+			})
+		</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>
+			电力智能用电综合管理平台-登录日志
+		</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="./css/x-admin.css" media="all">
+		<script src="./lib/plugs/require/require.js"></script>
+		<script type="text/javascript" src="./lib/app.js"></script>
+
+		<style>
+			html {
+				height: 100%;
+			}
+			
+			body {
+				height: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		
+		<div class="left">
+			<div class="left-top">导航</div>
+			<div class="left-search">
+				<input class="left-input" type="text" value="" placeholder="请输入用户名称">
+				<input class="left-button" type="submit" value="" />
+			</div>
+			<div class="left-class">
+				<div class="myDiv">
+					<a href="log_login.html">登录日志</a>
+				</div>
+				
+				<!--<div class="myDiv">-->
+					<!--<a href="log_handle.html">操作日志</a>-->
+				<!--</div>-->
+				<!---->
+				<!--<div class="myDiv">-->
+					<!--<a href="log_backup.html">备份日志</a>-->
+				<!--</div>-->
+			</div>
+			
+			<div class="logo_xh"><img src="images/logo_xh.png"></div>
+		</div>
+
+
+		<div class="x-nav">
+			<span class="layui-breadcrumb" style="visibility: visible;">
+              <a><cite>首页</cite><span class="layui-box">&gt;</span></a>
+			  <a><cite>登录日志</cite></a>
+			</span>
+		</div>
+
+		<div class="right">
+
+			<div class="inquire">
+				<h3>查询条件</h3>
+				<div class="inpuire-detail">
+					<ul>
+						<form class="layui-form" action="">
+							<li>
+								<div class="layui-form-item">
+									<label class="layui-form-label">用户账号：</label>
+									<div class="layui-input-block">
+										<input type="text" name="name" id="input_search" style="width:350px;"
+											   placeholder="请输入搜索关键字" class="layui-input">
+									</div>
+								</div>
+							</li>
+							<li class="right">
+								<div class="inpuire-button">
+									<a class="layui-btn layui-btn-normal" id="btn_query"><i class="fa fa-search"></i> 查询</a>
+								</div>
+							</li>
+						</form>
+					</ul>
+				</div>
+			</div>
+
+			<div class="result">
+
+				<div class="result-detail">
+
+					<div class="layui-tab-content">
+						<div class="layui-tab-item layui-show">
+							<table class="layui-table">
+								<thead>
+									<tr>
+										<th>用户账号</th>
+										<th>用户名称</th>
+										<th>用户类型</th>
+										<th>登录IP</th>										
+										<th>登录时间</th>
+										<th>描述</th>
+									</tr>
+								</thead>
+								<tbody id="page_body">
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="result-detail-bottom">
+
+						<div style="float: right; margin-right: 30px;" id="page"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	
+	</body>
+	<script id="tpl_page" type="text/html">
+		{{# layui.each(d.items, function(index, v){ }}
+		<tr>
+			<td>{{ v.user_account }}</td>
+			<td>{{ v.username }}</td>
+			<td>{{ v.user_type }}</td>
+			<td>{{v.ip}}</td>
+			<td>{{v.creation_time.replace("T"," ")}}</td>
+			<td>
+				{{# if(v.remarks == null || v.remarks == ''){ }}
+				无描述
+				{{# }else{ }}
+				{{v.remarks}}
+				{{# } }}
+			</td>
+		</tr>
+		{{#  }); }}
+	</script>
+	<script>
+		require(['jquery', 'URL', 'app.plugs', 'listen'], function ($) {
+
+			layui.use(['laytpl', 'laypage', 'form','paging'], function () {
+
+				$("#btn_query").click(function () {
+
+					name = $("#input_search").val();
+					if (name === '' || name.length === 0) {
+						layer.msg('请输入搜索关键字');
+				}
+					fun(name);
+					return false;
+				});
+
+
+				plugs = requirejs('app.plugs');
+				URL = requirejs('URL');
+
+				var pageSize = 20;
+
+				var fun = function (name) {
+
+					var url = URL.getloginlog.list.format(name);
+
+					plugs.page(url, pageSize, function () {
+
+						$("a.remove").attr('data-url', URL.getloginlog.action);
+						$("a.edit_item").each(function (index, item) {
+							item = $(item);
+							var href = item.attr('href') + '&u=' + encodeURI(URL.getloginlog.controller_name + '?id=' + item.attr('data-id'));
+							$(item).attr('href', href);
+						});
+					});
+				}
+
+				fun('');
+			});
+
+
+		});
+	</script>
+</html>

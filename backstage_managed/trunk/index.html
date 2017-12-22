@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>电力智能用电综合管理平台</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" href="./css/x-admin.css" media="all">
+	<script src="./lib/plugs/require/require.js"></script>
+	<script type="text/javascript" src="./lib/app.js"></script>
+	<style>
+		.site-demo-title {
+			left: 0;
+		}
+		.layui-layer-iframe .layui-layer-btn, .layui-layer-page .layui-layer-btn {
+			position: absolute;
+			bottom: 10px;
+			right: 5px;
+		}
+		body .demo-class .layui-layer-title{background:#c00; color:#fff; border: none;}
+		/*.layui-nav .layui-nav-child dd.layui-this a, .layui-nav-child dd.layui-this{background-color:transparent;color:#333}*/
+	</style>
+
+</head>
+
+<body>
+
+<div class="layui-layout layui-layout-admin">
+	<div class="header header-demo">
+		<div class="layui-main">
+			<a class="logo" href="./index.html"><img src="images/logo.png"></a>
+
+			<ul class="layui-nav" style=" padding: 25px 10px 10px 10px; border-left: 1px solid #084075;" lay-filter="side">
+				<li class="layui-nav-item">
+					<a href="" title="消息">
+						<i class="layui-icon" style="top: 1px;">&#xe63a;</i> 警告
+					</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="javascript:;">
+						<i class="layui-icon yuan">&#xe612;</i><cite id="user_account"></cite>
+					</a>
+					<dl class="layui-nav-child">
+						<!-- 二级菜单 -->
+						<dd>
+							<a href="javascript:;" _href="./admin_login.html">
+								<!--<span><img src="images/guan-li-yuan.png"/></span>-->
+								<em><cite>个人信息</cite></em>
+							</a>
+						</dd>
+						<!--<dd>-->
+							<!--<a href="">切换帐号</a>-->
+						<!--</dd>-->
+						<dd>
+							<a href="./login.html" style="padding: 0 15px;">退出</a>
+						</dd>
+					</dl>
+				</li>
+			</ul>
+
+			<ul class="layui-nav nav" lay-filter="side" style="position: fixed; top:0px; right: 200px; background: #1368c2;">
+				<li class="layui-nav-item">
+					<a href="javascript:;" _href="./index.html">
+						<span><i class="layui-icon" style="font-size: 32px; display: block; padding-top: 3px;">&#xe68e;</i></span>
+						<em><cite>首页</cite></em>
+					</a>
+				</li>
+
+				<li class="layui-nav-item">
+					<a href="javascript:;" _href="./admin.html">
+						<span><img src="images/guan-li-yuan.png"/></span>
+						<em><cite>管理员管理</cite></em>
+					</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="javascript:;" _href="./facility_list.html">
+						<span><img src="images/shebei.png"/></span>
+						<em><cite>设备信息</cite></em></a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="javascript:;" _href="user.html">
+						<span><img src="images/yonghu-guanli.png"/></span>
+						<em><cite>用户管理</cite></em></a>
+				</li>
+
+				<li class="layui-nav-item">
+					<a href="javascript:;" _href="control.html">
+						<span><img src="images/kongzhi-celve.png"/></span>
+						<em><cite>控制策略</cite></em></a>
+				</li>
+
+				<!--<li class="layui-nav-item">-->
+					<!--&lt;!&ndash;<a href="javascript:;" _href="unauthorized.html">&ndash;&gt;-->
+						<!--<a href="javascript:;" _href="strategy.html">-->
+						<!--<span><img src="images/renwu-duilie.png"/></span>-->
+						<!--<em><cite>任务队列</cite></em></a>-->
+				<!--</li>-->
+
+				<li class="layui-nav-item">
+					<!--<a href="javascript:;" _href="unauthorized1.html">-->
+						<a href="javascript:;" _href="log_login.html">
+						<span><img src="images/rizhi.png"/></span>
+						<em><cite>日志</cite></em></a>
+				</li>
+
+				<li class="layui-nav-item">
+					<!--<a href="javascript:;" _href="unauthorized2.html">-->
+						<a href="javascript:;" _href="contract.html">
+						<span><img src="images/yonghu-qianyue.png"/></span>
+						<em><cite>用户签约</cite></em></a>
+				</li>
+
+				<li class="layui-nav-item" id="biaoji">
+					<!--<a href="javascript:;" _href="unauthorized3.html">-->
+						<a href="javascript:;" _href="warning.html">
+						<span><img src="images/yujing-xitong.png"/></span>
+						<em><cite>预警系统</cite></em></a>
+				</li>
+
+				<<li class="layui-nav-item">
+				<!--<a href="javascript:;" _href="unauthorized4.html">-->
+					<a href="javascript:;" _href="statement.html">
+					<span><img src="images/baobiao.png"/></span>
+					<em><cite>报表管理</cite></em></a>
+			</li>
+
+				<li class="layui-nav-item">
+					<!--<a href="javascript:;" _href="unauthorized5.html">-->
+						<a href="javascript:;" _href="system.html">
+						<span><img src="images/xitong-peizhi.png"/></span>
+						<em><cite>系统配置</cite></em></a>
+				</li>
+			</ul>
+
+
+		</div>
+	</div>
+
+	<div class="cd1">
+		<a class="cd">菜单</a>
+
+		<div class="class">
+			<ul class="layui-nav nav1" lay-filter="side">
+				<li class="layui-nav-item">
+					<a href="javascript:;" _href="./index.html">
+						<span><img src="images/guan-li-yuan.png"/></span>
+						<em><cite>首页</cite></em>
+					</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="javascript:;" _href="./admin.html">
+						<span><img src="images/guan-li-yuan.png"/></span>
+						<em><cite>管理员管理</cite></em>
+					</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="javascript:;" _href="./facility_list.html">
+						<span><img src="images/shebei.png"/></span>
+						<em><cite>设备信息</cite></em></a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="javascript:;" _href="user.html">
+						<span><img src="images/yonghu-guanli.png"/></span>
+						<em><cite>用户管理</cite></em></a>
+				</li>
+
+				<li class="layui-nav-item">
+					<a href="javascript:;" _href="control.html">
+						<span><img src="images/kongzhi-celve.png"/></span>
+						<em><cite>控制策略</cite></em></a>
+				</li>
+
+				<!--<li class="layui-nav-item">-->
+					<!--&lt;!&ndash;<a href="javascript:;" _href="unauthorized.html">&ndash;&gt;-->
+						<!--<a href="javascript:;" _href="strategy.html">-->
+						<!--<span><img src="images/renwu-duilie.png"/></span>-->
+						<!--<em><cite>任务队列</cite></em></a>-->
+				<!--</li>-->
+
+				<li class="layui-nav-item">
+					<!--<a href="javascript:;" _href="unauthorized1.html">-->
+						<a href="javascript:;" _href="log_login.html">
+						<span><img src="images/rizhi.png"/></span>
+						<em><cite>日志</cite></em></a>
+				</li>
+
+				<li class="layui-nav-item">
+					<!--<a href="javascript:;" _href="unauthorized2.html">-->
+						<a href="javascript:;" _href="contract.html">
+						<span><img src="images/yonghu-qianyue.png"/></span>
+						<em><cite>用户签约</cite></em></a>
+				</li>
+
+				<li class="layui-nav-item">
+					<!--<a href="javascript:;" _href="unauthorized3.html">-->
+						<a href="javascript:;" _href="warning.html">
+						<span><img src="images/yujing-xitong.png"/></span>
+						<em><cite>预警系统</cite></em></a>
+				</li>
+
+				<li class="layui-nav-item">
+					<!--<a href="javascript:;" _href="unauthorized4.html">-->
+						<a href="javascript:;" _href="statement.html">
+						<span><img src="images/baobiao.png"/></span>
+						<em><cite>报表管理</cite></em></a>
+				</li>
+
+				<li class="layui-nav-item">
+					<!--<a href="javascript:;" _href="unauthorized5.html">-->
+					<a href="javascript:;" _href="system.html">
+						<span><img src="images/xitong-peizhi.png"/></span>
+						<em><cite>系统配置</cite></em></a>
+				</li>
+			</ul>
+		</div>
+
+	</div>
+
+		<div class="layui-tab layui-tab-card site-demo-title x-main" lay-filter="x-tab" lay-allowclose="true">
+		<ul class="layui-tab-title">
+			<li class="layui-this">
+				首页
+				<i class="layui-icon layui-unselect layui-tab-close">ဆ</i>
+			</li>
+		</ul>
+		<div class="layui-tab-content site-demo site-demo-body">
+			<div class="layui-tab-item layui-show">
+				<iframe frameborder="0" src="welcome.html" class="x-iframe"></iframe>
+			</div>
+		</div>
+	</div>
+	<div class="site-mobile-shade">
+	</div>
+</div>
+
+<!--<script src="./js/jquery-1.11.0.js" charset="utf-8"></script>-->
+<!--<script src="./lib/layer/layer.js" charset="utf-8"></script>-->
+<!--<script src="./lib/layui/layui.js" charset="utf-8"></script>-->
+<!--<script src="./js/x-admin.js"></script>-->
+<script type="text/javascript">
+	require(['jquery', 'URL', 'app.plugs', 'listen'], function ($) {
+
+		layui.use(['element','laytpl', 'laypage', 'form', 'paging'], function () {
+			element = layui.element();
+			$('.layui-nav-item').click(function (event) {
+				$(this).siblings().removeClass('layui-nav-itemed');
+			});
+
+			$('.layui-tab-title li').eq(0).find('i').remove();
+
+			height = $('.layui-layout-admin .site-demo').height();
+			$('.layui-layout-admin .site-demo').height(height - 100);
+
+			if ($(window).width() < 750) {
+				trun = 0;
+				$('.x-slide_left').css('background-position', '0px -61px');
+			} else {
+				trun = 1;
+			}
+			$('.x-slide_left').click(function (event) {
+				if (trun) {
+					$('.x-side').animate({left: '-200px'}, 200).siblings('.x-main').animate({left: '0px'}, 200);
+					$(this).css('background-position', '0px -61px');
+					trun = 0;
+				} else {
+					$('.x-side').animate({left: '0px'}, 200).siblings('.x-main').animate({left: '200px'}, 200);
+					$(this).css('background-position', '0px 0px');
+					trun = 1;
+				}
+
+			});
+
+
+			//监听导航点击
+			element.on('nav(side)', function (elem) {
+				title = elem.find('cite').text();
+				url = elem.find('a').attr('_href');
+
+				for (var i = 0; i < $('.x-iframe').length; i++) {
+
+					if ($('.x-iframe').eq(i).attr('src') == url) {
+						console.log('=>'+i);
+						element.tabChange('x-tab', i);
+
+						return;
+					}
+				};
+				if(url.indexOf("index.html") == -1 ) {
+					res = element.tabAdd('x-tab', {
+						title: title//用于演示
+						, content: '<iframe frameborder="0" src="' + url + '" class="x-iframe"></iframe>'
+						, id: i
+					});
+				}else{
+						$('.layui-tab-title').find('li').eq(0).addClass('layui-this').siblings().removeClass('layui-this');
+						$('.x-iframe').eq(0).parent('.layui-tab-item').addClass('layui-show').siblings().removeClass('layui-show');
+						return;
+				}
+				element.tabChange('x-tab', $('.layui-tab-title li').length - 1);
+
+				$('.layui-tab-title li').eq(0).find('i').remove();
+			});
+
+		$(document).ready(function() {
+			var account=localStorage.getItem("account");
+			if(account){
+				$("#user_account").text(account);
+			}
+
+			$(".cd1").click(function(event) {
+				if(!$(this).hasClass("class") && !$(this).hasClass("cd")) {
+					$(".class").toggle();
+				}
+				event.stopPropagation(); //阻止事件冒泡
+			});
+
+			plugs = requirejs('app.plugs');
+			URL = requirejs('URL');
+			var pageSize = 20;
+			var action = {
+				/**
+				 * 预警加载
+				 */
+				init_data: function () {
+
+					plugs.ajax(URL.warning.list.format('0','')+'&pSize=20&pIndex=0&pageSize=20', {}, function (data) {
+						if (data.code == 1) {
+							if(data.data.items.length != 0){
+								layer.open({
+									type: 1
+									,title:'预警'
+									,skin: 'demo-class'
+									,offset: 'rb'
+									,id: 'layerDemo' //防止重复弹出
+									,content: '<div style="letter-spacing:2px;padding:20px 40px;width: 220px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;border: 10px solid #c00;border-top-width: 0;">' +
+									''+data.data.items[0].warning_title+'<br>'+
+									'<br>'+data.data.items[0].estate_name+'小区'+data.data.items[0].estate_ridgepole_name+data.data.items[0].estate_house_name+'号<br>' +
+									'<br>用户:'+data.data.items[0].username+'<br>' +
+									'</div>'
+									,anim: 6
+									,btn: '立即处理'
+									,yes: function(index, layero){
+										title = $('#biaoji').find('cite').text();
+										url = $('#biaoji').find('a').attr('_href');
+										layer.closeAll();
+										for (var i = 0; i < $('.x-iframe').length; i++) {
+											if ($('.x-iframe').eq(i).attr('src') == url) {
+												element.tabChange('x-tab', i);
+												return;
+											}
+										};
+										res = element.tabAdd('x-tab', {
+											title: title//用于演示
+											, content: '<iframe frameborder="0" src="' + url + '" class="x-iframe"></iframe>'
+											,id:i
+										});
+										element.tabChange('x-tab', $('.layui-tab-title li').length - 1);
+										$('.layui-tab-title li').eq(0).find('i').remove();
+									}
+									,shade: 0 //不显示遮罩
+									,resize: false
+									,success: function(layero, index){
+										layer.style(index, {
+											marginLeft: -18
+										});
+									}
+
+								});
+							}
+						} else {
+//							layer.msg('请求失败，请稍后再试', {
+//								icon: 5
+//							});
+						}
+					}, function () {
+
+					}, 'GET');
+				}
+			};
+//			action.init_data();
+			setInterval(function () {
+			 action.init_data();
+			 }, 60000)
+		});
+		});
+});
+</script>
+
+</body>
+
+</html>

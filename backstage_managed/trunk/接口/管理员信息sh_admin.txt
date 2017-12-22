@@ -1,0 +1,73 @@
+一、列表
+GET请求
+http://dev.api.smarthome.com/api/admin?name=&pIndex=1&pSize=10
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "items": [
+            {
+                "id": 1,
+                "account": "admin",
+                "password": "49BA59ABBE56E057",
+                "name": "刘备",
+                "mobile": "13266668888",
+                "email": "123@123.com",
+                "creation_time": "2017-09-08T13:49:18",
+                "status": 1,
+                "group_name": "超级管理员",
+                "remarks": "hh"
+            }
+        ],
+        "count": 1,
+        "page": 1
+    }
+}
+
+二、详情
+GET请求
+http://dev.api.smarthome.com/api/admin?id=1
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "id": 1,
+        "account": "admin",
+        "password": "49BA59ABBE56E057",
+        "name": "刘备",
+        "mobile": "13266668888",
+        "email": "123@123.com",
+        "creation_time": "2017-09-08T13:49:18",
+        "status": 1,
+        "group_name": "超级管理员",
+        "remarks": "hh"
+    }
+}
+
+
+
+三、删除
+DELETE请求
+http://dev.api.smarthome.com/api/admin?id=2
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}
+
+
+
+四、新增/修改
+POST请求
+http://dev.api.smarthome.com/api/admin
+
+参数：{"id":"0","account":"test","password":"49BA59ABBE56E057","name":"zhangsan","mobile":"13266225588","email":"12356@123.com","status":"1","group_id":"1","remarks":"hhtest"}
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}

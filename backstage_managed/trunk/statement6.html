@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>
+			电力智能用电综合管理平台-报表管理
+		</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="./css/x-admin.css" media="all">
+		<script src="./lib/plugs/require/require.js"></script>
+		<script type="text/javascript" src="./lib/app.js"></script>
+
+		<style>
+			html {
+				height: 100%;
+			}
+			
+			body {
+				height: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="left">
+			<div class="left-top">导航</div>
+			<div class="left-search">
+				<input class="left-input" type="text" value="" placeholder="请输入用户名称">
+				<input class="left-button" type="submit" value="" />
+			</div>
+			<div class="left-class">
+				<div class="myDiv">
+					<a href="statement.html">高峰期用电数据分析报表</a>
+				</div>
+
+				<div class="myDiv">周期性用电数据分析报表</div>
+				<ul>
+						<li>
+							<a href="statement1_1.html">天分析报表</a>
+						</li>
+						<li>
+							<a href="statement1_2.html">月分析报表</a>
+						</li>
+						<li>
+							<a href="statement1_3.html">季度分析报表</a>
+						</li>
+						<li>
+							<a href="statement1_4.html">年度分析报表</a>
+						</li>
+					</ul>
+
+				<div class="myDiv">
+					<a href="statement2.html">用电习惯分析报表</a>
+				</div>
+
+				<div class="myDiv">
+					<a href="statement3.html">用电功率分析报表</a>
+				</div>
+
+				<div class="myDiv">
+					<a href="statement4.html">用电电力统计报表</a>
+				</div>
+
+				<div class="myDiv">
+					<a href="statement5.html">用电费率统计报表</a>
+				</div>
+
+				<div class="myDiv">
+					<a href="statement6.html">已授权设备报表</a>
+				</div>
+
+			</div>
+			
+			<div class="logo_xh"><img src="images/logo_xh.png"></div>
+		</div>
+
+		<div class="x-nav">
+			<span class="layui-breadcrumb" style="visibility: visible;">
+              <a><cite>首页</cite><span class="layui-box">&gt;</span></a>
+			<a><cite>报表管理</cite></a>
+			</span>
+		</div>
+
+		<div class="right">
+
+			<div class="inquire">
+				<h3>查询条件</h3>
+				<div class="inpuire-detail">
+					<ul>
+						<form class="layui-form" action="">
+							<li><span>设备编号：</span><input class="inpuire-input" type="text" value="" placeholder="请输入设备编号"></li>
+							<li><span>设备名称：</span><input class="inpuire-input" type="text" value="" placeholder="请输入设备名称"></li>
+							<li class="right">
+								<div class="inpuire-button">
+									<button class="layui-btn layui-btn-normal"><i class="fa fa-search"></i> 查询</button>
+								</div>
+							</li>
+						</form>
+					</ul>
+				</div>
+			</div>
+
+			<div class="result">
+
+				<div class="result-detail">
+
+					<div class="layui-tab-content">
+						<div class="layui-tab-item layui-show">
+							<table class="layui-table">
+								<thead>
+									<tr>
+										<th>设备编号</th>
+										<th>设备名称</th>
+										<th>设备类型</th>
+										<th>设备品牌</th>
+										<th>设备型号</th>
+										<th>生产厂家</th>
+										<th>生产批次</th>
+										<th>生产编号</th>
+										<th>生产时间</th>
+										<th>功率</th>
+										<th>电压</th>
+										<th>电流</th>
+										<th>电量单位</th>
+										<th>授权时间</th>
+										<th>状态</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>EQP000032</td>
+										<td>空调（儿童房）</td>
+										<td>空调</td>
+										<td>格力</td>
+										<td>智能家居（型号）</td>
+										<td>大风厂</td>
+										<td>20170405</td>
+										<td>N123456</td>
+										<td>2016-7-8</td>
+										<td>200w</td>
+										<td>300W</td>
+										<td>1321</td>
+										<td>kw</td>
+										<td>2017-05-06</td>
+										<td>已授权</td>
+									</tr>
+									<tr>
+										<td>EQP000031</td>
+										<td>空调（客房）</td>
+										<td>空调</td>
+										<td>格力</td>
+										<td>智能家居（型号）</td>
+										<td>大风厂</td>
+										<td>20170405</td>
+										<td>N123456</td>
+										<td>2016-7-8</td>
+										<td>200w</td>
+										<td>300W</td>
+										<td>1321</td>
+										<td>kw</td>
+										<td>2017-05-06</td>
+										<td>已授权</td>
+									</tr>
+
+									<tr>
+										<td>EQP000030</td>
+										<td>空调（主卧）</td>
+										<td>空调</td>
+										<td>格力</td>
+										<td>智能家居（型号）</td>
+										<td>大风厂</td>
+										<td>20170405</td>
+										<td>N123456</td>
+										<td>2016-7-8</td>
+										<td>200w</td>
+										<td>300W</td>
+										<td>1321</td>
+										<td>kw</td>
+										<td>2017-05-06</td>
+										<td>已授权</td>
+									</tr>
+
+									<tr>
+										<td>EQP000029</td>
+										<td>空调2（大厅）</td>
+										<td>空调</td>
+										<td>格力</td>
+										<td>智能家居（型号）</td>
+										<td>大风厂</td>
+										<td>20170405</td>
+										<td>N123456</td>
+										<td>2016-7-8</td>
+										<td>200w</td>
+										<td>300W</td>
+										<td>1321</td>
+										<td>kw</td>
+										<td>2017-05-06</td>
+										<td>已授权</td>
+									</tr>
+
+									<tr>
+										<td>EQP000028</td>
+										<td>灯带（卫生间）</td>
+										<td>灯带</td>
+										<td>格力</td>
+										<td>智能家居（型号）</td>
+										<td>大风厂</td>
+										<td>20170405</td>
+										<td>N123456</td>
+										<td>2016-7-8</td>
+										<td>200w</td>
+										<td>300W</td>
+										<td>1321</td>
+										<td>kw</td>
+										<td>2017-05-06</td>
+										<td>已授权</td>
+									</tr>
+
+									<tr>
+										<td>EQP000026</td>
+										<td>排气扇（卫生间）</td>
+										<td>排气扇</td>
+										<td>格力</td>
+										<td>智能家居（型号）</td>
+										<td>大风厂</td>
+										<td>20170405</td>
+										<td>N123456</td>
+										<td>2016-7-8</td>
+										<td>200w</td>
+										<td>300W</td>
+										<td>1321</td>
+										<td>kw</td>
+										<td>2017-05-06</td>
+										<td>已授权</td>
+									</tr>
+
+									<tr>
+										<td>EQP000025</td>
+										<td>厨房灯（厨房）</td>
+										<td>灯</td>
+										<td>格力</td>
+										<td>智能家居（型号）</td>
+										<td>大风厂</td>
+										<td>20170405</td>
+										<td>N123456</td>
+										<td>2016-7-8</td>
+										<td>200w</td>
+										<td>300W</td>
+										<td>1321</td>
+										<td>kw</td>
+										<td>2017-05-06</td>
+										<td>已授权</td>
+									</tr>
+									<tr>
+										<td>EQP000020</td>
+										<td>平开帘（主卧）</td>
+										<td>窗帘</td>
+										<td>格力</td>
+										<td>智能家居（型号）</td>
+										<td>大风厂</td>
+										<td>20170405</td>
+										<td>N123456</td>
+										<td>2016-7-8</td>
+										<td>200w</td>
+										<td>300W</td>
+										<td>1321</td>
+										<td>kw</td>
+										<td>2017-05-06</td>
+										<td>已授权</td>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="result-detail-bottom">
+
+						<div id="page"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+
+<script type="text/javascript">
+			require(['jquery', 'URL', 'app.plugs', 'listen'], function($) {
+
+				layui.use(['laytpl', 'laypage', 'form'], function() {
+
+					$("#btn_query").click(function() {
+
+						name = $("#input_search").val();
+						if(name === '' || name.length === 0) {
+							layer.msg('请输入搜索关键字');
+						}
+						fun(name);
+						return false;
+					});
+
+					$(document).ready(function() {
+						$(".myDiv").on("click", function() {
+							$(this).next("ul").slideToggle(300).siblings("ul").slideUp(500)
+						})
+					})
+
+					plugs = requirejs('app.plugs');
+					URL = requirejs('URL');
+
+					var pageSize = 20;
+
+					
+				});
+
+			});
+		</script>
+
+	</body>
+
+</html>

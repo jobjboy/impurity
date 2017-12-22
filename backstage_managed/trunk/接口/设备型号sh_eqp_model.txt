@@ -1,0 +1,48 @@
+一、列表
+GET请求
+http://dev.api.smarthome.com/api/eqpmodel?name=&pIndex=1&pSize=10
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "items": [
+            {
+                "id": 1,
+                "name": "XHGL0001",
+                "parent_id": 0,
+                "status": 1,
+                "operation_time": "2017-09-08T13:46:57",
+                "operation_user": 1,
+                "remarks": null
+            }
+        ],
+        "count": 1,
+        "page": 1
+    }
+}
+
+
+二、删除
+DELETE请求
+http://dev.api.smarthome.com/api/eqpmodel?id=2
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}
+
+
+
+三、新增/修改
+POST请求
+http://dev.api.smarthome.com/api/eqpmodel
+
+参数：{"id":"0","name":"test","parent_id":"0","remarks":""}
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}

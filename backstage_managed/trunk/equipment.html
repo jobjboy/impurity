@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>电力智能用电综合管理平台</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="./css/x-admin.css" media="all">
+    <script src="./lib/plugs/require/require.js"></script>
+    <script type="text/javascript" src="./lib/app.js"></script>
+    <style>
+        a {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+<div class="x-body" style="height: 100%;    overflow: visible;">
+    <div class="x-body-title" style="height: 75px;color: #fff;">设备能耗监控
+        <div class="layui-inline" style=" font-size: 14px; margin-left: 50px;">
+            <form class="layui-form" action="">
+                <label class="layui-form-label">请选择小区</label>
+                <div class="layui-input-inline" style="color: #000">
+                    <select name="interest" lay-filter="aihao" id="select_plot_estate">
+                        <option value="1">1号小区</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float: right"
+           href="javascript:window.history.back();" title="返回"><i class="layui-icon" style="line-height:30px">
+            &#xe65c;</i></a>
+    </div>
+    <!--.-->
+    <div class="x-body-chart" id="char1" style=" height: 500px;">
+    </div>
+
+    <div class="x-body-chart" id="char2" style=" height: 500px;">
+    </div>
+
+
+    <script type="text/html" id="tpl_item">
+        {{#  layui.each(d, function(index, item){ }}
+        <option value="{{item.id}}">{{ item.name }}</option>
+        {{#  }); }}
+    </script>
+
+
+    <script>
+        require(['jquery', 'URL', 'app.plugs', 'echarts', 'listen'], function ($, URL, plugs, echarts) {
+            plugs = requirejs('app.plugs');
+            URL = requirejs('URL');
+            var estateId = 1;
+
+            layui.use(['laytpl', 'laypage', 'form', 'paging', 'laydate'], function () {
+                var form = layui.form,
+                    layer = layui.layer,
+                    laydate = layui.laydate;
+
+                layui.form().on('select(aihao)', function (data) {
+                    if (data.value != estateId && data.value != 'undefined') {
+                        estateId = data.value;
+                        geteqpelecmonitoring(estateId);
+                    }
+                });
+
+
+                var getTpl = tpl_item.innerHTML
+                    , view = document.getElementById('select_plot_estate');
+                plugs.ajax(URL.plot_estate.format(1, 100), {}, function (res) {
+                    if (res.code == '1') {
+                        data = res.data.items;
+                        data.reverse();
+                        geteqpelecmonitoring(data[0].id);
+                        laytpl(getTpl).render(data, function (html) {
+
+                            view.innerHTML = html;
+                            layui.form().render();
+                        });
+
+//                        laytpl(getTpl2).render(data, function (html) {
+//                            view2.innerHTML = html;
+//                            layui.form().render();
+//                        });
+                    }
+                }, null, 'get');
+            });
+
+
+            //定时器
+            setInterval(function () {
+                geteqpelecmonitoring(estateId);
+            }, 300000);
+
+//                    小区能耗监控
+            function geteqpelecmonitoring(estateId) {
+                plugs.ajax(URL.geteqpelecmonitoringbyhour.format(estateId), {}, function (res) {
+                        if (res.code == '1') {
+                            var hours = [];
+                            var name=[]
+                            var map = new Map();
+                            $.each(res.data, function (index, item) {
+                                if (hours.indexOf(item.hour) === -1) {
+                                    hours.push(item.hour);
+                                }
+                                var type = item.eqp_type;
+
+                                if (map.has(type)) {
+                                    var obj = map.get(type);
+                                    obj.push(item.energy);
+                                    map.set(type, obj);
+                                } else {
+                                    map.set(type, [item.energy]);
+                                }
+                            });
+                            var arr = [];
+                            for (var [key, val] of map.entries()) {
+                                arr.push([key, val]);
+                            }
+                            series = JSON.parse(JSON.stringify(arr));
+                            var series_data = [];
+                            $.each(series, function (index, item) {
+                                name.push(item[0]);
+                                serie = {
+                                    name: item[0],
+                                    type: 'line',
+                                    smooth: true,
+//                                    stack: '总量',
+                                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                                    data: item[1]
+                                };
+                                series_data.push(serie);
+                            });
+
+                            // 基于准备好的dom，初始化echarts实例
+                            var myChart = echarts.init(document.getElementById('char1'));
+                            // 指定图表的配置项和数据
+                            option = {
+                                titleColor: "#ffffff",
+                                markTextColor: "#293441",
+                                lineSmooth: true,
+                                backgroundColor: "#1368c4",
+                                color: [
+                                    "#fc97af",
+                                    "#87f7cf",
+                                    "#f7f494",
+                                    "#72ccff",
+                                    "#f7c5a0",
+                                    "#d4a4eb",
+                                    "#d2f5a6",
+                                    "#76f2f2"
+                                ],
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    top:'3%',
+                                    textStyle:{color:'#fff'},
+                                    data:name
+                                },
+                                culable: false,
+                                grid: {
+                                    left: '3%',
+                                    right: '5%',
+                                    bottom: '10%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    top:'1%',
+                                    right:'1%',
+                                    feature: {
+                                        saveAsImage: {iconStyle:{normal:{borderColor:'#fff',borderWidth:1}}}
+                                    }
+                                },
+                                xAxis: {
+                                    splitLine:{show: false},//去除网格线
+//                            splitArea : {show : true},//保留网格区域
+                                    type: 'category',
+                                    //  改变x轴颜色
+                                    axisLine:{lineStyle:{color:'#fff' }},
+                                    //  改变x轴字体颜色和大小
+                                    axisLabel: {textStyle: {color: '#ddd'}},
+                                    boundaryGap: false,
+                                    name: '时间（h）',
+                                    data: hours
+                                },
+                                yAxis: {
+                                    // 去除y轴上的刻度线
+//                                    axisTick: {show: false },
+                                    //  改变x轴颜色
+                                    axisLine:{lineStyle:{color:'#fff' }},
+                                    //  改变x轴字体颜色和大小
+                                    axisLabel: {textStyle: {color: '#ddd'}},
+                                    splitLine:{show: false},//去除网格线
+                                    splitArea : {show:true,areaStyle : {color: 'rgba(250,250,250,0.3)'}},//保留网格区域
+                                    name:'设备用电量',
+                                    type: 'value'
+                                },
+                                series: series_data,
+                            };
+                            myChart.setOption(option);
+                        }
+                    },
+                    null, 'get'
+                );
+
+                plugs.ajax(URL.geteqpelecmonitoringbyminute.format(estateId), {}, function (res) {
+                        if (res.code == '1') {
+                            var minutes = [];
+                            var name = [];
+                            var map = new Map();
+                            $.each(res.data, function (index, item) {
+                                if (minutes.indexOf(item.minute) === -1) {
+                                    minutes.push(item.minute);
+                                }
+                                var type = item.eqp_type;
+
+                                if (map.has(type)) {
+                                    var obj = map.get(type);
+                                    obj.push(item.energy);
+                                    map.set(type, obj);
+                                } else {
+                                    map.set(type, [item.energy]);
+                                }
+                            });
+                            var arr = [];
+                            for (var [key, val] of map.entries()) {
+                                arr.push([key, val]);
+                            }
+                            series = JSON.parse(JSON.stringify(arr));
+                            var series_data = [];
+                            $.each(series, function (index, item) {
+                                name.push(item[0]);
+                                serie = {
+                                    name: item[0],
+                                    type: 'line',
+                                    smooth: true,
+//                                    stack: '总量',
+                                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                                    data: item[1]
+                                };
+                                series_data.push(serie);
+                            });
+                            // 基于准备好的dom，初始化echarts实例
+                            var myChart = echarts.init(document.getElementById('char2'));
+                            // 指定图表的配置项和数据
+                            option = {
+                                titleColor: "#ffffff",
+                                markTextColor: "#293441",
+                                lineSmooth: true,
+                                backgroundColor: "#1368c4",
+                                color: [
+                                    "#fc97af",
+                                    "#87f7cf",
+                                    "#f7f494",
+                                    "#72ccff",
+                                    "#f7c5a0",
+                                    "#d4a4eb",
+                                    "#d2f5a6",
+                                    "#76f2f2"
+                                ],
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    top:'3%',
+                                    textStyle:{color:'#fff'},
+                                    data:name
+                                },
+                                culable: false,
+                                grid: {
+                                    left: '3%',
+                                    right: '5%',
+                                    bottom: '15%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    top:'1%',
+                                    right:'1%',
+                                    feature: {
+                                        saveAsImage: {iconStyle:{normal:{borderColor:'#fff',borderWidth:1}}}
+                                    }
+                                },
+                                xAxis: {
+                                    splitLine:{show: false},//去除网格线
+//                            splitArea : {show : true},//保留网格区域
+                                    type: 'category',
+                                    //  改变x轴颜色
+                                    axisLine:{lineStyle:{color:'#fff' }},
+                                    //  改变x轴字体颜色和大小
+                                    axisLabel: {textStyle: {color: '#ddd'}},
+                                    boundaryGap: false,
+                                    name: '时间（min）',
+                                    data: minutes
+                                },
+                                yAxis: {
+                                    // 去除y轴上的刻度线
+//                                    axisTick: {show: false },
+                                    //  改变x轴颜色
+                                    axisLine:{lineStyle:{color:'#fff' }},
+                                    //  改变x轴字体颜色和大小
+                                    axisLabel: {textStyle: {color: '#ddd'}},
+                                    splitLine:{show: false},//去除网格线
+                                    splitArea : {show:true,areaStyle : {color: 'rgba(250,250,250,0.3)'}},//保留网格区域
+                                    name:'用电量',
+                                    type: 'value'
+                                },
+                                "dataZoom": [{
+                                    "show": true,
+                                    "height": 30,
+                                    "xAxisIndex": [
+                                        0
+                                    ],
+                                    bottom: 10,
+                                    "start": 0,
+                                    "end": 100,
+                                    handleIcon: 'M8.2,13.6V3.9H6.3v9.7H3.1v14.9h3.3v9.7h1.8v-9.7h3.3V13.6H8.2z M9.7,24.4H4.8v-1.4h4.9V24.4z M9.7,19.1H4.8v-1.4h4.9V19.1z',
+                                    handleSize: '110%',
+                                    handleStyle:{
+                                        color:"#d3dee5",
+
+                                    },
+                                    textStyle:{
+                                        color:"#fff"},
+                                    borderColor:"#90979c"
+                                }, {
+                                    "type": "inside",
+                                    "show": true,
+                                    "height": 15,
+                                    "start": 1,
+                                    "end": 60
+                                }],
+                                series: series_data,
+                            };
+                            myChart.setOption(option);
+                        }
+                    },
+                    null, 'get'
+                );
+            }
+        })
+        ;
+    </script>
+
+</div>
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>中国南方电网-广州供电局-系统管理后台</title>
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" type="text/css" href="css/banner.css"/>
+    <script src="./lib/plugs/require/require.js"></script>
+    <script type="text/javascript" src="./lib/app.js"></script>
+    <!--<script type="text/javascript" src="js/banner.js"></script>-->
+
+</head>
+<body>
+<div class="head">
+    <div class="logo" style="margin-top:26px;"><img src="images/logo_login.png"></div>
+    <!--<div class="login_xh"><img src="images/logo_xh.png"></div>-->
+
+</div>
+
+<div class="main">
+    <div class="main-center">
+        <div class="pro-switch">
+            <div class="flexslider">
+                <ul class="slides">
+                    <li>
+                        <div style=" background:url(images/img.png) no-repeat center; height:380px;"></div>
+                    </li>
+                    <li>
+                        <div style=" background:url(images/img.png) no-repeat center; height:380px;"></div>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+
+        <div class="login">
+            <h3>用户登录</h3>
+            <form id="geetest" action="{:U('Home/Index/geetest_submit_check')}" method="post">
+                <div class="login-name">账 号：<span class="username"></span><input type="text" id="username"
+                                                                                 name="username" value=""
+                                                                                 placeholder="请输入用户名"></div>
+                <div class="login-password">密 码：<span class="password"></span><input type="text" name="password"
+                                                                                     id="password" value="smarthomeadmin"
+                                                                                     placeholder="请输入密码"></div>
+
+                <!--<div class="login-name">账  号：<span class="username"></span><input type="text" id="username" name="username" value="admin" placeholder="请输入用户名"> </div>
+                <div class="login-password">密  码：<span class="password"></span><input type="text" name="password" id="password" value="smarthomeadmin" placeholder="请输入密码"></div>-->
+
+                <button type="button" id="login_btn" class="login-button">登录</button>
+                <!-- <input type="submit" value="post提交登录">-->
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+<!--<div class="footer">
+    智能家居系统</div>-->
+
+
+<script type="text/javascript">
+
+
+    require(['jquery', 'md5', 'URL', 'app.plugs', 'listen', 'banner'], function ($, md5) {
+
+        var login_btn = $("#login_btn");
+
+
+        $('.flexslider').flexslider({
+            animation: "slide",
+            start: function (slider) {
+                $('body').removeClass('loading');
+            }
+        });
+
+        document.onkeyup = function (e) {
+
+            if (window.event)//如果window.event对象存在，就以此事件对象为准
+                e = window.event;
+            var code = e.charCode || e.keyCode;
+            if (code == 13) {
+
+                document.getElementById("login_btn").click();
+                return false;
+            }
+        }
+
+
+        login_btn.click(function () {
+
+
+            var username = $("#username").val();
+            var password = $("#password").val().MD5();
+
+            if (!username) {
+                layer.msg('请输入账号');
+                return;
+            }
+            if (!$("#password").val()) {
+                layer.msg('请输入密码');
+                return;
+            }
+            $(this).text('正在登录...');
+            plugs.checkToken(username, password, function () {
+                location.href = './index.html';
+            });
+
+        });
+    });
+</script>
+
+</body>
+</html>

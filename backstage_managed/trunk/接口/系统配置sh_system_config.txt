@@ -1,0 +1,68 @@
+一、列表
+GET请求
+http://dev.api.smarthome.com/api/systemconfig?name=&pIndex=1&pSize=10
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "items": [
+            {
+                "id": 4,
+                "name": "二维码",
+                "code": "ed83983c-9def-11e7-8f6f-00ff09f96e26",
+                "content": "二维码二维码二维码二维码二维码二维码二维码"
+            },
+            {
+                "id": 3,
+                "name": "服务电话",
+                "code": "e1c6d874-9def-11e7-8f6f-00ff09f96e26",
+                "content": "服务电话服务电话服务电话服务电话服务电话服务电话"
+            },
+            {
+                "id": 2,
+                "name": "版权信息",
+                "code": "d5b16cf9-9def-11e7-8f6f-00ff09f96e26",
+                "content": "版权信息版权信息版权信息版权信息版权信息版权信息"
+            },
+            {
+                "id": 1,
+                "name": "关于我们",
+                "code": "be15d3f6-9def-11e7-8f6f-00ff09f96e26",
+                "content": "关于我们关于我们关于我们关于我们关于我们关于我们"
+            }
+        ],
+        "count": 4,
+        "page": 1
+    }
+}
+
+
+二、详情
+GET请求
+http://dev.api.smarthome.com/api/systemconfig?id=2
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "id": 1,
+        "name": "关于我们",
+        "code": "be15d3f6-9def-11e7-8f6f-00ff09f96e26",
+        "content": "关于我们关于我们关于我们关于我们关于我们关于我们"
+    }
+}
+
+
+
+三、修改
+POST请求
+http://dev.api.smarthome.com/api/systemconfig
+
+参数：{"id":"1","name":"test","content":"guanyuwomen"}
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}

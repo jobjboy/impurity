@@ -1,0 +1,45 @@
+一、列表
+GET请求
+http://dev.api.smarthome.com/api/estateridgepole?name=&pIndex=1&pSize=10
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "items": [
+            {
+                "id": 1,
+                "estate_id": 1,
+                "name": "6栋",
+                "remarks": null
+            }
+        ],
+        "count": 1,
+        "page": 1
+    }
+}
+
+
+二、删除
+DELETE请求
+http://dev.api.smarthome.com/api/estateridgepole?id=2
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}
+
+
+
+三、新增/修改
+POST请求
+http://dev.api.smarthome.com/api/estateridgepole
+
+参数：{"id":"0","estate_id":"1","name":"12栋","remarks":""}
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}

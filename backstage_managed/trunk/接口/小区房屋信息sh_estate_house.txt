@@ -1,0 +1,46 @@
+一、列表
+GET请求
+http://dev.api.smarthome.com/api/estatehouse?name=&pIndex=1&pSize=10
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "items": [
+            {
+                "id": 1,
+                "estate_id": 1,
+                "estate_ridgepole_id": 1,
+                "name": "806",
+                "remarks": null
+            }
+        ],
+        "count": 1,
+        "page": 1
+    }
+}
+
+
+二、删除
+DELETE请求
+http://dev.api.smarthome.com/api/estatehouse?id=2
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}
+
+
+
+三、新增/修改
+POST请求
+http://dev.api.smarthome.com/api/estatehouse
+
+参数：{"id":"0","name":"test","estate_id":"1","estate_ridgepole_id":"1","remarks":""}
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}

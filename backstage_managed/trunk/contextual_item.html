@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>
+        电力智能用电综合管理平台-用户管理
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="./css/x-admin.css" media="all">
+    <script src="./lib/plugs/require/require.js"></script>
+    <script type="text/javascript" src="./lib/app.js"></script>
+    <style>
+	html{
+		height: 100%;
+	}
+	body{
+		height: 100%;
+	}
+    #execute {
+        position: absolute;
+        top: 60px;
+        left: 110px;
+        width: 278px;
+    }
+
+    #layui-laydate1 .laydate-icon {
+        background: none;
+    }
+
+</style>
+</head>
+
+<body>
+<div class="left">
+    <div class="left-top">导航</div>
+    <div class="left-search">
+        <input class="left-input" type="text" value="" placeholder="请输入用户名称">
+        <input class="left-button" type="submit" value=""/>
+    </div>
+    <div class="left-class">
+        <div class="myDiv">
+            <a href="user_plot.html">小区</a>
+        </div>
+
+        <div class="myDiv">
+            <a href="user_building.html">楼栋</a>
+        </div>
+
+        <div class="myDiv">
+            <a href="user_room.html">房号</a>
+        </div>
+
+        <div class="myDiv">
+            <a href="user.html">用户管理</a>
+        </div>
+
+        <div class="myDiv">
+            <a href="user_summary.html">用户设备</a>
+        </div>
+        <div class="myDiv">
+            <a href="scene.html">场景</a>
+        </div>
+
+        <div class="myDiv">
+            <a href="contextual.html">情景</a>
+        </div>
+    </div>
+    
+    <div class="logo_xh"><img src="images/logo_xh.png"></div>
+</div>
+
+<div class="x-nav">
+			<span class="layui-breadcrumb" style="visibility: visible;">
+              <a href="user.html"><cite>用户管理</cite><span class="layui-box">&gt;</span></a>
+			<a href="contextual.html"><cite>情景</cite></a>
+			</span>
+</div>
+
+<div class="right">
+    <div class="right_detail">
+        <form class="layui-form" action="">
+            <div class="layui-inline">
+                <div class="layui-input-inline">
+                    <input type="text" name="execute_time" class="layui-input" id="execute" placeholder="HH:mm:ss">
+                </div>
+            </div>
+            <div class="layui-form-item">
+
+                <div id="form_item_model">
+
+                </div>
+
+                <div class="layui-input-block" id="form_model">
+                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script type="text/html" id="tpl_item">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">情景名称</label>
+
+        <div class="layui-input-block">
+            <input type="text" name="name" value="{{# if(!d.name){ }}{{# }else{ }}{{d.name}}{{# } }}" lay-verify="name"
+                   autocomplete="off" placeholder="请输入名称" class="layui-input">
+            <input type="hidden" name="id" value="{{# if(!d.id){ }}0{{# }else{ }}{{d.id}}{{# } }} " class="layui-input">
+            <input type="hidden" name="user_id" value="{{# if(!d.user_id){ }}0{{# }else{ }}{{d.user_id}}{{# } }}" class="layui-input">
+            <input type="hidden" name="status" value="{{# if(!d.status){ }}0{{# }else{ }}{{d.status}}{{# } }}" class="layui-input">
+
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">预约时间</label>
+        <div class="layui-input-block" style="display: none">
+            <input type="text" id="execute_val" value="{{# if(!d.execute_time){ }}{{# }else{ }}{{d.execute_time.replace(/T/,' ')}}{{# } }}" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">描述</label>
+        <div class="layui-input-block">
+            <textarea style="resize: none;" placeholder="请输入内容" name="remarks" class="layui-textarea">{{# if(d.remarks == null){ }}{{# }else{ }}{{d.remarks}}{{# } }}</textarea>
+        </div>
+    </div>
+
+    <!--<div class="layui-form-item">
+        <label class="layui-form-label">状 态</label>
+
+        <div class="layui-input-block">
+            <select name="status" lay-filter="aihao">
+                <option {{# if(d.status== 0){ }} selected {{# } }} value="0">启用</option>
+                <option {{# if(d.status== 1){ }} selected {{# } }} value="1">锁定</option>
+            </select>
+        </div>
+    </div>-->
+</script>
+<script src="lib/dist/layui.js" charset="utf-8"></script>
+
+<script>
+    layui.use('laydate', function() {
+        var laydate = layui.laydate;
+        //常规用法
+        laydate.render({
+            elem: '#execute',
+            type:'datetime'
+        });
+    });
+</script>
+
+<script type="text/javascript">
+
+    var edit_verification_form = function () {
+        layui.form().verify({
+            name: function (value) {
+                if (value == '') {
+                    return '请输入设备类型';
+                }
+            }
+        });
+
+//        String.prototype.replaceAll = function(s1, s2) {
+//            return this.replace(new RegExp(s1, "gm"), s2);
+//        }
+//        v = ($("#execute_val").val().split(' ')[0]).replaceAll('/', '-');
+        var v=$('#execute_val').val();
+        if(v){
+            $("#execute").val(v);
+        }
+        //监听提交
+        layui.form().on('submit(demo1)', function (data) {
+
+            plugs.ajax(URL.contextualmodel.action, JSON.stringify(data.field), function (data) {
+
+                if (data.code == 1) {
+                    layer.msg('操作成功', {
+                        icon: 1
+                    });
+                } else {
+
+                    layer.msg('操作失败，请稍后再试', {
+                        icon: 5
+                    });
+                }
+            }, function () {
+
+            }, 'POST');
+
+            return false;
+        });
+    }
+
+    require(['jquery', 'URL', 'app.plugs', 'listen'], function ($) {
+
+        URL = requirejs('URL');
+
+        layui.use(['laytpl', 'laypage', 'form', 'paging'], function () {
+
+            //  var index = layer.load(0, {shade: false}); //0代表加载的风格，支持0-2
+        });
+    });
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>电力智能用电综合管理平台</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="./css/x-admin.css" media="all">
+		<script src="./lib/plugs/require/require.js"></script>
+		<script type="text/javascript" src="./lib/app.js"></script>
+		<style>
+			.x-body-title{color:#fff}
+			.plot-title{color: #eee}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="x-body">
+			
+			<div class="x-body-title">小区能耗监控
+				<a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float: right"
+				   href="javascript:window.history.back();" title="返回"><i class="layui-icon" style="line-height:30px">&#xe65c;</i></a>
+			</div>
+			
+			<div class="plot" id="plot">
+
+			</div>
+			
+        </div>
+
+		<script type="text/html" id="tpl_item">
+			<ul>
+				{{#  layui.each(d, function(index, item){ }}
+				<li>
+					<a href="plot_monitor.html?id={{item.id}}">
+						<div class="plot-img"><img src="{{ item.main_img }}"></div>
+						<div class="plot-title">{{ item.name }}</div>
+						<div class="plot-detail">
+							名称:{{item.name}}<br/>
+							所属区域：{{item.area_name}}<br/>
+							地址:{{item.address}}<br/>
+							<!--在线设备：1000<br/>-->
+							<!--己用电量：500kwh-->
+						</div>
+					</a>
+				</li>
+				{{#  }); }}
+			</ul>
+		</script>
+
+		<script>
+            require(['jquery', 'URL', 'app.plugs', 'listen'], function ($) {
+                URL = requirejs('URL');
+                plugs = requirejs('app.plugs');
+                layui.use(['laytpl', 'laypage', 'form', 'paging', 'laydate'], function () {
+                    var form = layui.form,
+                        layer = layui.layer,
+                        laydate = layui.laydate;
+                    var getTpl = tpl_item.innerHTML
+                        ,view = document.getElementById('plot');
+                    plugs.ajax(URL.plot_estate.format(1,100), {}, function (res) {
+                        if (res.code == '1') {
+                            data = res.data.items;
+
+                            laytpl(getTpl).render(data, function(html){
+                                view.innerHTML = html;
+                            });
+                        }
+                    }, null, 'get');
+                });
+            });
+		</script>
+	</body>
+
+</html>

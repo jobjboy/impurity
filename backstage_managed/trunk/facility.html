@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>
+			电力智能用电综合管理平台-设备信息
+		</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="./css/x-admin.css" media="all">
+		<script src="./js/jquery-1.11.0.js"></script>
+
+		<style>
+			html {
+				height: 100%;
+			}
+
+			body {
+				height: 100%;
+			}
+	</style>
+	</head>
+
+	<body>
+		<div class="left">
+			<div class="left-top">导航</div>
+			<div class="left-search">
+				<input class="left-input" type="text" value="" placeholder="请输入用户名称">
+				<input class="left-button" type="submit" value="" />
+			</div>
+			<div class="left-class">
+				<div class="myDiv"><a href="facility_type.html">设备类型</a></div>
+				
+				<div class="myDiv"><a href="facility_brand.html">设备品牌</a></div>
+				
+				<div class="myDiv"><a href="facility_model.html">设备型号</a></div>
+				
+		
+				<div class="myDiv"><a href="facility_list.html">设备列表信息</a></div>
+				
+            </div>
+            
+            <div class="logo_xh"><img src="images/logo_xh.png"></div>
+		</div>
+
+		
+		<div class="x-nav">
+			<span class="layui-breadcrumb" style="visibility: visible;">
+              <a><cite>首页</cite><span class="layui-box">&gt;</span></a>
+			  <a><cite>设备信息</cite><span class="layui-box">&gt;</span></a>
+			  <a><cite>设备类型</cite></a>
+			</span>
+		</div>
+
+		<div class="right">
+			
+			<div class="inquire">
+				<h3>查询条件</h3>
+				<div class="inpuire-detail">
+					<ul><form class="layui-form" action="">
+						<li><span>设备类型：</span><input class="inpuire-input" type="text" value="" placeholder="请输入设备类型"></li>
+						<li><div class="layui-form-item">
+					<label class="layui-form-label">设备品牌</label>
+					<div class="layui-input-block">
+						<select name="interest" lay-filter="aihao">
+							<option value=""></option>
+							<option value="0" selected="">格力</option>
+							<option value="1">美的</option>
+							<option value="2">TCL</option>
+							<option value="3">科龙</option>
+							<option value="4">松下</option>
+						</select>
+					</div>
+				</div></li>
+						<li><span>设备型号：</span><input class="inpuire-input" type="text" value="" placeholder="请输入设备型号"></li>					
+						<li class="right">
+							<div class="inpuire-button">
+								<button class="layui-btn layui-btn-normal">查询</button>
+								<button class="layui-btn layui-btn-normal">导出Excel</button>
+								<a href="facility_add.html" class="layui-btn layui-btn-normal">添加</a>
+							</div>
+						</li>
+						</form>
+					</ul>
+				</div>
+			</div>
+            
+			<div class="result">
+		
+				<div class="result-detail">
+				
+						<div class="layui-tab-content">
+							<div class="layui-tab-item layui-show">
+								<table class="layui-table">
+									<thead>
+									<tr>
+										<th>序号</th>
+										<th>设备类型</th>
+										<th>设备品牌</th>
+										<th>设备型号</th>
+										<th>操作时间</th>
+										<th>操作人</th>
+										<th width="200">操作</th>
+									</tr>
+									</thead>
+									<tbody>									
+										<tr>
+											<td>1</td>
+											<td>空调</td>
+											<td>格力</td>
+											<td>A-w3</td>
+											<td>2017-05-06</td>
+											<td>张三</td>
+											<td>
+											  <a href="facility_edit.html" class="layui-btn layui-btn-small" lay-event="edit">编辑</a>
+											  <button class="layui-btn layui-btn-danger layui-btn-small" lay-event="del">删除</button>
+											</td>
+										</tr>										
+										<tr>
+											<td>1</td>
+											<td>空调</td>
+											<td>格力</td>
+											<td>A-w3</td>
+											<td>2017-05-06</td>
+											<td>张三</td>
+											<td>
+											  <a href="facility_edit.html" class="layui-btn layui-btn-small" lay-event="edit">编辑</a>
+											  <button class="layui-btn layui-btn-danger layui-btn-small" lay-event="del">删除</button>
+											</td>
+										</tr>
+										
+										<tr>
+											<td>1</td>
+											<td>空调</td>
+											<td>格力</td>
+											<td>A-w3</td>
+											<td>2017-05-06</td>
+											<td>张三</td>
+											<td>
+											  <a href="facility_edit.html" class="layui-btn layui-btn-small" lay-event="edit">编辑</a>
+											  <button class="layui-btn layui-btn-danger layui-btn-small" lay-event="del">删除</button>
+											</td>
+										</tr>
+										
+										<tr>
+											<td>1</td>
+											<td>空调</td>
+											<td>格力</td>
+											<td>A-w3</td>
+											<td>2017-05-06</td>
+											<td>张三</td>
+											<td>
+											  <a href="facility_edit.html" class="layui-btn layui-btn-small" lay-event="edit">编辑</a>
+											  <button class="layui-btn layui-btn-danger layui-btn-small" lay-event="del">删除</button>
+											</td>
+										</tr>
+										
+										<tr>
+											<td>1</td>
+											<td>空调</td>
+											<td>格力</td>
+											<td>A-w3</td>
+											<td>2017-05-06</td>
+											<td>张三</td>
+											<td>
+											  <a href="facility_edit.html" class="layui-btn layui-btn-small" lay-event="edit">编辑</a>
+											  <button class="layui-btn layui-btn-danger layui-btn-small" lay-event="del">删除</button>
+											</td>
+										</tr>
+										
+										<tr>
+											<td>1</td>
+											<td>空调</td>
+											<td>格力</td>
+											<td>A-w3</td>
+											<td>2017-05-06</td>
+											<td>张三</td>
+											<td>
+											  <a href="facility_edit.html" class="layui-btn layui-btn-small" lay-event="edit">编辑</a>
+											  <button class="layui-btn layui-btn-danger layui-btn-small" lay-event="del">删除</button>
+											</td>
+										</tr>
+										
+										<tr>
+											<td>1</td>
+											<td>空调</td>
+											<td>格力</td>
+											<td>A-w3</td>
+											<td>2017-05-06</td>
+											<td>张三</td>
+											<td>
+											  <a href="facility_edit.html" class="layui-btn layui-btn-small" lay-event="edit">编辑</a>
+											  <button class="layui-btn layui-btn-danger layui-btn-small" lay-event="del">删除</button>
+											</td>
+										</tr>
+										<tr>
+											<td>1</td>
+											<td>空调</td>
+											<td>格力</td>
+											<td>A-w3</td>
+											<td>2017-05-06</td>
+											<td>张三</td>
+											<td>
+											  <a href="facility_edit.html" class="layui-btn layui-btn-small" lay-event="edit">编辑</a>
+											  <button class="layui-btn layui-btn-danger layui-btn-small" lay-event="del">删除</button>
+											</td>
+										</tr>	
+										
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="result-detail-bottom">
+						
+							<div id="page"></div>
+						</div>
+					</div>					
+				</div>
+			</div>
+		</div>
+		<script src="lib/dist/layui.js" charset="utf-8"></script>
+	<script>
+
+
+layui.use(['laypage', 'layer'], function(){
+  var laypage = layui.laypage
+  ,layer = layui.layer;
+  
+  //总页数低于页码总数
+  laypage.render({
+    elem: 'page'
+    ,count: 50 //数据总数
+  });
+});
+			layui.use(['form', 'layedit', 'laydate','table'], function() {
+				var form = layui.form,
+					layer = layui.layer,
+					layedit = layui.layedit,
+					laydate = layui.laydate;
+
+				//日期
+				laydate.render({
+					elem: '#date'
+				});
+				laydate.render({
+					elem: '#date1'
+				});
+
+				//自定义验证规则
+				form.verify({
+					title: function(value) {
+						if(value.length < 5) {
+							return '标题至少得5个字符啊';
+						}
+					},
+				});
+
+				//监听指定开关
+				form.on('switch(switchTest)', function(data) {
+					layer.msg('开关checked：' + (this.checked ? 'true' : 'false'), {
+						offset: '6px'
+					});
+					layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+				});
+
+				//监听提交
+				form.on('submit(demo1)', function(data) {
+					layer.alert(JSON.stringify(data.field), {
+						title: '最终的提交信息',
+						btn: ['确定', '取消']
+					}, function() {
+
+						layer.msg('提交成功，3秒后自动关闭！', {
+							icon: 1
+						});
+					});
+					return false;
+				});
+
+			});
+		</script>
+
+
+	</body>
+
+</html>

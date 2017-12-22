@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>
+			电力智能用电综合管理平台-权限管理
+		</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="./css/x-admin.css" media="all">
+		<script src="./js/jquery-1.11.0.js"></script>
+		<link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css" type="text/css">
+
+	<script type="text/javascript" src="js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="js/jquery.ztree.excheck.js"></script>
+
+		<style>
+			html {
+				height: 100%;
+			}
+			
+			body {
+				height: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="left">
+			<div class="left-top">导航</div>
+			<div class="left-search">
+				<input class="left-input" type="text" value="" placeholder="请输入用户名称">
+				<input class="left-button" type="submit" value="" />
+			</div>
+			<div class="left-class">
+				<div class="myDiv">
+					<a href="admin.html">管理员管理</a>
+				</div>
+
+				<div class="myDiv">
+					<a href="role.html">用户组</a>
+				</div>
+
+				<div class="myDiv">
+					<a href="limits.html">权限管理</a>
+				</div>
+
+			</div>
+			
+			<div class="logo_xh"><img src="images/logo_xh.png"></div>
+		</div>
+
+		<div class="x-nav">
+			<span class="layui-breadcrumb" style="visibility: visible;">
+              <a><cite>首页</cite><span class="layui-box">&gt;</span></a>
+			<a><cite>用户管理</cite><span class="layui-box">&gt;</span></a>
+			<a><cite>权限管理</cite></a>
+			</span>
+		</div>
+
+		<div class="right">
+			<div class="right_detail">
+				<ul id="treeDemo" class="ztree"></ul>
+			</div>
+		</div>
+		</div>
+		
+		<SCRIPT type="text/javascript">
+		<!--
+		var setting = {
+			check: {
+				enable: true
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			}
+			
+		};
+		
+
+		var zNodes =[
+			{ id:1, pId:0, name:"权限 1", open:true},
+			{ id:11, pId:1, name:"权限 1-1", open:true},
+			{ id:111, pId:11, name:"权限 1-1-1"},
+			{ id:112, pId:11, name:"权限 1-1-2"},
+			{ id:12, pId:1, name:"权限 1-2", open:true},
+			{ id:121, pId:12, name:"权限 1-2-1"},
+			{ id:122, pId:12, name:"权限 1-2-2"},
+			{ id:2, pId:0, name:"权限 2", checked:true, open:true},
+			{ id:21, pId:2, name:"权限 2-1"},
+			{ id:22, pId:2, name:"权限 2-2", open:true},
+			{ id:221, pId:22, name:"权限 2-2-1", checked:true},
+			{ id:222, pId:22, name:"权限 2-2-2"},
+			{ id:23, pId:2, name:"权限 2-3"}
+		];
+		
+		var code;
+		
+		function setCheck() {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+			py = $("#py").attr("checked")? "p":"",
+			sy = $("#sy").attr("checked")? "s":"",
+			pn = $("#pn").attr("checked")? "p":"",
+			sn = $("#sn").attr("checked")? "s":"",
+			type = { "Y":py + sy, "N":pn + sn};
+			zTree.setting.check.chkboxType = type;
+			zTree.setting.check.chkboxType = { "Y" : "ps", "N" : "ps" };
+			showCode('setting.check.chkboxType = { "Y" : "' + type.Y + '", "N" : "' + type.N + '" };');
+			
+		}
+		function showCode(str) {
+			if (!code) code = $("#code");
+			code.empty();
+			code.append("<li>"+str+"</li>");
+		}
+		
+		$(document).ready(function(){
+			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+			setCheck();
+			$("#py").bind("change", setCheck);
+			$("#sy").bind("change", setCheck);
+			$("#pn").bind("change", setCheck);
+			$("#sn").bind("change", setCheck);
+			
+		});
+		//-->
+	</SCRIPT>
+
+	</body>
+
+</html>

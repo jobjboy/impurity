@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>
+			电力智能用电综合管理平台-用户管理
+		</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="./css/x-admin.css" media="all">
+		<script src="./lib/plugs/require/require.js"></script>
+		<script type="text/javascript" src="./lib/app.js"></script>
+
+		<style>
+			html {
+				height: 100%;
+			}
+			
+			body {
+				height: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		
+		<div class="left">
+			<div class="left-top">导航</div>
+			<div class="left-search">
+				<input class="left-input" type="text" value="" placeholder="请输入用户名称">
+				<input class="left-button" type="submit" value="" />
+			</div>
+			<div class="left-class">
+				<div class="myDiv">
+					<a href="user_plot.html">小区</a>
+				</div>
+
+				<div class="myDiv">
+					<a href="user_building.html">楼栋</a>
+				</div>
+
+				<div class="myDiv">
+					<a href="user_room.html">房号</a>
+				</div>
+
+				<div class="myDiv">
+					<a href="user.html">用户管理</a>
+				</div>
+
+				<div class="myDiv">
+					<a href="examine.html">用户设备</a>
+				</div>
+			</div>
+			
+			<div class="logo_xh"><img src="images/logo_xh.png"></div>
+		</div>
+
+
+		<div class="x-nav">
+			<span class="layui-breadcrumb" style="visibility: visible;">
+              <a><cite>首页</cite><span class="layui-box">&gt;</span></a>
+			  <a><cite>用户管理</cite></a>
+			</span>
+		</div>
+
+		<div class="right">
+
+			<div class="inquire">
+				<h3>查询条件</h3>
+				<div class="inpuire-detail">
+					<ul>
+						<form class="layui-form" action="">
+							<li><span>用户账号：</span><input class="inpuire-input" type="text" value="" placeholder="请输入用户账号"></li>
+							<li><span>用户编号：</span><input class="inpuire-input" type="text" value="" placeholder="请输入用户编号"></li>
+							<li class="right">
+								<div class="inpuire-button">
+									<button class="layui-btn layui-btn-normal">查询</button>
+									<button class="layui-btn layui-btn-normal">导出Excel</button>
+									<a href="user_add.html" class="layui-btn layui-btn-normal">添加</a>
+								</div>
+							</li>
+						</form>
+					</ul>
+				</div>
+			</div>
+
+			<div class="result">
+
+				<div class="result-detail">
+
+					<div class="layui-tab-content">
+						<div class="layui-tab-item layui-show">
+							<table class="layui-table">
+								<thead>
+									<tr>
+										<th>用户账号</th>
+										<th>用户密码</th>
+										<th>用户编号</th>										
+										<th>用户名称</th>
+										<th>用户地址</th>
+										<th>性别</th>
+										<th>身份证号</th>
+										<th>出生日期</th>
+										<th>电话</th>
+										<th>注册日期</th>
+										<th>微信</th>
+										<th>微博</th>
+										<th>小区</th>
+										<th>楼栋</th>
+										<th>房号</th>
+										<th>电器总数</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>admin</td>
+										<td>123456</td>
+										<td>BN123456</td>
+										<td>李sa</td>										
+										<td>深圳龙岗南联</td>
+										<td>男</td>	
+										<td>421123*******1234</td>
+										<td>1995-05-01</td>
+										<td>13888888888</td>
+										<td>2016-5-6</td>
+										<td>17773934486</td>
+										<td>17773934486</td>
+										<td>白鹤小区</td>
+										<td>5栋</td>
+										<td>408</td>
+										<td>10</td>
+										<td>
+											<a href="examine.html" class="layui-btn layui-btn-small" lay-event="edit">查看</a>
+											<a href="user_list.html" class="layui-btn layui-btn-small" lay-event="edit">编辑</a>
+											<button class="layui-btn layui-btn-danger layui-btn-small" lay-event="del">删除</button>
+										</td>
+									</tr>
+																		<tr>
+										<td>admin</td>
+										<td>123456</td>
+										<td>BN123456</td>
+										<td>李sa</td>										
+										<td>深圳龙岗南联</td>
+										<td>男</td>	
+										<td>421123*******1234</td>
+										<td>1995-05-01</td>
+										<td>13888888888</td>
+										<td>2016-5-6</td>
+										<td>17773934486</td>
+										<td>17773934486</td>
+										<td>白鹤小区</td>
+										<td>5栋</td>
+										<td>408</td>
+										<td>10</td>
+										<td>
+											<a href="examine.html" class="layui-btn layui-btn-small" lay-event="edit">查看</a>
+											<a href="user_list.html" class="layui-btn layui-btn-small" lay-event="edit">编辑</a>
+											<button class="layui-btn layui-btn-danger layui-btn-small" lay-event="del">删除</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="result-detail-bottom">
+
+						<div id="page"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		<script type="text/javascript">
+
+			require(['jquery', 'URL', 'app.plugs', 'listen'], function ($) {
+
+
+				layui.use(['laytpl', 'laypage', 'form', 'paging'], function () {
+
+					$("#btn_query").click(function () {
+
+						name = $("#input_search").val();
+						if (name === '' || name.length === 0) {
+							layer.msg('请输入搜索关键字');
+						}
+						fun(name);
+					});
+
+					plugs = requirejs('app.plugs');
+					URL = requirejs('URL');
+
+					var pageSize = 20;
+
+					var fun = function (name) {
+
+						var url = URL.equipment.list.format(name);
+						plugs.page(url, pageSize, function () {
+							$("a.remove").attr('data-url', URL.equipment.controller_name);
+						});
+					}
+
+					fun('');
+				});
+
+
+			});
+		</script>
+
+	</body>
+
+</html>

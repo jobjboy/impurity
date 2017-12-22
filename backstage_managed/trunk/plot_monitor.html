@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>电力智能用电综合管理平台</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="./css/x-admin.css" media="all">
+    <script src="./lib/plugs/require/require.js"></script>
+    <script type="text/javascript" src="./lib/app.js"></script>
+    <style>
+        .x-body-title{color:#fff}
+        .monitor-right-top{color: #eee}
+    </style>
+</head>
+
+<body>
+
+<div class="x-body">
+    <div class="x-body-title">小区能耗监控
+        <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float: right"
+           href="javascript:window.history.back();" title="返回"><i class="layui-icon" style="line-height:30px">&#xe65c;</i></a>
+    </div>
+
+    <div class="monitor">
+        <div class="monitor-left" id="monitor-left">
+
+        </div>
+        <div class="monitor-right">
+            <div class="monitor-right-top" id="monitor-right-top">
+
+            </div>
+            <div class="monitor-right-bottom" id="char1">
+
+            </div>
+            <div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/html" id="tpl_item">
+    住户数：{{d.user_number}}<br/>
+    在线设备：{{d.online_eqp_number}}<br/>
+    能耗：{{d.total_energy}}kwh
+</script>
+<!--yellow,red-->
+<script type="text/html" id="tpl_house">
+    <ul>
+        {{#  layui.each(d, function(index, item){ }}
+            {{#  if(item.id != 0){ }}
+                <li class="green" data-id="{{item.user_id}}">
+                    <div class="moitor-left-detail">
+                    </div>
+                </li>
+            {{# }else{ }}
+                <li data-id="{{item.id}}">
+                    <div class="moitor-left-detail">
+                    </div>
+                </li>
+            {{# } }}
+        {{#  }); }}
+    </ul>
+</script>
+
+<script>
+    require(['jquery', 'URL', 'app.plugs','echarts', 'listen'], function ($, URL, plugs, echarts) {
+        URL = requirejs('URL');
+        plugs = requirejs('app.plugs');
+        var id = getUrlParam('id');
+        layui.use(['laytpl', 'laypage', 'form', 'paging', 'laydate'], function () {
+            var form = layui.form,
+                layer = layui.layer,
+                laydate = layui.laydate;
+            var getTpl = tpl_item.innerHTML,getTpl2 = tpl_house.innerHTML,view2=document.getElementById('monitor-left')
+                ,view = document.getElementById('monitor-right-top');
+//            小区电力信息
+            plugs.ajax(URL.getestateelecinfo.format(id), {}, function (res) {
+                if (res.code == '1') {
+                    data = res.data;
+
+                    laytpl(getTpl).render(data, function(html){
+                        view.innerHTML = html;
+                    });
+                }
+            }, null, 'get');
+
+            getmonitoringbyminute(id);
+
+            //定时器
+            setInterval(function() { getmonitoringbyminute(id); },300000);
+
+//            按分钟监控小区能耗
+            function getmonitoringbyminute(id) {
+                plugs.ajax(URL.getestatetotalelecmonitoringbyminute.format(id), {}, function (res) {
+                    if (res.code == '1') {
+                        var hours = [], minutes = [], energys = [];
+                        $.each(res.data.items, function (index, v) {
+                            hours.push(v.hour);
+                            minutes.push(v.minute);
+                            energys.push(v.energy);
+                        });
+
+                        var myChart = echarts.init(document.getElementById('char1'));
+//
+                        option = {
+                            color: ['#d87c7c'],
+                            backgroundColor: "#1368c4",
+                            tooltip : {
+                                trigger: 'axis',
+                                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                                    type : 'line'        // 默认为直线，可选为：'line' | 'shadow'
+                                }
+                            },
+                            grid: {
+                                left: '2%',
+                                right: '5%',
+                                bottom: '10%',
+                                containLabel: true
+                            },
+                            xAxis : [
+                                {
+                                    name: 'min',
+                                    splitLine:{show: false},//去除网格线
+//                                  splitArea : {show : true},//保留网格区域
+                                    type: 'category',
+                                    //  改变x轴颜色
+                                    axisLine:{lineStyle:{color:'#ddd' }},
+                                    //  改变x轴字体颜色和大小
+                                    axisLabel: {textStyle: {color: '#ddd'}},
+                                    data : minutes,
+                                    axisTick: {
+                                        alignWithLabel: true
+                                    }
+                                }
+                            ],
+                            yAxis : [
+                                {
+                                    name: '能耗（kwh）',
+                                    // 去除y轴上的刻度线
+                                    axisTick: {show: false },
+                                    //  改变x轴颜色
+                                    axisLine:{lineStyle:{color:'#ddd' }},
+                                    //  改变x轴字体颜色和大小
+                                    axisLabel: {textStyle: {color: '#ddd'}},
+//                                    splitLine:{show: false},//去除网格线
+                                    splitArea : {show : true},//保留网格区域
+                                    type : 'value'
+                                }
+                            ],
+                            "dataZoom": [{
+                                "show": true,
+                                "height": 30,
+                                "xAxisIndex": [
+                                    0
+                                ],
+                                bottom: 20,
+                                "start": 0,
+                                "end": 100,
+                                handleIcon: 'M8.2,13.6V3.9H6.3v9.7H3.1v14.9h3.3v9.7h1.8v-9.7h3.3V13.6H8.2z M9.7,24.4H4.8v-1.4h4.9V24.4z M9.7,19.1H4.8v-1.4h4.9V19.1z',
+                                handleSize: '110%',
+                                handleStyle:{
+                                    color:"#d3dee5",
+
+                                },
+                                textStyle:{
+                                    color:"#fff"},
+                                borderColor:"#90979c"
+
+
+                            }, {
+                                "type": "inside",
+                                "show": true,
+                                "height": 15,
+                                "start": 1,
+                                "end": 60
+                            }],
+                            series : [
+                                {
+                                    name:'能耗',
+                                    type:'line',
+                                    smooth: true,
+                                    itemStyle: {normal: {color: '#ea7e53'}},
+                                    lineStyle: {normal: {color: '#ea7e53'}},
+                                    barWidth: '60%',
+                                    data:energys
+                                }
+                            ]
+                        };
+
+                        myChart.setOption(option);
+                    }
+                }, null, 'get');
+            }
+
+//            小区能耗监控-房间数据
+            plugs.ajax(URL.getestatehouseinfo.format(id),{},function (res) {
+                if(res.code == '1'){
+                    data = res.data.items;
+                    console.log(data);
+                    var _init_arr =[];
+                    for(var i=1 ;i<24;i++){
+                        for(var j=1;j<9;j++){
+                            var room_name = i+'0'+j;
+                            var room_obj = {estate_id:0,estate_name:'',estate_ridgepole_id:0,estate_ridgepole_name:'',id:0,name:room_name,remarks:'',user_id:0,user_name:''}
+                            _init_arr[room_name]=room_obj;
+                        }
+                    }
+                    $.each(data,function (index, value) {
+                        _init_arr[value.name] = value;
+                    });
+                    var _new_arr =[];
+                    $.each(_init_arr,function (index,value) {
+                        if(value){
+                            _new_arr.push(value);
+                        }
+                    });
+                    _new_arr.reverse();
+                    laytpl(getTpl2).render(_new_arr, function(html){
+                        view2.innerHTML = html;
+                    });
+                }
+                var handle=null;
+                //获取每个房间的信息
+                $(".monitor-left ul li").on('mouseover',function () {
+                    var detail_text = $(this).find(".moitor-left-detail").text();
+                    var userlecinfo_id = $(this).attr('data-id');
+                    if(detail_text.trim() == ''){
+                        //没有就添加
+                        var _this = this;
+                        if(userlecinfo_id !=0){
+                            handle = setTimeout(function () {
+                                hover_getestateuserelecinfo(_this,userlecinfo_id)
+                            }, 500);
+                        }else{
+                            $(_this).find(".moitor-left-detail").text('当前房间没有用户居住！');
+                        }
+                    }
+                }).on("mouseout", function(){
+                    clearTimeout(handle);
+                });
+
+                //获取用户电力信息
+                function hover_getestateuserelecinfo(obj,userlecinfo_id) {
+                    var _this=obj;
+                    plugs.ajax(URL.getestateuserelecinfo.format(userlecinfo_id),{},function (res) {
+                        if(res.code == '1'){
+                            if(res.data==null){
+                                $(_this).find(".moitor-left-detail").text('获取不到数据！');
+                            }else{
+                                text = "房号："+res.data.house_no+"<br/>";
+                                text += "住户姓名："+res.data.user_name+"<br/>";
+                                text += "设备数量："+res.data.eqp_number+"<br/>";
+                                text += "在线设备："+res.data.online_eqp_number+"<br/>";
+                                text += "己用电量："+res.data.total_energy.toFixed(3)+" kwh<br/>";
+                                $(_this).find(".moitor-left-detail").html(text);
+                            }
+                        }else{
+                            $(_this).find(".moitor-left-detail").text('获取不到数据！');
+                        }
+                    },null,'get');
+                }
+            },null,'get')
+
+        });
+    });
+</script>
+
+</body>
+
+</html>

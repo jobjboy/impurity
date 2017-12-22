@@ -1,0 +1,101 @@
+一、用户已安装设备汇总
+GET请求
+http://dev.api.smarthome.com/api/installedeqpstatistics?userNo=&username=&pIndex=1&pSize=10
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "items": [
+            {
+                "user_id": 1,
+                "username": "诸葛亮",
+                "user_no": "dlj000001    ",
+                "user_mobile": "13255556666",
+                "user_address": "广东省广州市天河区",
+                "eqpNum": 3
+            }
+        ],
+        "count": 1,
+        "page": 1
+    }
+}
+
+二、用户已安装设备
+GET请求
+http://dev.api.smarthome.com/api/installedeqp?userId=1&eqpName=&pIndex=1&pSize=10
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "items": [
+            {
+                "username": "诸葛亮",
+                "user_no": "dlj000001    ",
+                "eqp_name": "格力空调",
+                "scene_name": "客厅",
+                "installed_time": "2017-09-18T14:01:32",
+                "installed_id": 1
+            },
+            {
+                "username": "诸葛亮",
+                "user_no": "dlj000001    ",
+                "eqp_name": "格力空调",
+                "scene_name": "卧室一",
+                "installed_time": "2017-09-19T10:51:00",
+                "installed_id": 2
+            },
+            {
+                "username": "诸葛亮",
+                "user_no": "dlj000001    ",
+                "eqp_name": "格力空调",
+                "scene_name": "卧室二",
+                "installed_time": "2017-09-19T10:51:28",
+                "installed_id": 3
+            }
+        ],
+        "count": 3,
+        "page": 1
+    }
+}
+
+三、设备状态
+GET请求
+http://dev.api.smarthome.com/api/eqpstatus?installedId=1
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "eqp_no": "EQPKT0000011",
+        "eqp_name": "格力空调",
+        "eqp_type": "空调1",
+        "curr_status": "01",
+        "curr_info": "{\"Content\":\"26\"}",
+        "change_time": "2017-09-20T13:58:06",
+        "pre_status": "00",
+        "pre_info": "{\"Content\":\"0\"}",
+        "data_time": "2017-09-20T13:58:29",
+        "power": 220,
+        "voltage": 55,
+        "electricity": 10,
+        "remarks": "hh"
+    }
+}
+
+四、执行控制指令
+POST请求
+http://dev.api.smarthome.com/api/executecontrolcmd
+
+参数：
+{"eqpInstalledId":"2","cmd":"{\"Type\":\"Open\",\"Content\":\"1\"}"}
+{"eqpInstalledId":"1","cmd":"{\"Type\":\"IncreaseTemperature\",\"Content\":\"1\"}"}
+{"eqpInstalledId":"1","cmd":"{\"Type\":\"ReduceTemperature\",\"Content\":\"1\"}"}
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}
+

@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>电力智能用电综合管理平台</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="./css/x-admin.css" media="all">
+
+
+    <script src="./lib/plugs/require/require.js"></script>
+    <script type="text/javascript" src="./lib/app.js"></script>
+
+
+    <!--<script src="js/echarts.min.js"></script>
+    <script src="./lib/plugs/require/require.js"></script>
+    <script type="text/javascript" src="./lib/app.js"></script>-->
+
+</head>
+
+<body>
+
+<div class="x-body">
+    <div class="x-body-top">
+        <div class="x-body-class">
+            <a href="always.html" class="layui-btn layui-btn-normal"><i class="fa fa-dashboard"></i> &nbsp;能耗总监控</a>
+            <a href="plot.html" class="layui-btn layui-btn-normal"><i class="fa fa-building-o"></i>&nbsp; 小区能耗监控</a>
+            <a href="equipment.html" class="layui-btn layui-btn-normal"><i class="fa fa-asterisk"></i>&nbsp; 设备能耗监控</a>
+
+            <a href="map.html" class="layui-btn layui-btn-normal"><i class="fa fa-map"></i>&nbsp;地理分布</a>
+        </div>
+
+        <div class="x-body-basic">
+            <ul id="statistics_model">
+            </ul>
+        </div>
+    </div>
+
+    <!--饼状图-->
+    <div class="x-body-chart">
+        <ul>
+            <li>
+                <h3>设备类型用电占比</h3>
+
+                <div class="chart" id="chart1"></div>
+            </li>
+            <li>
+                <h3>小区用电占比
+                    <select class="echarts" id="year_q" lay-filter="year_q">
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                    </select>
+                </h3>
+
+                <div class="chart" id="chart2"></div>
+            </li>
+            <li class="on">
+                <h3>按小时统计用电占比
+                    <!--<select class="echarts" id="hours" lay-filter="hours">-->
+                        <!--<option value="2017">00-02</option>-->
+                        <!--<option value="2017">02-04</option>-->
+                        <!--<option value="2018">04-06</option>-->
+                        <!--<option value="2019">06-08</option>-->
+                        <!--<option value="2020">08-10</option>-->
+                        <!--<option value="2017">10-12</option>-->
+                        <!--<option value="2017">12-14</option>-->
+                        <!--<option value="2018">14-16</option>-->
+                        <!--<option value="2019">16-18</option>-->
+                        <!--<option value="2020">18-20</option>-->
+                        <!--<option value="2017">20-22</option>-->
+                        <!--<option value="2017">22-24</option>-->
+                    <!--</select>-->
+                </h3>
+
+                <div class="chart" id="chart3"></div>
+            </li>
+        </ul>
+    </div>
+
+    <!--折线图-->
+    <div class="x-body-chart">
+        <ul>
+            <li>
+                <h3>小区年度用电汇总
+
+                    <select class="echarts" id="year" lay-filter="year">
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                    </select>
+                </h3>
+
+                <div class="chart" id="char4"></div>
+            </li>
+            <li>
+                <h3>小区季度用电汇总
+
+                    <select id="quarter" lay-filter="quarter" class="echarts">
+
+                        <option value="1">春季</option>
+                        <option value="2">夏季</option>
+                        <option value="3">秋季</option>
+                        <option value="4">冬季</option>
+                    </select>
+                </h3>
+
+                <div class="chart" id="char5"></div>
+            </li>
+            <li class="on">
+                <h3>小区月度用电汇总
+
+                    <select id="month" lay-filter="month" class="echarts">
+                        <option value="1">一月</option>
+                        <option value="2">二月</option>
+                        <option value="3">三月</option>
+                        <option value="4">四月</option>
+                        <option value="5">五月</option>
+                        <option value="6">六月</option>
+                        <option value="7">七月</option>
+                        <option value="8">八月</option>
+                        <option value="9">九月</option>
+                        <option value="10">十月</option>
+                        <option value="11">十一月</option>
+                        <option value="12">十二月</option>
+                    </select>
+                </h3>
+
+                <div class="chart" id="char6"></div>
+            </li>
+        </ul>
+    </div>
+
+    <!--柱状图-->
+    <div class="x-body-chart">
+        <ul>
+            <li>
+                <h3>设备类型数量</h3>
+                <div class="chart" id="char7"></div>
+            </li>
+            <li>
+                <h3>小区住户数量</h3>
+
+                <div class="chart" id="char8"></div>
+            </li>
+            <li class="on">
+                <h3>按小时统计设备使用数量</h3>
+
+                <div class="chart" id="char9"></div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+
+<script type="text/html" id="year_tpl">
+    {{# layui.each(d.items, function(index, v){ }}
+    <option value="{v}">{v}</option>
+    {{#  }); }}
+</script>
+
+<script type="text/javascript">
+    require(['jquery', 'URL', 'app.plugs', 'echarts','listen'], function ($, URL, plugs, echarts) {
+
+
+        var fullYear_tp = function (event_id) {
+            var myDate = new Date();
+            year = myDate.getFullYear();
+            year2 = year + 1;
+            year3 = year2 + 1;
+
+
+            laytpl(document.getElementById('year_tpl').innerHTML).render({
+                items: [
+                    {
+                        'value': year,
+                    },
+                    {
+                        'value': year2,
+                    },
+                    {
+                        'value': year3,
+                    }
+                ]
+            }, function (render) {
+                document.getElementById(event_id).innerHTML = render;
+            });
+
+        }
+        //统计
+        plugs.ajax(URL.statistics, {}, function (res) {
+            if (res.code == '1') {
+
+               var  d=res.data;
+
+               var  str=`<li>小区数量：${d.eatate_number}</li>
+                <li>住户数量：${d.user_number}</li>
+                <li>总设备数量：${d.eqp_number}</li>
+                <li>在线设备数量:${d.online_eqp_number}</li>`;
+
+                document.getElementById('statistics_model').innerHTML = str;
+
+                /*laytpl(document.getElementById('statistics_tpl').innerHTML).render(res.data, function (render) {
+                    document.getElementById('statistics_model').innerHTML = render;
+                });*/
+            }
+        }, null, 'get');
+
+
+        //设备类型用电占比
+        plugs.ajax(URL.getelecstatisticsbyeqptype, {}, function (res) {
+
+            if (res.code == '1') {
+
+                var estate_name_list = [], estate_value_list = [], map = [];
+//                console.log(res.data.items);
+                $.each(res.data.items, function (index, v) {
+                    estate_value_list.push(v.estate_total_energy);
+                    (index % 2 == 0) ? estate_name_list.push(v.eqp_type_name) : estate_name_list.push(v.eqp_type_name);
+
+                    map[index] = {value: v.eqp_total_energy, name: v.eqp_type_name};
+                });
+//                console.log(estate_name_list);
+                var myChart = echarts.init(document.getElementById('chart1'));
+                var option = {
+                    title: {},
+                    backgroundColor: "#1368c4",
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    color: [
+                        "#fc97af",
+                        "#87f7cf",
+                        "#f7f494",
+                        "#72ccff",
+                        "#f7c5a0",
+                        "#d4a4eb",
+                        "#d2f5a6",
+                        "#76f2f2"
+                    ],
+                    legend: {
+                        type:'scroll',
+                        textStyle:{    //图例文字的样式
+                            color:'#fff',
+                        },
+                        pageIconColor:'#eee',
+                        pageIconInactiveColor:'#eee',
+                        pageTextStyle:{color:'#eee'},
+                        pageButtonGap:10,
+                        right: '5%',
+                        left:'5%',
+                        top: '10px',
+                        data: estate_name_list
+                    },
+                    series: [
+                        {
+                            name: '用电量',
+                            type: 'pie',
+                            radius: '70%',
+                            center: ['50%', '55%'],
+                            label: {
+                                normal: {
+                                    show: true
+                                },
+                                emphasis: {
+                                    show: true
+                                }
+                            },
+                            data: map,
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                };
+                myChart.setOption(option);
+                myChart.setOption(option);
+                window.addEventListener("resize",function(){
+                    myChart.resize();
+                });
+            }
+        }, null, 'get');
+
+        var myDate = new Date();
+        var year =myDate.getFullYear();
+
+        getelecstatisticsbyestateyear_q(year);
+
+        document.getElementById('year_q').addEventListener('change',function(){
+            console.log("当前选项是:"+this.value);
+            getelecstatisticsbyestateyear_q(this.value);
+        },false);
+
+        $.each($('#year_q').find('option'),function(index,obj){
+            if ($(obj).val() * 1 == year * 1) {
+                $(this).attr('selected', true);
+            }
+        });
+
+        function getelecstatisticsbyestateyear_q(year) {
+            plugs.ajax(URL.getelecstatisticsbyestateyear.format(year), {}, function (res) {
+
+                if (res.code == '1') {
+
+                    var estate_name_list = [], estate_value_list = [], map = [];
+                    $.each(res.data.items, function (index, v) {
+                        estate_value_list.push(Math.floor(v.estate_total_energy * 100) / 100);
+                        (index % 2 == 0) ? estate_name_list.push(v.estate_name) : estate_name_list.push(v.estate_name);
+
+                        map[index] = {value: v.estate_total_energy, name: v.estate_name};
+                    });
+                    //========================小区用电占比
+                    var myChart = echarts.init(document.getElementById('chart2'));
+                    option = {
+                        title: {},
+                        backgroundColor: "#1368c4",
+                        color: [
+                            "#fc97af",
+                            "#87f7cf",
+                            "#f7f494",
+                            "#72ccff",
+                            "#f7c5a0",
+                            "#d4a4eb",
+                            "#d2f5a6",
+                            "#76f2f2"
+                        ],
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: "{a} <br/>-{b} : {c} ({d}%)"
+                        },
+                        legend: {
+                            type:'scroll',
+//                            align:'right',
+                            textStyle:{    //图例文字的样式
+                                color:'#fff',
+                            },
+                            pageIconColor:'#eee',
+                            pageIconInactiveColor:'#eee',
+                            pageTextStyle:{color:'#eee'},
+                            pageButtonGap:10,
+                            right: '5%',
+                            left:'5%',
+                            top: '10px',
+                            data: estate_name_list
+                        },
+                        series: [
+                            {
+                                name: '用电量',
+                                type: 'pie',
+                                symbol: 'none',
+                                radius: '70%',
+                                center: ['50%', '55%'],
+//                                roseType: 'radius',
+                                label: {
+                                    normal: {
+                                        show: true
+                                    },
+                                    emphasis: {
+                                        show: true
+                                    }
+                                },
+                                data: map,
+                                itemStyle: {
+                                    emphasis: {
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                }
+                            }
+                        ]
+                    };
+                    myChart.setOption(option);
+                    //用于使chart自适应高度和宽度
+
+                    window.addEventListener("resize",function(){
+                        myChart.resize();
+                    });
+                }
+            }, null, 'get');
+        }
+
+        //小区年度用电汇总
+
+        var myDate = new Date();
+        var year =myDate.getFullYear();
+
+        document.getElementById('year').addEventListener('change',function(){
+            console.log("当前选项是:"+this.value);
+            getelecstatisticsbyestateyear(this.value);
+        },false);
+
+        $.each($('#year').find('option'),function(index,obj){
+            if ($(obj).val() * 1 == year * 1) {
+                $(this).attr('selected', true);
+            }
+        });
+
+        getelecstatisticsbyestateyear(year);
+
+//        setInterval(function() { getelecstatisticsbyestateyear(year); },300000);
+
+        function getelecstatisticsbyestateyear(year) {
+            plugs.ajax(URL.getelecstatisticsbyestateyear.format(year), {}, function (res) {
+
+                if (res.code == '1') {
+
+                    var estate_name_list = [], estate_value_list = [], map = [];
+                    $.each(res.data.items, function (index, v) {
+                        estate_value_list.push(Math.floor(v.estate_total_energy * 100) / 100);
+                        (index % 2 == 0) ? estate_name_list.push(v.estate_name) : estate_name_list.push('\n' + v.estate_name);
+
+                        map[index] = {value: v.estate_total_energy, name: v.estate_name};
+                    });
+                    var myChart = echarts.init(document.getElementById('char4'));
+
+                    var option = {
+                        titleColor: "#ffffff",
+                        markTextColor: "#293441",
+                        lineSmooth: true,
+                        backgroundColor: "#1368c4",
+                        color: [
+                            "#fc97af",
+                            "#87f7cf",
+                            "#f7f494",
+                            "#72ccff",
+                            "#f7c5a0",
+                            "#d4a4eb",
+                            "#d2f5a6",
+                            "#76f2f2"
+                        ],
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data: estate_value_list
+                        },
+                        grid: {
+                            left: '2%',
+                            right: '6%',
+                            bottom: '5%',
+                            containLabel: true
+                        },
+                        toolbox: {
+                            right:'5%',
+                            feature: {
+                                saveAsImage: {
+                                    iconStyle:{normal:{borderColor:'#fff'}},
+                                }
+                            }
+                        },
+                        xAxis: {
+                            name: '小\n区',
+                            nameTextStyle:{color:'#ddd'},
+                            splitLine:{show: false},//去除网格线
+//                            splitArea : {show : true},//保留网格区域
+                            type: 'category',
+                            //  改变x轴颜色
+                            axisLine:{lineStyle:{color:'#ddd' }},
+                            //  改变x轴字体颜色和大小
+                            axisLabel: {textStyle: {color: '#ddd'},interval:0},
+                            boundaryGap: false,
+                            data: estate_name_list
+                        },
+                        yAxis: {
+                            name: '能耗',
+                            nameTextStyle:{color:'#ddd'},
+                            // 去除y轴上的刻度线
+                            axisTick: {show: false },
+                            //  改变x轴颜色
+                            axisLine:{lineStyle:{color:'#ddd' }},
+                            //  改变x轴字体颜色和大小
+                            axisLabel: {textStyle: {color: '#ddd'}},
+                            splitLine:{show: false},//去除网格线
+                            splitArea : {show : true},//保留网格区域
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                name: '用电',
+                                type: 'line',
+                                stack: '总量',
+                                smooth: true,
+                                markPoint: {
+                                    label: {normal: {textStyle: {color: '#f00',}} },
+                                    data: [
+                                        {type: 'max', name: '最大值'},
+                                        {type: 'min', name: '最小值'}
+                                    ]
+                                },
+                                markLine: {
+                                    data: [
+                                        {type: 'average', name: '平均值'}
+                                    ]
+                                },
+                                areaStyle: {normal: {shadowColor: 'rgba(0, 0, 0, 0.5)',shadowBlur: 10}},
+                                data: estate_value_list
+                            }
+                        ]
+                    };
+                    myChart.setOption(option);
+                    window.addEventListener("resize",function(){
+                        myChart.resize();
+                    });
+                }
+            }, null, 'get');
+        }
+
+
+
+
+        //小区季度用汇总
+        var quarter;
+        var _month=myDate.getMonth()+1;
+        if(_month >= 3 & _month <= 5){
+            quarter = 1;
+        }else if(_month >= 6 & _month <=8 ){
+            quarter = 2;
+        }else if(_month >= 9 & _month <=11 ){
+            quarter = 3;
+        }else if(_month >= 12 || _month <= 2){
+            quarter = 4;
+        }
+        console.log(quarter);
+        document.getElementById('quarter').addEventListener('change',function(){
+            console.log("当前选项是:"+this.value);
+            console.log($('#year').val());
+            getelecstatisticsbyestateseason($('#year').val(),this.value);
+        },false);
+
+        $.each($('#quarter').find('option'),function(index,obj){
+            if ($(obj).val() * 1 == quarter * 1) {
+                $(this).attr('selected', true);
+            }
+        });
+
+        getelecstatisticsbyestateseason(year,quarter);
+        function getelecstatisticsbyestateseason(year,quarter) {
+            plugs.ajax(URL.getelecstatisticsbyestateseason.format(year,quarter), {}, function (res) {
+
+                if (res.code == '1') {
+
+                    var estate_name_list = [], estate_value_list = [];
+                    $.each(res.data.items, function (index, v) {
+                        estate_value_list.push(Math.floor(v.estate_total_energy * 100) / 100);
+                        (index % 2 == 0) ? estate_name_list.push(v.estate_name) : estate_name_list.push('\n'+v.estate_name);
+                    });
+
+                    var myChart = echarts.init(document.getElementById('char5'));
+
+                    var option = {
+                        titleColor: "#ffffff",
+                        markTextColor: "#293441",
+                        lineSmooth: true,
+                        backgroundColor: "#1368c4",
+                        color: [
+                            "#87f7cf",
+                            "#f7f494",
+                            "#72ccff",
+                            "#f7c5a0",
+                            "#d4a4eb",
+                            "#d2f5a6",
+                            "#76f2f2",
+                            "#fc97af"
+                        ],
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data: estate_value_list
+                        },
+                        grid: {
+                            left: '2%',
+                            right: '6%',
+                            bottom: '5%',
+                            containLabel: true
+                        },
+                        toolbox: {
+                            right:'5%',
+                            feature: {
+                                saveAsImage: {
+                                    iconStyle:{normal:{borderColor:'#fff'}},
+                                }
+                            }
+                        },
+                        xAxis: {
+                            name: '小\n区',
+                            nameTextStyle:{color:'#ddd'},
+                            splitLine:{show: false},//去除网格线
+//                            splitArea : {show : true},//保留网格区域
+                            type: 'category',
+                            //  改变x轴颜色
+                            axisLine:{lineStyle:{color:'#ddd' }},
+                            //  改变x轴字体颜色和大小
+                            axisLabel: {textStyle: {color: '#ddd'},interval:0},
+                            boundaryGap: false,
+                            data: estate_name_list
+                        },
+                        yAxis: {
+                            name: '能耗',
+                            nameTextStyle:{color:'#ddd'},
+                            // 去除y轴上的刻度线
+                            axisTick: {show: false },
+                            //  改变x轴颜色
+                            axisLine:{lineStyle:{color:'#ddd' }},
+                            //  改变x轴字体颜色和大小
+                            axisLabel: {textStyle: {color: '#ddd'}},
+                            splitLine:{show: false},//去除网格线
+                            splitArea : {show : true},//保留网格区域
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                name: '用电',
+                                type: 'line',
+                                stack: '',
+                                smooth: true,
+                                markPoint: {
+                                    label: {normal: {textStyle: {color: '#f00',}} },
+                                    data: [
+                                        {type: 'max', name: '最大值'},
+                                        {type: 'min', name: '最小值'}
+                                    ]
+                                },
+                                markLine: {
+                                    data: [
+                                        {type: 'average', name: '平均值'}
+                                    ]
+                                },
+                                areaStyle: {normal: {shadowColor: 'rgba(0, 0, 0, 0.5)',shadowBlur: 10}},
+                                data: estate_value_list
+                            }
+                        ]
+                    };
+                    myChart.setOption(option);
+                    window.addEventListener("resize",function(){
+                        myChart.resize();
+                    });
+                }
+            }, null, 'get');
+        }
+
+        //小区月度用电汇总
+        var monthed=myDate.getMonth()+1;
+
+        document.getElementById('month').addEventListener('change',function(){
+            console.log("当前选项是:"+this.value);
+            console.log($('#year').val());
+            getelecstatisticsbyestatemonth($('#year').val(),this.value);
+        },false);
+
+        $.each($('#month').find('option'),function(index,obj){
+            if ($(obj).val() * 1 == monthed * 1) {
+                $(this).attr('selected', true);
+            }
+        });
+
+        getelecstatisticsbyestatemonth(year,monthed);
+        function getelecstatisticsbyestatemonth(year,monthed){
+            plugs.ajax(URL.getelecstatisticsbyestatemonth.format(year,monthed), {}, function (res) {
+
+                if (res.code == '1') {
+
+                    var estate_name_list = [], estate_value_list = [];
+                    $.each(res.data.items, function (index, v) {
+//                        console.log(Math.floor(v.estate_total_energy * 100) / 100)
+                        estate_value_list.push(Math.floor(v.estate_total_energy * 100) / 100);
+                        (index % 2 == 0) ? estate_name_list.push(v.estate_name) : estate_name_list.push('\n'+v.estate_name);
+                    });
+
+                    var myChart = echarts.init(document.getElementById('char6'));
+
+                    var option = {
+                        titleColor: "#ffffff",
+                        markTextColor: "#293441",
+                        lineSmooth: true,
+                        backgroundColor: "#1368c4",
+                        color: [
+                            "#f7f494",
+                            "#72ccff",
+                            "#f7c5a0",
+                            "#d4a4eb",
+                            "#d2f5a6",
+                            "#76f2f2",
+                            "#87f7cf",
+                            "#fc97af"
+                        ],
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data: estate_value_list
+                        },
+                        grid: {
+                            left: '2%',
+                            right: '6%',
+                            bottom: '5%',
+                            containLabel: true
+                        },
+                        toolbox: {
+                            right:'5%',
+                            feature: {
+                                saveAsImage: {
+                                    iconStyle:{normal:{borderColor:'#fff'}},
+                                }
+                            }
+                        },
+                        xAxis: {
+                            name: '小\n区',
+                            nameTextStyle:{color:'#ddd'},
+                            splitLine:{show: false},//去除网格线
+//                            splitArea : {show : true},//保留网格区域
+                            type: 'category',
+                            //  改变x轴颜色
+                            axisLine:{lineStyle:{color:'#ddd' }},
+                            //  改变x轴字体颜色和大小
+                            axisLabel: {textStyle: {color: '#ddd'},interval:0},
+                            boundaryGap: false,
+                            data: estate_name_list
+                        },
+                        yAxis: {
+                            name: '能耗',
+                            nameTextStyle:{color:'#ddd'},
+                            // 去除y轴上的刻度线
+                            axisTick: {show: false },
+                            //  改变x轴颜色
+                            axisLine:{lineStyle:{color:'#ddd' }},
+                            //  改变x轴字体颜色和大小
+                            axisLabel: {textStyle: {color: '#ddd'}},
+                            splitLine:{show: false},//去除网格线
+                            splitArea : {show : true},//保留网格区域
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                name: '用电',
+                                type: 'line',
+                                stack: '',
+                                smooth: true,
+                                markPoint: {
+                                    label: {normal: {textStyle: {color: '#f00',}} },
+                                    data: [
+                                        {type: 'max', name: '最大值'},
+                                        {type: 'min', name: '最小值'}
+                                    ]
+                                },
+                                markLine: {
+                                    data: [
+                                        {type: 'average', name: '平均值'}
+                                    ]
+                                },
+                                areaStyle: {normal: {shadowColor: 'rgba(0, 0, 0, 0.5)',shadowBlur: 10}},
+                                data: estate_value_list
+                            }
+                        ]
+                    };
+                    myChart.setOption(option);
+                    window.addEventListener("resize",function(){
+                        myChart.resize();
+                    });
+                }
+            }, null, 'get');
+        }
+        //设备类型数量
+        plugs.ajax(URL.geteqptypenumber, {}, function (res) {
+
+            if (res.code == '1') {
+
+                var myChart = echarts.init(document.getElementById('char7'));
+                var estate_name_list = [], estate_value_list = [];
+
+                $.each(res.data.items, function (index, v) {
+                    estate_name_list.push(v.eqp_type);
+                    estate_value_list.push(v.number);
+                });
+                var colorArray = [{
+                    top: 'rgba(210, 101, 253, 0.8)',
+                    bottom: 'rgba(48, 42, 146, 0.8)'
+                },
+                    {
+                        top: 'rgba(7, 249, 255, 0.8)',
+                        bottom: 'rgba(7, 64, 137, 0.8)'
+                    }];
+
+                var option = {
+                    color: ['#fc97af'],
+                    titleColor: "#ffffff",
+                    markTextColor: "#293441",
+                    lineSmooth: true,
+                    backgroundColor: "#1368c4",
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
+                    grid: {
+                        left: '2%',
+                        right: '6%',
+                        bottom: '5%',
+                        containLabel: true
+                    },
+                    toolbox: {
+                        right:'5%',
+                        feature: {
+                            saveAsImage: {
+                                iconStyle:{normal:{borderColor:'#fff'}},
+                            }
+                        }
+                    },
+                    xAxis: [
+                        {
+                            name: '设\n备',
+                            nameTextStyle:{color:'#ddd'},
+                            splitLine:{show: false},//去除网格线
+//                            splitArea : {show : true},//保留网格区域
+                            type: 'category',
+                            //  改变x轴颜色
+                            axisLine:{lineStyle:{color:'#ddd' }},
+                            //  改变x轴字体颜色和大小
+                            axisLabel: {textStyle: {color: '#ddd'}},
+                            data: estate_name_list,
+                            axisTick: {
+                                alignWithLabel: true
+                            }
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            name: '数量',
+                            nameTextStyle:{color:'#ddd'},
+                            // 去除y轴上的刻度线
+                            axisTick: {show: false },
+                            //  改变x轴颜色
+                            axisLine:{lineStyle:{color:'#ddd' }},
+                            //  改变x轴字体颜色和大小
+                            axisLabel: {textStyle: {color: '#ddd'}},
+                            splitLine:{show: false},//去除网格线
+                            splitArea : {show : true},//保留网格区域
+                            type: 'value'
+                        }
+                    ],
+                    series: [
+                        {
+                            name: '数量',
+                            type: 'bar',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'top',
+                                    color:'#fff',
+                                    formatter: '{c}'
+                                }
+                            },
+                            barWidth: '60%',
+                            itemStyle: {
+                                normal: {
+                                    color: function (params) {
+                                        let num = colorArray.length;
+                                        return{
+                                            type: 'linear',
+                                            x: 0,
+                                            y: 0,
+                                            x2: 0,
+                                            y2: 1,
+                                            colorStops: [{
+                                                offset: 0, color: colorArray[params.dataIndex%num].top
+                                            }, {
+                                                offset: 1, color: colorArray[params.dataIndex%num].bottom
+                                            }],
+                                            globalCoord: false
+                                        }
+                                    }
+                                }
+                            },
+                            data: estate_value_list
+                        }
+                    ]
+                };
+                myChart.setOption(option);
+                window.addEventListener("resize",function(){
+                    myChart.resize();
+                });
+            }
+        }, null, 'get');
+
+        //小区住户数量
+        plugs.ajax(URL.getestateusernumber, {}, function (res) {
+
+            if (res.code == '1') {
+
+                var myChart = echarts.init(document.getElementById('char8'));
+                var estate_name_list = [], estate_value_list = [];
+
+                $.each(res.data.items, function (index, v) {
+//                    estate_name_list.push(v.estate);
+                    (index % 2 == 0) ? estate_name_list.push(v.estate) : estate_name_list.push('\n' + v.estate);
+                    estate_value_list.push(v.user_number);
+                });
+                var option = {
+                    color: ['#87f7cf'],
+                    titleColor: "#ffffff",
+                    markTextColor: "#293441",
+                    lineSmooth: true,
+                    backgroundColor: "#1368c4",
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
+                    grid: {
+                        left: '2%',
+                        right: '6%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    toolbox: {
+                        right:'5%',
+                        feature: {
+                            saveAsImage: {
+                                iconStyle:{normal:{borderColor:'#fff'}},
+                            }
+                        }
+                    },
+                    xAxis: [
+                        {
+                            name: '小\n区',
+                            nameTextStyle:{color:'#ddd'},
+                            boundaryGap:true,
+                            splitLine:{show: false},//去除网格线
+//                            splitArea : {show : true},//保留网格区域
+                            type: 'category',
+                            //  改变x轴颜色
+                            axisLine:{lineStyle:{color:'#ddd' }},
+                            //  改变x轴字体颜色和大小
+                            axisLabel: {show:true,textStyle: {color: '#ddd'},interval:0},
+                            data: estate_name_list,
+                            axisTick: {
+                                alignWithLabel: true
+                            }
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            name: '户数',
+                            nameTextStyle:{color:'#ddd'},
+                            // 去除y轴上的刻度线
+                            axisTick: {show: false },
+                            //  改变x轴颜色
+                            axisLine:{lineStyle:{color:'#ddd' }},
+                            //  改变x轴字体颜色和大小
+                            axisLabel: {textStyle: {color: '#ddd'}},
+                            splitLine:{show: false},//去除网格线
+                            splitArea : {show : true},//保留网格区域
+                            type: 'value'
+                        }
+                    ],
+                    series: [
+                        {
+                            name: '数量',
+                            type: 'bar',
+                            barWidth: '35%',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    color:'#fff',
+                                    position: 'top',
+                                    formatter: '{c}'
+                                }
+                            },
+                            itemStyle: {//图形样式
+                                normal: {
+                                    barBorderRadius: [5, 5, 0, 0],
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                        offset: 1, color: 'rgba(127, 128, 225, 0.7)'
+                                    },{
+                                        offset: 0.9, color: 'rgba(72, 73, 181, 0.7)'
+                                    },{
+                                        offset: 0.25, color: 'rgba(226, 99, 74, 0.7)'
+                                    }, {
+                                        offset: 0, color: 'rgba(253, 200, 106, 0.7)'
+                                    }], false),
+                                },
+                            },
+                            data: estate_value_list
+                        }
+                    ]
+                };
+                myChart.setOption(option);
+                window.addEventListener("resize",function(){
+                    myChart.resize();
+                });
+            }
+        }, null, 'get');
+
+        //按小时统计设备使用数量
+        plugs.ajax(URL.geteqpusenumberbyhour, {}, function (res) {
+
+            if (res.code == '1') {
+
+                var estate_name_list = [], estate_value_list = [], map = [];
+                $.each(res.data.items, function (index, v) {
+
+                    (index % 2 == 0) ? estate_name_list.push(v.hour_period) : estate_name_list.push('\n'+v.hour_period);
+                    estate_value_list.push(v.eqp_number);
+
+                    map[index] = {value: v.eqp_number, name: v.hour_period};
+                });
+
+                var myChart = echarts.init(document.getElementById('char9'));
+                var option = {
+//                    color: ['#f7f494'],
+                    titleColor: "#ffffff",
+                    markTextColor: "#293441",
+                    lineSmooth: true,
+                    backgroundColor: "#1368c4",
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
+                    grid: {
+//                        top:'10%',
+                        left: '2%',
+                        right: '6%',
+                        bottom: '5%',
+                        containLabel: true
+                    },
+                    toolbox: {
+                        right:'5%',
+                        feature: {
+                            saveAsImage: {
+                                iconStyle:{normal:{borderColor:'#fff'}},
+                            }
+                        }
+                    },
+                    xAxis: [
+
+                        {
+                            name: 'm',
+                            nameTextStyle:{color:'#ddd'},
+                            splitLine:{show: false},//去除网格线
+//                            splitArea : {show : true},//保留网格区域
+                            type: 'category',
+                            //  改变x轴颜色
+                            axisLine:{lineStyle:{color:'#ddd' }},
+                            //  改变x轴字体颜色和大小
+                            axisLabel: {textStyle: {color: '#ddd'}},
+                            data: estate_name_list,
+                            axisTick: {
+                                alignWithLabel: true
+                            }
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            // 去除y轴上的刻度线
+                            axisTick: {show: false },
+                            //  改变x轴颜色
+                            axisLine:{lineStyle:{color:'#ddd' }},
+                            //  改变x轴字体颜色和大小
+                            axisLabel: {textStyle: {color: '#ddd'}},
+                            splitLine:{show: false},//去除网格线
+                            splitArea : {show : true},//保留网格区域
+                            nameTextStyle:{color:'#ddd'},
+                            name: '数量',
+                            type: 'value'
+                        }
+                    ],
+                    dataZoom:[
+                        {   show:true,
+                            height:30,
+                            xAxisIndex: [0],
+                            bottom:'5%',
+                            type: 'slider',
+                            start: 1,
+                            end: 45,
+                            handleIcon: 'path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z',
+                            handleSize:'110%',
+                            handleStyle: {
+                                color:'#9B4E4E'
+                            }
+                        },
+                        {
+                            show:true,
+                            type: 'inside',
+                            height:15,
+                            start: 1,
+                            end:60
+                        }
+                    ],
+                    series: [
+                        {
+                            name: '数量',
+                            type: 'bar',
+                            barWidth: '60%',
+                            label: {
+                                normal: {
+                                    color:'#fff',
+                                    show: true,
+                                    position: 'top',
+                                    formatter: '{c}'
+                                }
+                            },
+                            itemStyle: {
+                                normal: {
+                                    color: new echarts.graphic.LinearGradient(
+                                            0, 1, 0, 0, [{
+                                                offset: 0,
+                                                color: '#2af598'
+                                            }, {
+                                                offset: 1,
+                                                color: '#f7f494'
+                                            }]
+                                    )
+                                }
+                            },
+                            data: estate_value_list
+                        }
+                    ]
+                };
+                myChart.setOption(option);
+                window.addEventListener("resize",function(){
+                    myChart.resize();
+                });
+            }
+        }, null, 'get');
+
+        //按小时统计电占比
+        plugs.ajax(URL.getelecstatisticsbyhour.format(year), {}, function (res) {
+
+            if (res.code == '1') {
+
+                var estate_name_list = [], estate_value_list = [], map = [];
+//                console.log(res.data.items);
+                $.each(res.data.items, function (index, v) {
+                    estate_value_list.push(v.total_energy);
+                    (index % 2 == 0) ? estate_name_list.push(v.hour_period) : estate_name_list.push(v.hour_period);
+
+                    map[index] = {value: v.total_energy, name: v.hour_period};
+                });
+//                console.log(estate_name_list);
+                var myChart = echarts.init(document.getElementById('chart3'));
+                var option = {
+                    title: {},
+                    backgroundColor: "#1368c4",
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    color: [
+                        "#fc97af",
+                        "#87f7cf",
+                        "#f7f494",
+                        "#72ccff",
+                        "#f7c5a0",
+                        "#d4a4eb",
+                        "#d2f5a6",
+                        "#76f2f2"
+                    ],
+                    legend: {
+                        type:'scroll',
+//                            align:'right',
+                        textStyle:{    //图例文字的样式
+                            color:'#fff',
+                        },
+                        pageIconColor:'#eee',
+                        pageIconInactiveColor:'#eee',
+                        pageTextStyle:{color:'#eee'},
+                        pageButtonGap:10,
+                        right: '5%',
+                        left:'5%',
+                        top: '10px',
+                        data: estate_name_list
+                    },
+                    series: [
+                        {
+                            name: '用电量',
+                            type: 'pie',
+                            radius: '70%',
+                            center: ['50%', '55%'],
+                            label: {
+                                normal: {
+                                    show: true
+                                },
+                                emphasis: {
+                                    show: true
+                                }
+                            },
+                            data: map,
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                };
+                myChart.setOption(option);
+                window.addEventListener("resize",function(){
+                    myChart.resize();
+                });
+            }
+        }, null, 'get');
+    });
+</script>
+
+</body>
+
+</html>

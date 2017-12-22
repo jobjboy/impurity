@@ -1,0 +1,67 @@
+<script src="./lib/plugs/require/require.js"></script>
+<script type="text/javascript" src="./lib/app.js"></script>
+<link rel="stylesheet" href="./css/x-admin.css" media="all">
+<div id="page_body">
+
+	
+</div>
+<script type="text/html" id="tpl_page">
+	{{# layui.each(d.items, function(index, v){ }}
+	
+	<div class="contract_tilte">{{ v.name }}</div>
+    <div class="contract_text">
+			{{ v.content }}
+			{{ v.content }}
+			{{ v.content }}
+	</div>		
+
+
+			{{# }); }}
+</script>
+		
+		<script type="text/javascript">
+			require(['jquery', 'URL', 'app.plugs', 'listen'], function($) {
+
+				layui.use(['laytpl', 'laypage', 'form', 'paging'], function() {
+
+					$("#btn_query").click(function() {
+
+						name = $("#input_search").val();
+						if(name === '' || name.length === 0) {
+							layer.msg('请输入搜索关键字');
+						}
+						fun(name);
+					});
+															
+
+					plugs = requirejs('app.plugs');
+					URL = requirejs('URL');
+
+					var pageSize = 20;
+
+					var fun = function(name) {
+
+						var url = URL.agreement.list.format(name);
+
+						plugs.page(url, pageSize, function() {
+
+							$("a.remove").attr('data-url', URL.agreement.controller_name);
+							$("a.edit_item").each(function(index, item) {
+								item = $(item);
+								var href = item.attr('href') + '&u=' + encodeURI(URL.agreement.controller_name + '?id=' + item.attr('data-id'));
+								$(item).attr('href', href);
+							});
+					});
+					
+
+					}
+
+					fun('');
+				});
+
+			});
+		</script>
+
+	</body>
+
+</html>

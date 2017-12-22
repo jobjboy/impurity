@@ -1,0 +1,63 @@
+一、列表
+GET请求
+http://dev.api.smarthome.com/api/estate?name=&pIndex=1&pSize=10
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "items": [
+            {
+                "id": 4,
+                "name": "test",
+                "address": "addresstest",
+                "main_img": "imagetest",
+                "status": 1,
+                "remarks": ""
+            },
+            {
+                "id": 3,
+                "name": "test",
+                "address": "addresstest",
+                "main_img": "imagetest",
+                "status": 1,
+                "remarks": ""
+            },
+            {
+                "id": 1,
+                "name": "都市兰亭",
+                "address": "天河都市兰亭",
+                "main_img": "http://pic.58pic.com/58pic/16/16/00/76D58PICxVC_1024.jpg",
+                "status": 1,
+                "remarks": null
+            }
+        ],
+        "count": 3,
+        "page": 1
+    }
+}
+
+
+二、删除
+DELETE请求
+http://dev.api.smarthome.com/api/estate?id=3
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}
+
+
+
+三、新增/修改
+POST请求
+http://dev.api.smarthome.com/api/estate
+
+参数：{"id":"0","name":"test","address":"testaddress","main_img":"http://pic.58pic.com/58pic/16/16/00/76D58PICxVC_1024.jpg","remarks":""}
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}

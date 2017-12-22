@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>
+			电力智能用电综合管理平台
+		</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="./css/x-admin.css" media="all">
+		<script src="./lib/plugs/require/require.js"></script>
+		<script type="text/javascript" src="./lib/app.js"></script>
+		<style>
+			html {
+				height: 100%;
+			}
+			
+			body {
+				height: 100%;
+			}
+			
+			#birthday {
+				position: absolute;
+				top: 485px;
+				left: 110px;
+				width: 300px;
+			}
+			
+			#layui-laydate1 .laydate-icon {
+				background: none;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="left">
+			<div class="left-top">导航</div>
+			<div class="left-search">
+				<input class="left-input" type="text" value="" placeholder="请输入用户名称">
+				<input class="left-button" type="submit" value="" />
+			</div>
+			<div class="left-class">
+				<div class="myDiv">
+					<a href="facility_type.html">设备类型</a>
+				</div>
+
+				<div class="myDiv">
+					<a href="facility_brand.html">设备品牌</a>
+				</div>
+
+				<div class="myDiv">
+					<a href="facility_model.html">设备型号</a>
+				</div>
+
+				<div class="myDiv">
+					<a href="facility_list.html">设备列表信息</a>
+				</div>
+
+			</div>
+			
+			<div class="logo_xh"><img src="images/logo_xh.png"></div>
+		</div>
+
+		<div class="x-nav">
+			<span class="layui-breadcrumb" style="visibility: visible;">
+			<a href="facility_list.html"><cite>设备信息</cite><span class="layui-box">&gt;</span></a>
+			<a href="facility_list.html"><cite>设备列表信息</cite></a>
+			</span>
+			<a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
+		</div>
+		<div class="right">
+			<div class="right_detail">
+				<form class="layui-form" action="">
+					<div class="layui-input-inline">
+						<input type="text" class="layui-input"  value="" lay-verify="birthday" id="birthday" name="prod_time" placeholder="请输入生产时间">
+					</div>
+
+					<div class="layui-form-item">
+						<div id="form_item_model">
+
+						</div>
+
+						<div class="layui-input-block">
+							<button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+							<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<script type="text/html" id="tpl_item">
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">设备编号</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="no" value="{{# if(!d.no){ }}{{# }else{ }}{{d.no}}{{# } }}" lay-verify="no" autocomplete="off" placeholder="请输入设备编号" class="layui-input">
+					<input type="hidden" name="id" value="{{# if(!d.id){ }}0{{# }else{ }}{{d.id}}{{# } }} " class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">设备名称</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="name" value="{{# if(!d.name){ }}{{# }else{ }}{{d.name}}{{# } }}" lay-verify="name" autocomplete="off" placeholder="请输入设备名称" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">设备类型</label>
+
+				<div class="layui-input-block">
+					<input type="hidden" id="eqp_type" value="{{# if(!d.eqp_type){ }}{{# }else{ }}{{d.eqp_type}}{{# } }}"
+					lay-verify="eqp_brand"
+					autocomplete="off" placeholder="请输入设备名称" class="layui-input">
+					<select id="eqp_type_select" lay-filter="aihao" name="eqp_type" lay-search>
+
+					</select>
+				</div>
+			</div>
+
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">设备品牌</label>
+
+				<div class="layui-input-block">
+					<input type="hidden" id="eqp_brand" value="{{# if(!d.eqp_brand){ }}{{# }else{ }}{{d.eqp_brand}}{{# } }}"
+					lay-verify="eqp_brand"
+					autocomplete="off" placeholder="请输入设备名称" class="layui-input">
+					<select id="eqp_brand_select" lay-filter="aihao" name="eqp_brand" lay-search>
+
+					</select>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">设备型号</label>
+
+				<div class="layui-input-block">
+					<input type="hidden" id="eqp_model" value="{{# if(!d.eqp_model){ }}{{# }else{ }}{{d.eqp_model}}{{# } }}"
+					lay-verify="eqp_model"
+					autocomplete="off" placeholder="请输入设备名称" class="layui-input">
+					<select id="eqp_model_select" lay-filter="aihao" name="eqp_model" lay-search>
+
+					</select>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">控制优先级</label>
+
+				<div class="layui-input-block">
+					<input type="number" name="control_priority" min="0" value="{{# if(!d.control_priority){ }}{{# }else{ }}{{d.control_priority}}{{# } }}" lay-verify="prod_factory" autocomplete="off" placeholder="请选择优先值" class="layui-input" style="width: 22%"><span>注：该值越大，执行控制指令时越优先</span>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">生产厂家</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="prod_factory" value="{{# if(!d.prod_factory){ }}{{# }else{ }}{{d.prod_factory}}{{# } }}" lay-verify="prod_factory" autocomplete="off" placeholder="请输入生产厂家" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">生产批次</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="prod_batch" value="{{# if(!d.prod_batch){ }}{{# }else{ }}{{d.prod_batch}}{{# } }}" lay-verify="prod_batch" autocomplete="off" placeholder="请输入生产批次" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">生产编号</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="prod_no" value="{{# if(!d.prod_no){ }}{{# }else{ }}{{d.prod_no}}{{# } }}" lay-verify="prod_no" autocomplete="off" placeholder="请输入生产编号" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">生产时间</label>
+
+				<div class="layui-input-block" style="display:none">
+					<input type="text" id="birthday_input"  value="{{# if(!d.prod_time){ }}{{# }else{ }}{{d.prod_time.replace(/T/,' ')}}{{# } }}" lay-verify="prod_time" autocomplete="off" placeholder="请输入生产时间" class="layui-input">
+				</div>
+			</div>
+			
+			<div class="layui-form-item" style="display: none;">
+				<label class="layui-form-label">图片</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="img_url"  value="{{# if(!d.img_url){ }}{{# }else{ }}{{d.img_url}}{{# } }}" lay-verify="img_url" autocomplete="off" placeholder="请输入图片路径" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">功率</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="power" value="{{# if(!d.power){ }}{{# }else{ }}{{d.power}}{{# } }}" lay-verify="power" autocomplete="off" placeholder="请输入功率" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">电压</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="voltage" value="{{# if(!d.voltage){ }}{{# }else{ }}{{d.voltage}}{{# } }}" lay-verify="voltage" autocomplete="off" placeholder="请输入电压" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">电流</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="electricity" value="{{# if(!d.electricity){ }}{{# }else{ }}{{d.electricity}}{{# } }}" lay-verify="electricity" autocomplete="off" placeholder="请输入电流" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">电量单位</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="energy_unit" value="{{# if(!d.energy_unit){ }}{{# }else{ }}{{d.energy_unit}}{{# } }}" lay-verify="energy_unit" autocomplete="off" placeholder="请输入电量单位" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item layui-form-text">
+				<label class="layui-form-label">描述</label>
+
+				<div class="layui-input-block">
+					<textarea style="resize: none;" placeholder="请输入内容" name="remarks" class="layui-textarea">{{# if(d.remarks == null){ }}{{# }else{ }}{{d.remarks}}{{# } }}</textarea>
+				</div>
+			</div>
+
+			<!--<div class="layui-form-item">
+        <label class="layui-form-label">状 态</label>
+
+        <div class="layui-input-block">
+            <select name="status" lay-filter="aihao">
+                <option {{# if(d.status== 0){ }} selected {{# } }} value="0">启用</option>
+                <option {{# if(d.status== 1){ }} selected {{# } }} value="1">锁定</option>
+            </select>
+        </div>
+    </div>-->
+		</script>
+
+		<div id="page"></div>
+
+		<script type="text/html" id="eqp_type_select_tpl">
+
+			{{# layui.each(d.items, function(index, v){ }}
+			<option value="{{ v.id }}">{{ v.name }}</option>
+			{{# }); }}
+		</script>
+
+		<script type="text/html" id="eqp_brand_select_tpl">
+
+			{{# layui.each(d.items, function(index, v){ }}
+			<option value="{{ v.id }}">{{ v.name }}</option>
+			{{# }); }}
+		</script>
+
+		<script type="text/html" id="eqp_model_select_tpl">
+
+			{{# layui.each(d.items, function(index, v){ }}
+			<option value="{{ v.id }}">{{ v.name }}</option>
+			{{# }); }}
+		</script>
+
+		<script src="lib/dist/layui.js" charset="utf-8"></script>
+
+		<script>
+			layui.use('laydate', function() {
+				var laydate = layui.laydate;
+				//常规用法
+				laydate.render({
+					elem: '#birthday'
+					,type:'datetime'
+				});
+			});
+		</script>
+
+		<script type="text/javascript">
+			var edit_verification_form = function() {
+
+					var pageSize = 5000;
+					var url = URL.equipment.list.format('');
+					plugs.page(url, pageSize, function() {
+						sel('#eqp_type_select','#eqp_type');
+
+
+								var url = URL.equipment_brand.list.format('');
+								plugs.page(url, pageSize, function() {
+									sel('#eqp_brand_select','#eqp_brand');
+
+
+										var url = URL.equipment_eqpmodel.list.format('');
+										plugs.page(url, pageSize, function() {
+											sel('#eqp_model_select','#eqp_model');
+											layui.form().render();
+
+
+										}, 'post', '#eqp_model_select', '#eqp_model_select_tpl');
+
+									}, 'post', '#eqp_brand_select', '#eqp_brand_select_tpl');
+
+								}, 'post', '#eqp_type_select', '#eqp_type_select_tpl');
+
+								//时间
+
+								var v = $("#birthday_input").val();
+								if(v){
+									$("#birthday").val(v);
+								}
+
+								layui.form().verify({
+									name: function(value) {
+										if(value == '') {
+											return '请输入设备类型';
+										}
+									}
+									
+								});
+
+
+								//监听提交
+								layui.form().on('submit(demo1)', function(data) {
+									data.field.prod_time=data.field.prod_time.trim().replace(' ','T');
+									plugs.ajax(URL.equipment_eqpbaseinfo.action, JSON.stringify(data.field), function(data) {
+
+										if(data.code == 1) {
+											layer.msg('操作成功', {
+												icon: 1
+											});
+										} else {
+
+											layer.msg('操作失败，请稍后再试', {
+												icon: 5
+											});
+										}
+									}, function() {
+
+									}, 'POST');
+
+									return false;
+								});
+							}
+
+							require(['jquery', 'URL', 'app.plugs', 'listen'], function($) {
+
+								URL = requirejs('URL');
+
+								plugs = requirejs('app.plugs');
+
+
+								layui.use(['laytpl', 'laypage', 'form', 'paging'], function() {
+
+									plugs = requirejs('app.plugs');
+									URL = requirejs('URL');
+
+								});
+
+							});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,49 @@
+一、列表
+GET请求
+http://dev.api.smarthome.com/api/agreement?name=&pIndex=1&pSize=10
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "items": [
+            {
+                "id": 1,
+                "name": "注册协议",
+                "content": "注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test注册协议Test",
+                "type": 1,
+                "status": 1,
+                "remarks": null,
+                "operation_id": 1,
+                "operation_time": "2017-09-08T13:50:45"
+            }
+        ],
+        "count": 1,
+        "page": 1
+    }
+}
+
+
+二、删除
+DELETE请求
+http://dev.api.smarthome.com/api/agreement?id=2
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}
+
+
+
+三、新增/修改
+POST请求
+http://dev.api.smarthome.com/api/agreement
+
+参数：{"id":"0","name":"test","content":"testtesttest","type":"1","remarks":"testtesttesttesttesttesttesttesttest"}
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}

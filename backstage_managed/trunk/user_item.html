@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>
+			电力智能用电综合管理平台-用户管理
+		</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="./css/x-admin.css" media="all">
+		<script src="./lib/plugs/require/require.js"></script>
+		<script type="text/javascript" src="./lib/app.js"></script>
+<style>
+			html {
+				height: 100%;
+			}
+			
+			body {
+				height: 100%;
+			}
+			
+			#birthday {
+				position: absolute;
+				top: 380px;
+				left: 110px;
+				width: 300px;
+			}
+			
+			#layui-laydate1 .laydate-icon {
+				background: none;
+			}
+			#layui-laydate2 .laydate-icon {
+				background: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="left">
+			<div class="left-top">导航</div>
+			<div class="left-search">
+				<input class="left-input" type="text" value="" placeholder="请输入用户名称">
+				<input class="left-button" type="submit" value="" />
+			</div>
+			<div class="left-class">
+				<div class="myDiv">
+					<a href="user_plot.html">小区</a>
+				</div>
+
+				<div class="myDiv">
+					<a href="user_building.html">楼栋</a>
+				</div>
+
+				<div class="myDiv">
+					<a href="user_room.html">房号</a>
+				</div>
+
+				<div class="myDiv">
+					<a href="user.html">用户管理</a>
+				</div>
+
+				<div class="myDiv">
+					<a href="user_summary.html">用户设备</a>
+				</div>
+				<div class="myDiv">
+					<a href="scene.html">场景</a>
+				</div>
+
+				<div class="myDiv">
+					<a href="contextual.html">情景</a>
+				</div>
+			</div>
+			
+			<div class="logo_xh"><img src="images/logo_xh.png"></div>
+		</div>
+
+		<div class="x-nav">
+			<span class="layui-breadcrumb" style="visibility: visible;">
+              <a href="user.html"><cite>用户管理</cite><span class="layui-box">&gt;</span></a>
+			<a href="user.html"><cite>用户管理</cite></a>
+			</span>
+		</div>
+
+		<div class="right">
+			<div class="right_detail">
+				
+				<form class="layui-form" action="">
+					<div class="layui-input-inline">
+						<input type="text" class="layui-input" value="" lay-verify="birthday" id="birthday" name="birthday" placeholder="请输入出生日期">
+					</div>
+					<div id="form_item_model"></div>
+				</form>
+			</div>
+		</div>
+
+		<script type="text/html" id="tpl_item">
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">用户账号</label>
+
+				<div class="layui-input-block">
+
+					<input type="hidden" name="id" value="{{# if(!d.id){ }}0{{# }else{ }}{{d.id}}{{# } }} " class="layui-input">
+
+					<input type="text" name="account_no" value="{{# if(!d.account_no){ }}{{# }else{ }}{{d.account_no}}{{# } }}" lay-verify="account_no" autocomplete="off" placeholder="请输入用户账号" class="layui-input">
+
+					<input type="hidden" name="cust_no" value="{{# if(!d.cust_no){ }}{{# }else{ }}{{d.cust_no}}{{# } }} " class="layui-input">
+
+					<input type="hidden" name="name" value="{{# if(!d.name){ }}{{# }else{ }}{{d.name}}{{# } }} " class="layui-input">
+
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">密码</label>
+
+				<div class="layui-input-block">
+					<input type="password" name="password" value="{{# if(!d.password){ }}{{# }else{ }}{{d.password}}{{# } }}" lay-verify="password" autocomplete="off" placeholder="请输入用户密码" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">确认密码</label>
+
+				<div class="layui-input-block">
+					<input type="password" autocomplete="off" placeholder="如若不更改密码，则无需提那些" lay-verify="password2" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">用户名称</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="name" value="{{# if(!d.name){ }}{{# }else{ }}{{d.name}}{{# } }}" lay-verify="name" autocomplete="off" placeholder="请输入用户名称" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">用户地址</label>
+
+				<div class="layui-input-block">
+
+					<input type="text" name="address" value="{{# if(!d.address){ }}{{# }else{ }}{{d.address}}{{# } }}" lay-verify="address" autocomplete="off" placeholder="请输入用户地址" class="layui-input">
+
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">性别</label>
+
+				<div class="layui-input-block">
+					<input type="radio" name="gender" value="0" title="女" {{# if(d.gender==0 ){ }} checked {{# } }}>
+
+					<div class="layui-unselect layui-form-radio layui-form-radioed"><i class="layui-anim layui-icon"></i><span>女</span>
+					</div>
+
+					<input type="radio" name="gender" value="1" title="男" {{# if(d.gender==1 ){ }} checked {{# } }}>
+
+					<div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><span>男</span>
+
+					</div>
+
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">身份证号</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="id_card_no" value="{{# if(!d.id_card_no){ }}{{# }else{ }}{{d.id_card_no}}{{# } }}" lay-verify="id_card_no" autocomplete="off" placeholder="请输入身份证号" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">出生日期</label>
+
+					<div class="layui-input-inline" style="display:none">
+						<input type="text" class="layui-input" id="birthday_input" value="{{# if(!d.birthday){ }}{{# }else{ }}{{d.birthday.replace(/T/,' ')}}{{# } }}" placeholder="请输入生日">
+					</div>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">电话</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="mobile" value="{{# if(!d.mobile){ }}{{# }else{ }}{{d.mobile}}{{# } }}" lay-verify="mobile" autocomplete="off" placeholder="请输入用户电话" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">微信</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="we_chat" value="{{# if(!d.we_chat){ }}{{# }else{ }}{{d.we_chat}}{{# } }}" lay-verify="we_chat" autocomplete="off" placeholder="请输入微信号" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">QQ</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="qq" value="{{# if(!d.qq){ }}{{# }else{ }}{{d.qq}}{{# } }}" lay-verify="we_chat" autocomplete="off" placeholder="请输入用户QQ号码" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">微博</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="micro_blog" value="{{# if(!d.micro_blog){ }}{{# }else{ }}{{d.micro_blog}}{{# } }}" lay-verify="micro_blog" autocomplete="off" placeholder="请输入用户微博" class="layui-input">
+				</div>
+			</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">小区</label>
+
+				<div class="layui-input-block">
+					<input type="hidden" id="estate_id" value="{{# if(!d.estate_id){ }}{{# }else{ }}{{d.estate_id}}{{# } }}"
+					lay-verify="estate_id" autocomplete="off" placeholder="请输入用户微博" class="layui-input">
+
+					<select id="estate_select" name="estate_id" lay-search lay-filter="drtype1">
+
+					</select>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">楼栋</label>
+
+				<div class="layui-input-block">
+					<input type="hidden" id="estate_ridgepole_id" value="{{# if(!d.estate_ridgepole_id){ }}1{{# }else{ }}{{d.estate_ridgepole_id}}{{# } }} " class="layui-input">
+					<select id="estateridgepole_select" name="estate_ridgepole_id" lay-search lay-filter="drtype2">
+
+					</select>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">房号</label>
+
+				<div class="layui-input-block" id="houso_click">
+					<input type="hidden" id="estate_house_id" value="{{# if(!d.estate_house_id){ }}1{{# }else{ }}{{d.estate_house_id}}{{# } }} " class="layui-input">
+					<select id="estatehouse_select" name="estate_house_id" lay-search lay-filter="drtype3">
+
+					</select>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">经度</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="lng" value="{{# if(!d.lng){ }}0.00{{# }else{ }}{{d.lng}}{{# } }}" lay-verify="lng" autocomplete="off" placeholder="请输入用户地址的经度" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">纬度</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="lat" value="{{# if(!d.lat){ }}0.00{{# }else{ }}{{d.lat}}{{# } }}" lay-verify="lat" autocomplete="off" placeholder="请输入用户地址的纬度" class="layui-input">
+				</div>
+			</div>
+			
+			<div class="layui-form-item layui-form-text">
+				<label class="layui-form-label">状态</label>
+
+				<div class="layui-input-block">
+					<select  name="status">
+
+                            <option value="1">正常</option>
+                            <option value="0">锁定</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="layui-form-item layui-form-text">
+				<label class="layui-form-label">描述</label>
+
+				<div class="layui-input-block">
+					<textarea style="resize: none;" placeholder="请输入内容" name="remarks" class="layui-textarea">{{# if(d.remarks == null){ }}{{# }else{ }}{{d.remarks}}{{# } }}</textarea>
+				</div>
+			</div>
+			
+			<div class="layui-form-item">
+				<label class="layui-form-label">云端账号</label>
+
+				<div class="layui-input-block">
+					<input type="text" name="supplier_cloud_account" value="{{# if(!d.supplier_cloud_account){ }}{{# }else{ }}{{d.supplier_cloud_account}}{{# } }}" lay-verify="supplier_cloud_account" autocomplete="off" placeholder="请输入云端账号" class="layui-input">
+				</div>
+			</div>
+			
+			<div class="layui-form-item">
+				<label class="layui-form-label">云端密码</label>
+
+				<div class="layui-input-block">
+					<input type="password" name="supplier_cloud_password" value="{{# if(!d.supplier_cloud_password){ }}{{# }else{ }}{{d.supplier_cloud_password}}{{# } }}" lay-verify="supplier_cloud_password" autocomplete="off" placeholder="请输入云端密码" class="layui-input">
+				</div>
+			</div>
+			
+			
+
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+				</div>
+			</div>
+
+		</script>
+
+		<script type="text/html" id="estate_select_tpl">
+
+			{{# layui.each(d.items, function(index, v){ }}
+			<option value="{{ v.id }}">{{ v.name }}</option>
+			{{# }); }}
+		</script>
+
+		<script type="text/html" id="estateridgepole_select_tpl">
+
+			{{# layui.each(d.items, function(index, v){ }}
+			<option value="{{ v.id }}" data-id="{{v.estate_id}}" data-name="{{ v.name}}">{{ v.name }}</option>
+			{{# }); }}
+		</script>
+
+		<script type="text/html" id="estatehouse_select_tpl">
+
+			{{# layui.each(d.items, function(index, v){ }}
+			<option value="{{ v.id }}" data-id="{{v.estate_id}}" data-ridgepole="{{v.estate_ridgepole_id}}" data-name="{{ v.name}}" >{{ v.name }}</option>
+			{{# }); }}
+		</script>
+		<script src="lib/dist/layui.js" charset="utf-8"></script>
+
+		<script>
+			layui.use('laydate', function() {
+				var laydate = layui.laydate;
+				//常规用法
+				laydate.render({
+					elem: '#birthday'
+				});
+			});
+		</script>
+		<script type="text/javascript">
+			var edit_verification_form = function() {
+
+				var pageSize = 5000;
+				var url = URL.estate.list.format('');
+				plugs.page(url, pageSize, function() {
+					var url = URL.estateridgepole.list.format('');
+					sel('#estate_select','#estate_id');
+
+
+					plugs.page(url, pageSize, function() {
+						var url = URL.estatehouse.list.format('','');
+						sel('#estateridgepole_select','#estate_ridgepole_id');
+
+						plugs.page(url, pageSize, function() {
+
+							sel('#estatehouse_select','#estate_house_id');
+
+							selected();
+							house_selected();
+							layui.form().on('select(drtype1)', function (data) {
+								selected();
+								house_selected();
+							});
+
+							layui.form().on('select(drtype2)', function (data) {
+								house_selected();
+								ishouse();
+							});
+
+							$('#houso_click').on('click', function () {
+								console.log('..');
+								ishouse();
+							})
+
+						}, 'post', '#estatehouse_select', '#estatehouse_select_tpl');
+
+					}, 'post', '#estateridgepole_select', '#estateridgepole_select_tpl');
+
+				}, 'post', '#estate_select', '#estate_select_tpl');
+
+
+
+				//小区楼栋的联动下拉
+				function selected(){
+					var data_id = $('#estateridgepole_select').find('option');
+					var estate_Id=$('#estate_select').val()*1;
+					var biaoji=true;
+					$.each(data_id,function(index,obj){
+//				$(this).attr('disabled',false);
+
+//						$(this).attr('selected',false);
+						$(this).text(($(obj).attr('data-name')));
+						var estated_Id=($(obj).attr('data-id')*1);
+						if(estate_Id != estated_Id){
+//					$(this).attr('disabled','disabled');
+							$(this).text('');
+						}
+//						else{
+//							console.log(biaoji);
+//							if(biaoji){
+//								$(this).attr('selected',true);
+//								biaoji=false;
+//							}
+//						}
+//				console.log($(this).val())
+//						console.log(obj)
+					});
+					layui.form().render();
+				}
+
+				//楼栋房号的联动下拉
+				function house_selected(){
+					var data_id = $('#estatehouse_select').find('option');
+					var estate_Id=$('#estateridgepole_select').val()*1;
+					var ridgepole_Id=$('#estateridgepole_select').val()*1;
+//					var biaoji=true;
+					$.each(data_id,function(index,obj){
+//				$(this).attr('disabled',false);
+//						$(this).attr('selected',false);
+						$(this).text(($(obj).attr('data-name')));
+
+						var estated_Id=($(obj).attr('data-id')*1);
+						var ridgepoleed_Id=($(obj).attr('data-ridgepole')*1);
+
+						if(estate_Id != estated_Id && ridgepole_Id != ridgepoleed_Id){
+//					$(this).attr('disabled','disabled');
+							$(this).text('');
+						}
+//						else{
+//							console.log(biaoji);
+//							if(biaoji){
+//								$(this).attr('selected',true);
+//								biaoji=false;
+//							}
+//						}
+//				console.log($(this).val())
+//						console.log(obj)
+					});
+					layui.form().render();
+				}
+
+				//判断该小区楼栋是否有添加房号
+				function ishouse(){
+					var i=0;
+					$.each($('#estatehouse_select').find('option'),function(index,obj){
+						if($(obj).text() == ''){
+							i++;
+						}
+						if(i == $('#estatehouse_select').find('option').length){
+							layer.msg('该楼栋尚未添加房号..', {icon: 5})
+						}
+					})
+				}
+
+
+				//时间
+				String.prototype.replaceAll = function(s1, s2) {
+					return this.replace(new RegExp(s1, "gm"), s2);
+				}
+				v = ($("#birthday_input").val().split(' ')[0]).replaceAll('/', '-');
+
+				$("#birthday").val(v);
+
+				layui.form().verify({
+					name: function(value) {
+						if(value == '') {
+							return '请输入用户名称';
+						}
+					},
+					mobile: function(value) {
+						if(value == '') {
+							return '请输入手机号码';
+						}
+					}
+				});
+
+				//监听提交
+				layui.form().on('submit(demo1)', function(data) {
+
+					data.field.password.MD5();
+					console.log(data.field.password.MD5());
+
+					plugs.ajax(URL.user.action, JSON.stringify(data.field), function(data) {
+
+						if(data.code == 1) {
+
+							layer.msg('操作成功', {
+								icon: 1
+							});
+						} else {
+
+							layer.msg('操作失败，请稍后再试', {
+								icon: 5
+							});
+						}
+					}, function() {
+
+					}, 'POST');
+
+					return false;
+				});
+			}
+
+			require(['jquery', 'URL', 'app.plugs', 'listen','md5'], function($) {
+
+				plugs = requirejs('app.plugs');
+
+				URL = requirejs('URL');
+
+				layui.use(['laytpl', 'laypage', 'form', 'paging', 'laydate'], function() {
+
+					var form = layui.form,
+						layer = layui.layer,
+						laydate = layui.laydate;
+
+					//  var index = layer.load(0, {shade: false});
+
+				});
+			});
+		</script>
+
+	</body>
+
+</html>

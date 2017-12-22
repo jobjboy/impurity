@@ -1,0 +1,61 @@
+一、列表
+GET请求
+http://dev.api.smarthome.com/api/user?account&name=&custNo=&pIndex=1&pSize=10
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "items": [
+            {
+                "id": 1,
+                "account_no": "sh001",
+                "password": "49BA59ABBE56E057",
+                "cust_no": "dlj000001",
+                "name": "诸葛亮",
+                "address": "广东省广州市天河区",
+                "gender": "1",
+                "id_card_no": "430321199610162356",
+                "birthday": "1996-10-16T10:51:44",
+                "mobile": "13255556666",
+                "we_chat": "wx123456",
+                "micro_blog": "wb123456",
+                "qq": "123456789",
+                "lng": 113.380385,
+                "lat": 23.126436,
+                "status": 1,
+                "estate_id": 1,
+                "estate_ridgepole_id": 1,
+                "estate_house_id": 1,
+                "remarks": null
+            }
+        ],
+        "count": 1,
+        "page": 1
+    }
+}
+
+
+二、删除
+DELETE请求
+http://dev.api.smarthome.com/api/user?id=2
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}
+
+
+
+三、新增/修改
+POST请求
+http://dev.api.smarthome.com/api/user
+
+参数：{"id":"0","account_no":"test","password":"49BA59ABBE56E057","cust_no":"dlj000002","name":"zhangsan","address":"tianhequ","gender":"1","id_card_no":"430321199610162356","birthday":"1996-10-16T10:51:44","mobile":"13266659999","we_chat":"wx12345613","micro_blog":"wb123456123","qq":"123456789","lng":"113.380385","lat":"23.126436","estate_id":"1","estate_ridgepole_id":"1","estate_house_id":"1","remarks":""}
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}

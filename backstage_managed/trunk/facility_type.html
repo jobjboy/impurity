@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>
+        电力智能用电综合管理平台-用户管理
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="./css/x-admin.css" media="all">
+
+    <script src="./lib/plugs/require/require.js"></script>
+    <script type="text/javascript" src="./lib/app.js"></script>
+<style>
+	html{
+		height: 100%;
+	}
+	body{
+		height: 100%;
+	}
+</style>
+
+</head>
+
+<body>
+
+<div class="left">
+    <div class="left-top">导航</div>
+    <div class="left-search">
+        <input class="left-input" type="text" value="" placeholder="请输入用户名称">
+    </div>
+    <div class="left-class">
+        <div class="myDiv"><a href="facility_type.html">设备类型</a></div>
+
+        <div class="myDiv"><a href="facility_brand.html">设备品牌</a></div>
+
+        <div class="myDiv"><a href="facility_model.html">设备型号</a></div>
+
+        <div class="myDiv"><a href="facility_list.html">设备列表信息</a></div>
+
+    </div>
+    
+    <div class="logo_xh"><img src="images/logo_xh.png"></div>
+</div>
+
+<div class="x-nav">
+			<span class="layui-breadcrumb" style="visibility: visible;">
+                <a href="facility_list.html"><cite>设备信息</cite><span class="layui-box">&gt;</span></a>
+			<a href="facility_type.html"><cite>设备类型</cite></a>
+			</span>
+</div>
+
+<div class="right">
+
+    <div class="inquire">
+        <h3>查询条件</h3>
+
+        <div class="inpuire-detail">
+            <ul>
+                <form class="layui-form" method="get">
+
+                    <li>
+                        <div class="layui-form-item">
+                            <label id="test" class="layui-form-label">设备类型</label>
+
+                            <div class="layui-input-block">
+                                <input type="text" name="name" id="input_search" style="width:350px;"
+                                       placeholder="请输入搜索关键字" class="layui-input">
+                            </div>
+
+                        </div>
+                    </li>
+
+                    <li class="right">
+                        <div class="inpuire-button">
+
+                            <a class="layui-btn layui-btn-normal" id="btn_query"><i class="fa fa-search"></i> 查询</a>
+                            
+                            <a href="facility_type_item.html?act=add" class="layui-btn layui-btn-normal"><i class="fa fa-plus"></i> 添加</a>
+                        </div>
+                    </li>
+                </form>
+            </ul>
+        </div>
+    </div>
+
+    <div class="result">
+
+        <div class="result-detail">
+
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <form class="layui-form" action="">
+
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th>设备类型</th>
+                                <th>描述说明</th>
+                                <th>状态</th>
+                                <th width="200">操作</th>
+                            </tr>
+                            </thead>
+
+                            <tbody id="page_body">
+                            </tbody>
+
+                        </table>
+                    </form>
+                </div>
+            </div>
+            <div class="result-detail-bottom">
+
+                <div style="float: right; margin-right: 30px;" id="page"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+<script type="text/html" id="tpl_page">
+
+    {{# layui.each(d.items, function(index, v){ }}
+    <tr>
+        <td>{{ v.name }}</td>
+        <td>
+            {{# if(v.remarks == null || v.remarks == ''){ }}
+            无描述
+            {{# }else{ }}
+            {{v.remarks}}
+            {{# } }}
+        </td>
+        <!--  <td>
+              {{# if(v.status == 0){ }}
+
+              <a data-status="1" title="点击锁定"><i class="fa fa-lock"></i></a>
+              {{# }else{ }}
+
+              <a data-status="0" title="点击锁定"><i class="fa fa-unlock-alt"></i></a>
+
+              {{# } }}
+          </td>-->
+        <td>
+            {{# if(v.status == 1){ }}
+            正常
+            {{# }else{ }}
+            异常
+            {{# } }}
+        </td>
+        <td>
+            <a href="facility_type_item.html?act=edit" data-id="{{ v.id }}" class="layui-btn layui-btn-small edit_item"><i class="fa fa fa-edit"></i> 编辑</a>
+
+            <a class="layui-btn layui-btn-danger layui-btn-small remove" data-delete="{{ v.id }}"><i class="fa fa-trash-o"></i> 删除</a>
+        </td>
+    </tr>
+    {{#  }); }}
+</script>
+
+
+<script type="text/javascript">
+
+    require(['jquery', 'URL', 'app.plugs', 'listen'], function ($) {
+
+        layui.use(['laytpl', 'laypage', 'form'], function () {
+
+            $("#btn_query").click(function () {
+
+                name = $("#input_search").val();
+                if (name === '' || name.length === 0) {
+                    layer.msg('请输入搜索关键字');
+                }
+                fun(name);
+                return false;
+            });
+
+            plugs = requirejs('app.plugs');
+            URL = requirejs('URL');
+
+            var pageSize = 20;
+
+            var fun = function (name) {
+
+                var url = URL.equipment.list.format(name);
+                plugs.page(url, pageSize, function () {
+                    $("a.remove").attr('data-url', URL.equipment.action);
+                    $("a.edit_item").each(function (index, item) {
+                        item = $(item);
+                        var href = item.attr('href') + '&u=' + encodeURI(URL.equipment.controller_name + '?id=' + item.attr('data-id'));
+                        $(item).attr('href', href);
+                    })
+
+                });
+            }
+
+            fun('');
+        });
+
+
+    });
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>电力智能用电综合管理平台</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="./css/x-admin.css" media="all">
+		<script src="js/echarts.min.js"></script>
+		<script src="./lib/plugs/require/require.js"></script>
+		<script type="text/javascript" src="./lib/app.js"></script>
+        <style>
+            .x-body-title{color:#fff}
+        </style>
+	</head>
+
+	<body>
+
+
+		<div class="x-body">
+			
+			<div class="x-body-title">总能耗监控
+                <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float: right"
+                   href="javascript:window.history.back();" title="返回"><i class="layui-icon" style="line-height:30px">&#xe65c;</i></a>
+            </div>
+
+			<div class="x-body-chart" id="chart1" style="height: 500px;">
+
+			</div>
+			
+			<div class="x-body-chart" id="chart2" style="height: 500px;">
+
+			</div>
+        </div>
+
+
+		<script>
+            require(['jquery', 'URL', 'app.plugs', 'echarts','listen'], function ($, URL, plugs, echarts) {
+                plugs = requirejs('app.plugs');
+                URL = requirejs('URL');
+
+                gettotalelecmonitoring();
+
+                //定时器
+                setInterval(function() { gettotalelecmonitoring(); },300000);
+
+//                    小区能耗监控
+                function gettotalelecmonitoring() {
+                    plugs.ajax(URL.gettotalelecmonitoringbyhour, {}, function (res) {
+                        if (res.code == '1') {
+                            var hours = [], energys = [];
+                            $.each(res.data.items, function (index, v) {
+                                hours.push(v.hour);
+                                energys.push(v.energy);
+                            });
+                        console.log(hours);
+                            console.log(energys);
+                            // 基于准备好的dom，初始化echarts实例
+                            var myChart = echarts.init(document.getElementById('chart1'));
+							// 指定图表的配置项和数据
+                            var option = {
+                                titleColor: "#ffffff",
+                                markTextColor: "#293441",
+                                lineSmooth: true,
+                                backgroundColor: "#1368c4",
+                                color: [
+                                    "#87f7cf",
+                                    "#f7f494",
+                                    "#72ccff",
+                                    "#f7c5a0",
+                                    "#d4a4eb",
+                                    "#d2f5a6",
+                                    "#76f2f2",
+                                    "#fc97af"
+                                ],
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '5%',
+                                    bottom: '10%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    top:'1%',
+                                    right:'1%',
+                                    feature: {
+                                        saveAsImage: {iconStyle:{normal:{borderColor:'#fff',borderWidth:1}}}
+                                    }
+                                },
+                                xAxis: {
+                                    splitLine:{show: false},//去除网格线
+//                            splitArea : {show : true},//保留网格区域
+                                    type: 'category',
+                                    //  改变x轴颜色
+                                    axisLine:{lineStyle:{color:'#fff' }},
+                                    //  改变x轴字体颜色和大小
+                                    axisLabel: {textStyle: {color: '#ddd'}},
+                                    boundaryGap: false,
+                                    name: '时间（h）',
+                                    data: hours
+                                },
+                                yAxis: {
+                                    // 去除y轴上的刻度线
+//                                    axisTick: {show: false },
+                                    //  改变x轴颜色
+                                    axisLine:{lineStyle:{color:'#fff' }},
+                                    //  改变x轴字体颜色和大小
+                                    axisLabel: {textStyle: {color: '#ddd'}},
+                                    splitLine:{show: false},//去除网格线
+                                    splitArea : {show:true,areaStyle : {color: 'rgba(250,250,250,0.3)'}},//保留网格区域
+                                    name: '能耗（kwh）',
+                                    type: 'value'
+                                },
+                                series: [
+                                    {
+                                        name: '用电',
+                                        type: 'line',
+                                        smooth: true,
+                                        itemStyle: {normal: {
+                                            color: 'rgba(103, 50, 211, 1)',
+                                            borderWidth: 1,
+                                            borderType: 'dashed'
+                                        }},
+                                        lineStyle: {normal: {width:1.5}},
+                                        markPoint: {
+                                            data: [
+                                                {type: 'max', name: '最大值'},
+                                                {type: 'min', name: '最小值'}
+                                            ]
+                                        },
+                                        markLine: {
+                                            data: [
+                                                {type: 'average', name: '平均值'}
+                                            ]
+                                        },
+                                        areaStyle: {
+                                            normal: {
+                                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                                    offset: 0,
+                                                    color: 'rgba(103, 50, 211, 1)'
+                                                }, {
+                                                    offset: 0.8,
+                                                    color: 'rgba(103, 50, 211, 0.5)'
+                                                }], false),
+                                                shadowColor: 'rgba(103, 50, 211, 0.1)',
+                                                shadowBlur: 10
+                                            },
+                                        },
+                                        data: energys
+                                    }
+                                ]
+                            };
+                            myChart.setOption(option);
+                        }
+                    }, null, 'get');
+
+
+//                    按分钟监控总能耗（动态数据，5分钟更新一次）
+                    plugs.ajax(URL.gettotalelecmonitoringbyminute, {}, function (res) {
+                        if (res.code == '1') {
+                            var hours = [],minutes =[], energys = [];
+                            $.each(res.data.items, function (index, v) {
+                                hours.push(v.hour);
+                                energys.push(v.energy);
+                                minutes.push(v.minute);
+                            });
+
+                            // 基于准备好的dom，初始化echarts实例
+                            var myChart = echarts.init(document.getElementById('chart2'));
+
+                            // 指定图表的配置项和数据
+                            var option = {
+                                titleColor: "#ffffff",
+                                markTextColor: "#293441",
+                                lineSmooth: true,
+                                backgroundColor: "#1368c4",
+                                color: [
+                                    "#87f7cf",
+                                    "#f7f494",
+                                    "#72ccff",
+                                    "#f7c5a0",
+                                    "#d4a4eb",
+                                    "#d2f5a6",
+                                    "#76f2f2",
+                                    "#fc97af"
+                                ],
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '5%',
+                                    bottom: '10%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    top:'1%',
+                                    right:'1%',
+                                    feature: {
+                                        saveAsImage: {iconStyle:{normal:{borderColor:'#fff',borderWidth:1}}}
+                                    }
+                                },
+                                xAxis: {
+                                    splitLine:{show: false},//去除网格线
+//                            splitArea : {show : true},//保留网格区域
+                                    type: 'category',
+                                    //  改变x轴颜色
+                                    axisLine:{lineStyle:{color:'#fff' }},
+                                    //  改变x轴字体颜色和大小
+                                    axisLabel: {textStyle: {color: '#ddd'}},
+                                    boundaryGap: false,
+                                    name: '时间（min）',
+                                    data: minutes
+                                },
+                                yAxis: {
+                                    // 去除y轴上的刻度线
+//                                    axisTick: {show: false },
+                                    //  改变x轴颜色
+                                    axisLine:{lineStyle:{color:'#fff' }},
+                                    //  改变x轴字体颜色和大小
+                                    axisLabel: {textStyle: {color: '#ddd'}},
+                                    splitLine:{show: false},//去除网格线
+                                    splitArea : {show:true,areaStyle : {color: 'rgba(250,250,250,0.3)'}},//保留网格区域
+                                    name:'用电量',
+                                    type: 'value'
+                                },
+                                series: [
+                                    {
+                                        name: '用电',
+                                        type: 'line',
+                                        smooth: true,
+                                        itemStyle: {normal: {color: 'rgba(103, 50, 211, 1)'}},
+                                        lineStyle: {normal: {width:1.5}},
+                                        markPoint: {
+                                            data: [
+                                                {type: 'max', name: '最大值'},
+                                                {type: 'min', name: '最小值'}
+                                            ]
+                                        },
+                                        markLine: {
+                                            data: [
+                                                {type: 'average', name: '平均值'}
+                                            ]
+                                        },
+                                        areaStyle: {
+                                            normal: {
+                                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                                    offset: 0,
+                                                    color: 'rgba(103, 50, 211, 1)'
+                                                }, {
+                                                    offset: 0.8,
+                                                    color: 'rgba(103, 50, 211, 0.5)'
+                                                }], false),
+                                                shadowColor: 'rgba(103, 50, 211, 0.1)',
+                                                shadowBlur: 10
+                                            },
+                                        },
+                                        data: energys
+                                    }
+                                ]
+                            };
+                            myChart.setOption(option);
+                        }
+                    }, null, 'get');
+                }
+            });
+		</script>
+	</body>
+
+</html>

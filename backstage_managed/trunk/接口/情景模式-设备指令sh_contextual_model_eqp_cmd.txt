@@ -1,0 +1,57 @@
+一、列表
+GET请求
+http://dev.api.smarthome.com/api/contextualmodeleqpcmd?eqpNo=&eqpName=&pIndex=1&pSize=10
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "items": [
+            {
+                "operation_time": "2017-09-19T14:38:42",
+                "scene_name": "客厅",
+                "eqp_name": "格力空调",
+                "contextual_model_name": "早餐模式",
+                "execute_time": "2017-09-20T14:40:42",
+                "control_cmd": "1hhhhhhhhh",
+                "remarks": "hh"
+            },
+            {
+                "operation_time": "2017-09-19T13:51:51",
+                "scene_name": "客厅",
+                "eqp_name": "格力空调",
+                "contextual_model_name": "早餐模式",
+                "execute_time": "2017-09-20T14:40:42",
+                "control_cmd": "zhiling",
+                "remarks": "hh"
+            }
+        ],
+        "count": 2,
+        "page": 1
+    }
+}
+
+
+二、删除
+DELETE请求
+http://dev.api.smarthome.com/api/contextualmodeleqpcmd?id=2
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}
+
+
+
+三、新增/修改
+POST请求
+http://dev.api.smarthome.com/api/contextualmodeleqpcmd
+
+参数：{"id":"0","contextual_model_id":"1","eqp_installed_id":"1","control_cmd":"1hhhhhhhhh","remarks":"hh","user_id":"1"}
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}

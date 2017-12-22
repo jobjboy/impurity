@@ -1,0 +1,59 @@
+一、列表
+GET请求
+http://dev.api.smarthome.com/api/admingroup?name=&pIndex=1&pSize=10
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "items": [
+            {
+                "id": 1,
+                "name": "超级管理员",
+                "status": 1,
+                "remarks": "超级管理员超级管理员超级管理员"
+            }
+        ],
+        "count": 1,
+        "page": 1
+    }
+}
+
+二、详情
+GET请求
+http://dev.api.smarthome.com/api/admingroup?id=2
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": {
+        "id": 3,
+        "name": "test",
+        "status": 1,
+        "remarks": "testtesttest"
+    }
+}
+
+
+三、删除
+DELETE请求
+http://dev.api.smarthome.com/api/admingroup?id=2
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}
+
+
+四、新增/修改
+POST请求
+http://dev.api.smarthome.com/api/admingroup
+
+参数：{"id":"0","name":"test","remarks":"testtesttest"}
+
+{
+    "code": "1",
+    "msg": "success",
+    "data": ""
+}
